@@ -9,11 +9,13 @@ services:
       - '3035:3035'
     stdin_open: true
     tty: true
+    depends_on:
+      - db
   db:
     image: postgres
     container_name: db
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - ./docker/volumes/database:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
