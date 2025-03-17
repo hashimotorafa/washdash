@@ -1,24 +1,33 @@
+<ul class="header-nav ms-auto me-3">
+  <li class="nav-item">
+    <a class="nav-link" href="#">
+      <i class="icon icon-lg cil-bell"></i>
+      <span class="badge position-absolute top-0 end-0 bg-danger-gradient rounded-pill">5</span>
+    </a>
+  </li>
+</ul>
 
-<!-- Navbar em Light Mode (correta) -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <!-- Botão para exibir a sidebar em telas menores -->
-    <button class="btn btn-light d-lg-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
-      <i class="cil-menu"></i>
-    </button>
-    <a class="navbar-brand" href="#">Admin</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Usuário">
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
-            <li><a class="dropdown-item" href="#">Perfil</a></li>
-            <li><a class="dropdown-item" href="#">Sair</a></li>
-          </ul>
-        </li>
-      </ul>
+<ul class="header-nav">
+  <li class="nav-item dropdown">
+    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+      <div class="avatar avatar-md">
+        <img class="avatar-img" src="https://ui-avatars.com/api/?name=<%= current_user&.first_name || 'Admin User' %>&background=random" alt="user@email.com">
+      </div>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end pt-0">
+      <div class="dropdown-header bg-light py-2">
+        <div class="fw-semibold"><%= current_user&.first_name || 'Admin User' %></div>
+      </div>
+      <%= link_to "#", class: "dropdown-item" do %>
+        <i class="icon me-2 cil-user"></i> Perfil
+      <% end %>
+      <%= link_to "#", class: "dropdown-item" do %>
+        <i class="icon me-2 cil-settings"></i> Configurações
+      <% end %>
+      <div class="dropdown-divider"></div>
+      <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" do %>
+        <i class="icon me-2 cil-account-logout"></i> Sair
+      <% end %>
     </div>
-  </div>
-</nav>
+  </li>
+</ul>

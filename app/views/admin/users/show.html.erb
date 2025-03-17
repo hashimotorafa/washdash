@@ -1,0 +1,58 @@
+<div class="container-lg">
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>Detalhes do Usuário</strong>
+        <div>
+          <%= link_to 'Editar', edit_admin_user_path(@user), class: 'btn btn-primary' %>
+          <%= link_to 'Voltar', admin_users_path, class: 'btn btn-light' %>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Nome</h6>
+          <p class="mb-0"><%= @user.first_name %></p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Sobrenome</h6>
+          <p class="mb-0"><%= @user.last_name %></p>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <h6 class="mb-2">E-mail</h6>
+          <p class="mb-0"><%= @user.email %></p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Status</h6>
+          <p class="mb-0">
+            <% if @user.active? %>
+              <span class="badge bg-success">Ativo</span>
+            <% else %>
+              <span class="badge bg-danger">Inativo</span>
+            <% end %>
+          </p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Tipo</h6>
+          <p class="mb-0">
+            <% if @user.admin? %>
+              <span class="badge bg-primary">Administrador</span>
+            <% else %>
+              <span class="badge bg-secondary">Usuário</span>
+            <% end %>
+          </p>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <h6 class="mb-2">Criado em</h6>
+          <p class="mb-0"><%= l @user.created_at, format: :short %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

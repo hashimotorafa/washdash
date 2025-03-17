@@ -1,29 +1,78 @@
-<div class="col-12 d-flex align-items-center justify-content-center">
-  <div>
-    <h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Login | WashDash</title>
+</head>
+<body>
+  <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-4">
+          <div class="card-group d-block d-md-flex row">
+            <div class="card p-4 mb-0">
+              <div class="card-body">
+                <div class="text-center mb-4">
+                  <h1 class="display-6 fw-bold">WashDash</h1>
+                  <p class="text-medium-emphasis">Faça login na sua conta</p>
+                </div>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="field">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-      </div>
+                <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                  <div class="mb-3">
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="icon icon-2xl cil-user"></i>
+                      </span>
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                          class: "form-control", placeholder: "E-mail" %>
+                    </div>
+                  </div>
 
-      <div class="field">
-        <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "current-password" %>
-      </div>
+                  <div class="mb-4">
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="icon icon-2xl cil-lock-locked"></i>
+                      </span>
+                      <%= f.password_field :password, autocomplete: "current-password", 
+                          class: "form-control", placeholder: "Senha" %>
+                    </div>
+                  </div>
 
-      <% if devise_mapping.rememberable? %>
-        <div class="field">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me %>
+                  <div class="row">
+                    <div class="col-12">
+                      <% if devise_mapping.rememberable? %>
+                        <div class="form-check mb-3">
+                          <%= f.check_box :remember_me, class: "form-check-input" %>
+                          <%= f.label :remember_me, "Lembrar-me", class: "form-check-label" %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <%= f.submit "Entrar", class: "btn btn-primary w-100 px-4" %>
+                    </div>
+                  </div>
+                <% end %>
+
+                <% if devise_mapping.recoverable? %>
+                  <div class="row mt-3">
+                    <div class="col-12 text-center">
+                      <%= link_to "Esqueceu sua senha?", new_password_path(resource_name), 
+                          class: "text-decoration-none" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
-      <% end %>
-
-      <div class="actions">
-        <%= f.submit "Log in" %>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+</body>
+</html>
 

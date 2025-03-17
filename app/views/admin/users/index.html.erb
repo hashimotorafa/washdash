@@ -1,0 +1,55 @@
+<div class="container-lg">
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>Usuários</strong>
+        <%= link_to 'Novo Usuário', new_admin_user_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped border mb-0">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Status</th>
+              <th>Tipo</th>
+              <th width="150"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td>
+                  <% if user.active? %>
+                    <span class="badge bg-success">Ativo</span>
+                  <% else %>
+                    <span class="badge bg-danger">Inativo</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if user.admin? %>
+                    <span class="badge bg-primary">Administrador</span>
+                  <% else %>
+                    <span class="badge bg-secondary">Usuário</span>
+                  <% end %>
+                </td>
+                <td class="text-end">
+                  <%= link_to 'Ver', admin_user_path(user), class: 'btn btn-sm btn-info' %>
+                  <%= link_to 'Editar', edit_admin_user_path(user), class: 'btn btn-sm btn-primary' %>
+                  <%= link_to 'Excluir', 
+                      admin_user_path(user), 
+                      class: 'btn btn-sm btn-danger',
+                      data: { turbo_method: :delete, turbo_confirm: 'Tem certeza?' } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> 

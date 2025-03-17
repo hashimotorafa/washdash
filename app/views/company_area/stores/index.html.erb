@@ -1,0 +1,45 @@
+<div class="container-lg">
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>Lojas</strong>
+        <%= link_to 'Nova Loja', new_admin_store_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped border mb-0">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Empresa</th>
+              <th>Código da Área</th>
+              <th>ID Externo</th>
+              <th>Data de Início</th>
+              <th width="150"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @stores.each do |store| %>
+              <tr>
+                <td><%= store.name %></td>
+                <td><%= store.company.name %></td>
+                <td><%= store.area_code %></td>
+                <td><%= store.external_id %></td>
+                <td><%= l store.started_at %></td>
+                <td class="text-end">
+                  <%= link_to 'Ver', store_area_root_path(store), class: 'btn btn-sm btn-info' %>
+                  <%= link_to 'Editar', edit_admin_store_path(store), class: 'btn btn-sm btn-primary' %>
+                  <%= link_to 'Excluir', 
+                      admin_store_path(store), 
+                      class: 'btn btn-sm btn-danger',
+                      data: { turbo_method: :delete, turbo_confirm: 'Tem certeza?' } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

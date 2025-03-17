@@ -1,54 +1,85 @@
-  <!-- Sidenav conforme demonstração do CoreUI -->
-  <div class="sidebar sidebar-light sidebar-fixed" id="sidebar">
-    <div class="sidebar-brand d-none d-md-flex">
-      <svg class="sidebar-brand-full" width="118" height="46">
-        <use xlink:href="https://coreui.io/demos/bootstrap/5.1/free/assets/brand/coreui.svg#full"></use>
-      </svg>
-      <svg class="sidebar-brand-narrow" width="46" height="46">
-        <use xlink:href="https://coreui.io/demos/bootstrap/5.1/free/assets/brand/coreui.svg#signet"></use>
-      </svg>
-    </div>
-    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+<div class="sidebar-nav-wrapper">
+  <div class="sidebar-nav-main">
+    <ul class="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <%= link_to admin_home_index_path, class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
           <i class="nav-icon cil-speedometer"></i> Dashboard
-        </a>
+        <% end %>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="nav-icon cil-user"></i> Usuários
-        </a>
-      </li>
+
+      <li class="nav-title">Gestão</li>
+
       <li class="nav-group">
         <a class="nav-link nav-group-toggle" href="#">
           <i class="nav-icon cil-building"></i> Empresas
         </a>
         <ul class="nav-group-items">
           <li class="nav-item">
-            <a class="nav-link" href="#">Lista de Empresas</a>
+            <%= link_to admin_companies_path, class: "nav-link #{'active' if controller_name == 'companies'}" do %>
+              <i class="nav-icon cil-list"></i> Listar
+            <% end %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Adicionar Empresa</a>
+            <%= link_to new_admin_company_path, class: "nav-link" do %>
+              <i class="nav-icon cil-plus"></i> Adicionar
+            <% end %>
           </li>
         </ul>
       </li>
+
       <li class="nav-group">
         <a class="nav-link nav-group-toggle" href="#">
-          <i class="nav-icon cil-settings"></i> Configuração
+          <i class="nav-icon cil-store"></i> Lojas
         </a>
         <ul class="nav-group-items">
           <li class="nav-item">
-            <a class="nav-link" href="#">Preferências</a>
+            <%= link_to admin_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
+              <i class="nav-icon cil-list"></i> Listar
+            <% end %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Segurança</a>
+            <%= link_to new_admin_store_path, class: "nav-link" do %>
+              <i class="nav-icon cil-plus"></i> Adicionar
+            <% end %>
           </li>
         </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="nav-icon cil-account-logout"></i> Sair
+
+      <li class="nav-group">
+        <a class="nav-link nav-group-toggle" href="#">
+          <i class="nav-icon cil-people"></i> Usuários
         </a>
+        <ul class="nav-group-items">
+          <li class="nav-item">
+            <%= link_to admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+              <i class="nav-icon cil-list"></i> Listar
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to new_admin_user_path, class: "nav-link" do %>
+              <i class="nav-icon cil-plus"></i> Adicionar
+            <% end %>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
+
+  <div class="sidebar-nav-bottom">
+    <ul class="sidebar-nav">
+      <li class="nav-title">Sistema</li>
+
+      <li class="nav-item">
+        <%= link_to admin_settings_path, class: "nav-link #{'active' if controller_name == 'settings'}" do %>
+          <i class="nav-icon cil-settings"></i> Configurações
+        <% end %>
+      </li>
+
+      <li class="nav-item">
+        <%= button_to destroy_user_session_path, method: :delete, class: "nav-link text-danger border-0 w-100 text-start bg-transparent" do %>
+          <i class="nav-icon cil-account-logout"></i> Sair
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

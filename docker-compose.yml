@@ -23,8 +23,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
   selenium:
     container_name: selenium
-    image: selenium/standalone-chrome
-    platform: linux/amd64
+    image: seleniarm/standalone-chromium:latest
     volumes:
       - ./tmp/files:/home/seluser/Downloads
     ports:

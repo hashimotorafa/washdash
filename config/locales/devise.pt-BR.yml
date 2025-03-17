@@ -1,0 +1,7 @@
+pt-BR:
+  devise:
+    sessions:
+      user:
+        signed_in: "Login efetuado com sucesso."
+        signed_out: "Logout efetuado com sucesso."
+        inactive: "Sua conta está inativa. Entre em contato com o administrador." 

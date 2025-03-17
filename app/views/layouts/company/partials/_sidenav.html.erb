@@ -1,49 +1,36 @@
 <!-- Sidebar responsiva com largura aumentada -->
-<nav id="sidebar" class="sidebar sidebar-dark bg-dark collapse d-lg-block" style="width: 300px;">
-  <div class="sidebar-brand d-flex align-items-center justify-content-center p-3">
-    <span class="fs-4 text-white">WashDash</span>
-  </div>
-  <ul class="nav flex-column">
-    <% if current_user.admin? %>
-      <li class="nav-item">
-        <%= link_to "Admin", admin_home_index_path %>
+<div class="sidebar-nav-wrapper">
+  <div class="sidebar-nav-main">
+    <ul class="sidebar-nav">
+      <li class="nav-title">Gestão</li>
+        <%= link_to admin_home_index_path, class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
+          <i class="nav-icon cil-speedometer"></i> Dashboard
+        <% end %>
+        <%= link_to company_area_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
+          <i class="nav-icon cil-building"></i> Lojas
+        <% end %>
+        <%= link_to company_area_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+          <i class="nav-icon cil-people"></i> Usuários
+        <% end %>
       </li>
-    <% end %>
-    <!-- Dashboard -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-speedometer me-2"></i> Dashboard
-      </a>
-    </li>
-    <!-- Empresas -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-user me-2"></i> Lojas
-      </a>
-    </li>
-    <!-- Usuários -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-user me-2"></i> Clientes
-      </a>
-    </li>
-    <!-- Usuários -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-user me-2"></i> Usuários
-      </a>
-    </li>
-    <!-- Configurações -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-user me-2"></i> Configurações
-      </a>
-    </li>
-    <!-- Sair -->
-    <li class="nav-item">
-      <a class="nav-link text-white" href="#">
-        <i class="cil-account-logout me-2"></i> Sair
-      </a>
-    </li>
-  </ul>
-</nav>
+    </ul>
+  </div>
+
+  <div class="sidebar-nav-bottom">
+    <ul class="sidebar-nav">
+      <li class="nav-title">Sistema</li>
+
+      <li class="nav-item">
+        <%= link_to company_area_settings_path, class: "nav-link #{'active' if controller_name == 'settings'}" do %>
+          <i class="nav-icon cil-settings"></i> Configurações
+        <% end %>
+      </li>
+
+      <li class="nav-item">
+        <%= button_to destroy_user_session_path, method: :delete, class: "nav-link text-danger border-0 w-100 text-start bg-transparent" do %>
+          <i class="nav-icon cil-account-logout"></i> Sair
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

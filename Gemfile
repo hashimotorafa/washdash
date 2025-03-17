@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "annotate"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.2", ">= 7.2.2.1"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
@@ -37,6 +39,10 @@ gem "bootsnap", require: false
 gem "whenever"
 
 gem "sassc-rails"
+gem "selenium-webdriver"
+gem "webdrivers"
+gem "kaminari"
+gem "ransack"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -60,7 +66,6 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
 end
 
 

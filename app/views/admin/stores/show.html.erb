@@ -1,0 +1,41 @@
+<div class="container-lg">
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>Detalhes da Loja</strong>
+        <div>
+          <%= link_to 'Editar', edit_admin_store_path(@store), class: 'btn btn-primary' %>
+          <%= link_to 'Voltar', admin_stores_path, class: 'btn btn-light' %>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Nome</h6>
+          <p class="mb-0"><%= @store.name %></p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6 class="mb-2">Empresa</h6>
+          <p class="mb-0"><%= @store.company.name %></p>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <h6 class="mb-2">Código da Área</h6>
+          <p class="mb-0"><%= @store.area_code %></p>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <h6 class="mb-2">ID Externo</h6>
+          <p class="mb-0"><%= @store.external_id %></p>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <h6 class="mb-2">Data de Início</h6>
+          <p class="mb-0"><%= l @store.started_at %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

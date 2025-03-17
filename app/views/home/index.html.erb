@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WashDash - Sistema de Gestão para Lavanderias</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <%= stylesheet_link_tag "landing", "data-turbo-track": "reload" %>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="container">
+      <div class="logo">
+        <h1>WashDash</h1>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Recursos</a>
+        <a href="#benefits">Benefícios</a>
+        <a href="#contact">Contato</a>
+        <%= link_to "Entrar", new_user_session_path, class: "btn btn-primary" %>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Transforme sua Lavanderia com Tecnologia</h1>
+        <p>Gerencie pedidos, clientes e entregas de forma simples e eficiente com o WashDash.</p>
+        <%= link_to "Começar Agora", new_user_session_path, class: "btn btn-primary btn-lg" %>
+      </div>
+      <div class="hero-image">
+        <%= image_tag "dashboard-preview.png", alt: "Dashboard WashDash", class: "preview-image" if File.exist?(Rails.root.join("app/assets/images/dashboard-preview.png")) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2>Recursos Principais</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Dashboard Intuitivo</h3>
+          <p>Visualize todas as informações importantes em um só lugar.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Acesso Mobile</h3>
+          <p>Gerencie sua lavanderia de qualquer lugar, a qualquer momento.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h3>Notificações</h3>
+          <p>Mantenha-se atualizado sobre o status dos pedidos.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Relatórios Detalhados</h3>
+          <p>Tome decisões baseadas em dados reais do seu negócio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="benefits">
+    <div class="container">
+      <h2>Por que escolher o WashDash?</h2>
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <h3>Aumente a Produtividade</h3>
+          <p>Automatize processos e reduza o tempo gasto com tarefas administrativas.</p>
+        </div>
+        <div class="benefit-item">
+          <h3>Melhore a Experiência</h3>
+          <p>Ofereça um serviço mais profissional e organizado aos seus clientes.</p>
+        </div>
+        <div class="benefit-item">
+          <h3>Controle Total</h3>
+          <p>Tenha visibilidade completa sobre todas as operações da sua lavanderia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Entre em Contato</h2>
+      <p>Quer saber mais sobre como o WashDash pode ajudar seu negócio?</p>
+      <a href="mailto:contato@washdash.com" class="btn btn-primary btn-lg">Fale Conosco</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>WashDash</h2>
+          <p>Sistema de Gestão para Lavanderias</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h3>Produto</h3>
+            <a href="#features">Recursos</a>
+            <a href="#benefits">Benefícios</a>
+            <a href="#contact">Contato</a>
+          </div>
+          <div class="footer-column">
+            <h3>Legal</h3>
+            <a href="#">Termos de Uso</a>
+            <a href="#">Privacidade</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <%= Time.current.year %> WashDash. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

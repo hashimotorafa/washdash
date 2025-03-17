@@ -1,28 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <%= render 'layouts/partials/head'%>
-  <body class="d-flex">
-    <%= render 'layouts/company/partials/sidenav'%>
-    <div class="flex-grow-1 d-flex flex-column min-vh-100">
-      <%= render 'layouts/company/partials/navbar'%>
-      <!-- Conteúdo Principal que preenche 100% do espaço restante -->
-      <main class="flex-grow-1 p-0">
-        <div class="container-fluid h-100 d-flex flex-column">
-          <div class="row flex-grow-1">
-            <div class="col-12 d-flex align-items-center justify-content-center">
-              <div>
-                <h2>Conteúdo Principal</h2>
-                <p>Aqui vai o conteúdo da página administrativa.</p>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WashDash Admin</title>
+    
+    <!-- CoreUI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/css/coreui.min.css" rel="stylesheet">
+    <!-- CoreUI Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@2.1.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <body>
+    <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+      <div class="sidebar-brand d-flex align-items-center">
+        <div class="sidebar-brand-full">WashDash</div>
+        <div class="sidebar-brand-narrow">WD</div>
+      </div>
+      <%= render 'layouts/company/partials/sidenav'%>
+    </div>
+    
+    <div class="wrapper d-flex flex-column min-vh-100">
+      <header class="header header-sticky mb-4">
+        <div class="container-fluid">
+          <button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+            <i class="cil-menu"></i>
+          </button>
+          <%= render 'layouts/company/partials/navbar'%>
+        </div>
+      </header>
+      
+      <div class="body flex-grow-1">
+        <div class="container-lg">
+          <!-- Breadcrumb -->
+          <div class="row mb-4">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= link_to 'Home', admin_root_path %></li>
+                <%= yield :breadcrumb %>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Flash Messages -->
+          <% flash.each do |name, msg| %>
+            <% if msg.is_a?(String) %>
+              <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
+                <%= msg %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
+            <% end %>
+          <% end %>
+
+          <!-- Main Content -->
+          <%= yield %>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-between">
+            <div class="col-md">
+              <div class="text-body-secondary">WashDash Admin &copy; <%= Time.current.year %></div>
             </div>
           </div>
         </div>
-      </main>
-      <%= render 'layouts/partials/footer' %>
+      </footer>
     </div>
+
     <!-- Bootstrap Bundle com Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CoreUI for Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@coreui/bootstrap@5.2.1/dist/js/coreui.bundle.min.js"></script>
+    <!-- CoreUI JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/js/coreui.bundle.min.js"></script>
+    
+    <!-- Custom Admin JS -->
+    <%= javascript_include_tag "admin", "data-turbo-track": "reload", defer: true %>
+
+    <style>
+      .sidebar {
+        --cui-sidebar-width: 16rem;
+      }
+      .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.8445rem 1rem;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .sidebar-nav .nav-link:hover {
+        color: rgba(255, 255, 255, 0.87);
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .sidebar-nav .nav-link.active {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .nav-group-items {
+        padding-left: 0;
+      }
+      .nav-group-items .nav-link {
+        padding-left: 2.5rem;
+      }
+      .nav-icon {
+        margin-right: 0.5rem;
+      }
+    </style>
   </body>
 </html>

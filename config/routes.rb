@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: "users/sessions" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  root to: "home#index"
+  root "home#index"
 
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -14,11 +14,26 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   namespace :admin do
+    root to: "admin/home#index"
+    resources :home, only: [ :index ]
+    resources :companies
+    resources :users
+    resources :stores
+    resources :settings
+  end
+
+  namespace :company_area do
+    root to: "company_area/home#index"
+    resources :companies
+    resources :users
+    resources :stores
+    resources :customers
+    resources :settings
     resources :home, only: [ :index ]
   end
 
-  namespace :company do
-    root to: "company/home#index"
+  scope "store_area/:store_id", as: :store_area do
+    root to: "store_area/home#index"
     resources :home, only: [ :index ]
   end
 end

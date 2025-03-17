@@ -4,10 +4,6 @@ FROM ruby:3.1
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
-RUN unzip chromedriver_linux64.zip
-RUN mv chromedriver /bin
-
 RUN apt-get update -qq && apt-get install -y nodejs npm postgresql-client yarn cron systemctl vim
 
 
