@@ -1,0 +1,5 @@
+class AddExternalIdIndexToCicles < ActiveRecord::Migration[7.2]
+  def change
+    add_index :cicles, :external_id, unique: true
+  end
+end

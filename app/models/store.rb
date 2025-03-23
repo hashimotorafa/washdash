@@ -2,6 +2,8 @@ class Store < ApplicationRecord
   # Associations
   belongs_to :company
 
+  has_many :transactions
+  has_many :customers
   # Validations
   validates :name, presence: true
   validates :area_code, presence: true

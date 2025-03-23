@@ -36,11 +36,13 @@ module DataImporters
       private
 
       def find_or_initialize_customer(customer_data)
-        Customer.find_or_initialize_by(email: customer_data[:email]) do |customer|
+        @customer ||= {}
+        @customer[customer_data[:email]] ||= Customer.find_or_initialize_by(email: customer_data[:email]) do |customer|
           customer.name = customer_data[:name]
           customer.area_code = customer_data[:area_code]
           customer.phone_number = customer_data[:phone_number]
           customer.document_number = customer_data[:document_number]
+          customer.save if customer.changed?
         end
       end
 
