@@ -1,6 +1,6 @@
-class CreateCicles < ActiveRecord::Migration[7.2]
+class CreateCycles < ActiveRecord::Migration[7.2]
   def change
-    create_table :cicles do |t|
+    create_table :cycles do |t|
       t.bigint :external_id
       t.string :status
       t.string :price

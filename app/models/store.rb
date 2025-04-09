@@ -4,6 +4,7 @@ class Store < ApplicationRecord
 
   has_many :transactions
   has_many :customers
+  has_many :income_statements
   # Validations
   validates :name, presence: true
   validates :area_code, presence: true

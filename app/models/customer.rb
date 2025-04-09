@@ -14,13 +14,14 @@
 class Customer < ApplicationRecord
   paginates_per 25
 
-  has_many :cicles
+  has_many :cycles
   has_many :monthly_metrics, class_name: "::CustomerMonthlyMetrics", foreign_key: "customer_id"
+  has_many :transactions
   has_many :transactions_monthly_metrics, class_name: "::CustomerTransactionsMonthlyMetrics", foreign_key: "customer_id"
 
   scope :current_month, -> { where(created_at: current_month_range) }
   scope :by_month,      ->(month) { where(created_at: month_range(month)) }
-  scope :by_store,      ->(store_id) { includes(:cicles).joins(:cicles).where(cicles: { store_id: store_id }).distinct }
+  scope :by_store,      ->(store_id) { includes(:cycles).joins(:cycles).where(cycles: { store_id: store_id }).distinct }
   scope :by_time_range, ->(from_date, until_date) { where(created_at: from_date..until_date) }
   scope :group_by_area_code_and_month, ->(area_code) do
     select = "TO_CHAR(customers.created_at, 'YYYY/MM') as month_year, CASE WHEN area_code = '#{area_code}' THEN 'local' ELSE 'others' END as type, COUNT(*) as total "
@@ -36,8 +37,8 @@ class Customer < ApplicationRecord
     [ "email", "name", "phone_number" ]
   end
 
-  def current_month_cicles
-    current_month_metrics.total_cicles
+  def current_month_cycles
+    current_month_metrics.total_cycles
   end
 
   def current_month_metrics
@@ -53,8 +54,8 @@ class Customer < ApplicationRecord
     self.created_at.month == date.month && self.created_at.year == date.year
   end
 
-  def month_total_cicles
-    current_month_metrics.total_cicles
+  def month_total_cycles
+    current_month_metrics.total_cycles
   end
 
   private
@@ -74,17 +75,17 @@ class Customer < ApplicationRecord
       CSV.generate do |csv|
         csv << %w[id nome telefone email ciclos data_cadastro ultima_visita]
         customers.each do |c|
-          csv << [ c.id, c.name, c.phone_number, c.email, c.cicles.count, first_cicle(c),  last_cicle(c) ]
+          csv << [ c.id, c.name, c.phone_number, c.email, c.cycles.count, first_cycle(c),  last_cycle(c) ]
         end
       end
     end
 
-    def first_cicle(customer)
-      customer.cicles.order(:external_id).first.created_at.strftime("%d/%m/%Y")
+    def first_cycle(customer)
+      customer.cycles.order(:external_id).first.created_at.strftime("%d/%m/%Y")
     end
 
-    def last_cicle(customer)
-      customer.cicles.order(:external_id).last.created_at.strftime("%d/%m/%Y")
+    def last_cycle(customer)
+      customer.cycles.order(:external_id).last.created_at.strftime("%d/%m/%Y")
     end
   end
 end

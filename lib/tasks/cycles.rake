@@ -1,5 +1,4 @@
-
-namespace :cicles do
+namespace :cycles do
   task log: :environment do
     File.open("out-#{DateTime.now}.txt", "w") { |f| f.write(DateTime.now) }
   end
@@ -14,7 +13,7 @@ namespace :cicles do
 
         puts "Running Crawler"
 
-        WashAndGo::CiclesCrawler.run(
+        WashAndGo::CyclesCrawler.run(
           store,
           company.external_access.email,
           company.external_access.password
@@ -22,17 +21,17 @@ namespace :cicles do
 
         if File.exist?(file_path)
           puts "Running Data Importer"
-          financial_statement_importer = DataImporters::WashAndGo::Cicles.new(
+          cycles_importer = DataImporters::WashAndGo::Cycles.new(
             store,
             xslx_file_path: file_path
           )
 
-          financial_statement_importer.sync_tables
+          cycles_importer.sync_tables
           puts "Refreshing Customer Montly Metrics Materialized View"
           CustomerMonthlyMetrics.refresh
           puts "Done"
         else
-          raise StandardError, "Cicles Fetch Failed: File at #{file_path} not found"
+          raise StandardError, "cycles Fetch Failed: File at #{file_path} not found"
         end
       end
     end

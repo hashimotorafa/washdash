@@ -8,17 +8,17 @@ class CreateCustomerMonthlyMetricsMaterializedView < ActiveRecord::Migration[7.2
           c.store_id,
           DATE_TRUNC('month', c.created_at) AS month,
           COUNT(DISTINCT DATE(c.created_at)) AS visits,
-          COUNT(CASE WHEN c.machine_type = 'Lavadora' THEN 1 END) AS washer_cicles,
-          COUNT(CASE WHEN c.machine_type = 'Secadora' THEN 1 END) AS dryer_cicles,
-          COUNT(CASE WHEN c.status = 'Estornado' THEN 1 END)      AS canceled_cicles,
-          COUNT(*) AS total_cicles,
-          COUNT(*) / COUNT(DISTINCT DATE(c.created_at)) AS avg_cicles_per_visit,
+          COUNT(CASE WHEN c.machine_type = 'Lavadora' THEN 1 END) AS washer_cycles,
+          COUNT(CASE WHEN c.machine_type = 'Secadora' THEN 1 END) AS dryer_cycles,
+          COUNT(CASE WHEN c.status = 'Estornado' THEN 1 END)      AS canceled_cycles,
+          COUNT(*) AS total_cycles,
+          COUNT(*) / COUNT(DISTINCT DATE(c.created_at)) AS avg_cycles_per_visit,
           MAX(c.created_at) AS last_visit,
           MIN(c.created_at) AS first_visit,
           ROUND(SUM(CAST(c.price AS NUMERIC)), 2) AS total_spent,
           COUNT(DISTINCT DATE(c.created_at)) AS active_days
       FROM
-          cicles c
+          cycles c
       JOIN
           customers cu ON c.customer_id = cu.id
       GROUP BY

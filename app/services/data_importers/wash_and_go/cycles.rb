@@ -1,17 +1,17 @@
 require "roo"
 
-# Esta classe popula as tabelas customers e cicles com base no EXCEL de extrato da Wash&Go
+# Esta classe popula as tabelas customers e cycles com base no EXCEL de extrato da Wash&Go
 module DataImporters
   module WashAndGo
-    class Cicles
-      CICLES_HEADER     = %w[id email machine_type machine_number status price created_at description]
+    class Cycles
+      CYCLES_HEADER     = %w[id email machine_type machine_number status price created_at description]
       CUSTOMER_HEADER   = %w[email name phone_number created_at]
       SKIP_SHEET_HEADER = 2
 
       def initialize(store, xslx_file_path: nil)
         @xlsx_file          = Roo::Spreadsheet.open(xslx_file_path, extension: :xlsx)
         @customers          = []
-        @cicles_attributes  = []
+        @cycles_attributes  = []
         @store              = store
       end
 
@@ -22,22 +22,22 @@ module DataImporters
           if customer_row?(row)
             @customers << find_or_initialize_customer(customer_data(row))
           else
-            cicle_data = cicle_data(row)
+            cycle_data = cycle_data(row)
             unless @customers.last.persisted?
-              create_customer(@customers.last, cicle_data[:created_at])
+              create_customer(@customers.last, cycle_data[:created_at])
               @customers.last.reload
             end
-            @cicles_attributes << cicle_data.merge({ customer_id: @customers.last.id, store_id:  @store.id })
+            @cycles_attributes << cycle_data.merge({ customer_id: @customers.last.id, store_id:  @store.id })
           end
         end
-        Cicle.upsert_all(@cicles_attributes, unique_by: :external_id)
+        Cycle.upsert_all(@cycles_attributes, unique_by: :external_id)
       end
 
       private
 
       def find_or_initialize_customer(customer_data)
         @customer ||= {}
-        @customer[customer_data[:email]] ||= Customer.find_or_initialize_by(email: customer_data[:email]) do |customer|
+        @customer[customer_data[:email]] ||= Customer.find_or_initialize_by(email: customer_data[:email]).tap do |customer|
           customer.name = customer_data[:name]
           customer.area_code = customer_data[:area_code]
           customer.phone_number = customer_data[:phone_number]
@@ -62,7 +62,7 @@ module DataImporters
         "00"
       end
 
-      def cicle_data(row)
+      def cycle_data(row)
         {
           external_id:    row[0].value,
           machine_type:   row[3].value.split("-").last.strip[0] == "L" ? "Lavadora" : "Secadora",

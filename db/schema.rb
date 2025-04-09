@@ -10,25 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_23_151708) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_07_213955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "cicles", force: :cascade do |t|
-    t.bigint "external_id"
-    t.string "status"
-    t.string "price"
-    t.string "machine_type"
-    t.string "machine_number"
-    t.string "description"
-    t.bigint "customer_id", null: false
-    t.bigint "store_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_cicles_on_customer_id"
-    t.index ["external_id"], name: "index_cicles_on_external_id", unique: true
-    t.index ["store_id"], name: "index_cicles_on_store_id"
-  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
@@ -38,6 +22,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_23_151708) do
     t.string "document_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "costs", force: :cascade do |t|
+    t.string "name"
+    t.bigint "income_statement_id", null: false
+    t.bigint "store_id", null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "description"
+    t.integer "category"
+    t.integer "payment_method"
+    t.integer "payment_status"
+    t.string "payment_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["income_statement_id"], name: "index_costs_on_income_statement_id"
+    t.index ["store_id"], name: "index_costs_on_store_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -50,6 +50,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_23_151708) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cycles", force: :cascade do |t|
+    t.bigint "external_id"
+    t.string "status"
+    t.string "price"
+    t.string "machine_type"
+    t.string "machine_number"
+    t.string "description"
+    t.bigint "customer_id", null: false
+    t.bigint "store_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_cycles_on_customer_id"
+    t.index ["external_id"], name: "index_cycles_on_external_id", unique: true
+    t.index ["store_id"], name: "index_cycles_on_store_id"
+  end
+
   create_table "external_accesses", force: :cascade do |t|
     t.string "email"
     t.string "password"
@@ -57,6 +73,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_23_151708) do
     t.datetime "updated_at", null: false
     t.bigint "company_id"
     t.index ["company_id"], name: "index_external_accesses_on_company_id"
+  end
+
+  create_table "income_statements", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.integer "year"
+    t.integer "month"
+    t.decimal "net_profit", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["store_id"], name: "index_income_statements_on_store_id"
   end
 
   create_table "machines", force: :cascade do |t|
@@ -127,8 +153,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_23_151708) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "cicles", "customers"
-  add_foreign_key "cicles", "stores"
+  add_foreign_key "costs", "income_statements"
+  add_foreign_key "costs", "stores"
+  add_foreign_key "cycles", "customers"
+  add_foreign_key "cycles", "stores"
+  add_foreign_key "income_statements", "stores"
   add_foreign_key "machines", "stores"
   add_foreign_key "transactions", "customers"
   add_foreign_key "transactions", "stores"

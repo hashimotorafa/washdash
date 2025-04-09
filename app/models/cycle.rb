@@ -1,7 +1,7 @@
 # == Schema Information
 # Schema version: 20240721001550
 #
-# Table name: cicles
+# Table name: cycles
 #
 #  id             :bigint           not null, primary key
 #  description    :string
@@ -17,11 +17,11 @@
 #
 # Indexes
 #
-#  index_cicles_on_customer_id  (customer_id)
-#  index_cicles_on_external_id  (external_id) UNIQUE
-#  index_cicles_on_store_id     (store_id)
+#  index_cycles_on_customer_id  (customer_id)
+#  index_cycles_on_external_id  (external_id) UNIQUE
+#  index_cycles_on_store_id     (store_id)
 #
-class Cicle < ApplicationRecord
+class Cycle < ApplicationRecord
   belongs_to :customer
   belongs_to :store
 
@@ -36,7 +36,7 @@ class Cicle < ApplicationRecord
         WITH distinct_visits AS (
           SELECT DISTINCT ON (customer_id, DATE_TRUNC('month', created_at)) customer_id,
           DATE_TRUNC('month', created_at) AS visit_month
-          FROM cicles
+          FROM cycles
           WHERE customer_id IN (#{customer_ids.join(', ')})
           ORDER BY customer_id, DATE_TRUNC('month', created_at)
         )
@@ -57,8 +57,8 @@ class Cicle < ApplicationRecord
   scope :group_by_area_code_and_month, ->(area_code) {
     ActiveRecord::Base.connection.execute(
       %Q(
-        SELECT CASE WHEN customers.area_code = '#{area_code}' THEN 'local' ELSE 'others' END as type, DATE_TRUNC('month', cicles.created_at) as month_year, COUNT(cicles.id) as total
-        FROM "cicles" INNER JOIN "customers" ON "customers"."id" = "cicles"."customer_id"
+        SELECT CASE WHEN customers.area_code = '#{area_code}' THEN 'local' ELSE 'others' END as type, DATE_TRUNC('month', cycles.created_at) as month_year, COUNT(cycles.id) as total
+        FROM "cycles" INNER JOIN "customers" ON "customers"."id" = "cycles"."customer_id"
         GROUP BY type, month_year
         ORDER BY type
       )
@@ -69,10 +69,10 @@ class Cicle < ApplicationRecord
   scope :group_by_weekday_and_period, -> {
     week_days    = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
     ordered_days = {}
-    data = group_by do |cicle|
-      cicle.created_at.strftime("%A")
-    end.transform_values do |cicles|
-      cicles.group_by { |cicle| period_of_day(cicle.created_at) }.transform_values(&:count)
+    data = group_by do |cycle|
+      cycle.created_at.strftime("%A")
+    end.transform_values do |cycles|
+      cycles.group_by { |cycle| period_of_day(cycle.created_at) }.transform_values(&:count)
     end
 
     week_days.map { |day| ordered_days[day] = data[day] }
