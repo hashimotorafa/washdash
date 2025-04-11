@@ -1,0 +1,40 @@
+<div class="row mb-4">
+  <% if income_statement.transactions_monthly_metrics.any? %>
+    <div class="col-12">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100 bg-light">
+            <div class="card-body text-center">
+              <h6 class="card-title text-secondary">Despesas</h6>
+              <p class="card-text display-6 fw-bold text-dark">R$ <%= number_with_precision(income_statement.total_expenses, precision: 2) %></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100 bg-light">
+            <div class="card-body text-center">
+              <h6 class="card-title text-secondary">Faturamento</h6>
+              <p class="card-text display-6 fw-bold text-dark">R$ <%= number_with_precision(income_statement.total_revenue, precision: 2) %></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100 bg-light">
+            <div class="card-body text-center">
+              <h6 class="card-title text-secondary">Resultado Líquido</h6>
+              <p class="card-text display-6 fw-bold <%= income_statement.net_income >= 0 ? 'text-success' : 'text-danger' %>">
+                R$ <%= number_with_precision(income_statement.net_income, precision: 2) %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="col-12">
+      <div class="alert alert-info bg-light text-info border-0">
+        <i class="fas fa-info-circle me-2"></i>Não há métricas disponíveis para este período.
+      </div>
+    </div>
+  <% end %>
+</div>

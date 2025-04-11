@@ -1,0 +1,146 @@
+<div class="container mt-4">
+  <!-- Métricas de Performance -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h6 class="card-title">Receita Bruta</h6>
+          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:gross_revenue], precision: 2) %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h6 class="card-title">Receita Líquida</h6>
+          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:net_revenue], precision: 2) %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h6 class="card-title">Total Ciclos</h6>
+          <h3 class="mb-0"><%= @performance_metrics[:total_cycles] %></h3>
+          <small class="text-white-50">
+            <%= @machine_usage_data&.washer_cycles || 0 %> lav. | <%= @machine_usage_data&.dryer_cycles || 0 %> sec.
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <h6 class="card-title">Ticket Médio</h6>
+          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:average_ticket], precision: 2) %></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Evolução da Receita</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Distribuição por Tipo de Máquina</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="machineUsageChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 5 Clientes -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Top 5 Clientes</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>Valor Total</th>
+                  <th>Última Visita</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @top_customers.each do |customer| %>
+                  <tr>
+                    <td><%= customer.name %></td>
+                    <td><%= customer.phone_number %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gráfico de Evolução da Receita
+    const revenueCtx = document.getElementById('revenueChart');
+    if (revenueCtx) {
+      new Chart(revenueCtx.getContext('2d'), {
+        type: 'bar',
+        data: <%= raw @revenue_chart_data.to_json %>,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Gráfico de Distribuição por Tipo de Máquina
+    const machineCtx = document.getElementById('machineUsageChart');
+    if (machineCtx) {
+      new Chart(machineCtx.getContext('2d'), {
+        type: 'pie',
+        data: <%= raw @machine_usage_chart_data.to_json %>,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+  });
+</script>

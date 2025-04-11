@@ -9,7 +9,8 @@ class CreateCosts < ActiveRecord::Migration[7.2]
       t.integer :category
       t.integer :payment_method
       t.integer :payment_status
-      t.string :payment_date
+      t.date :payment_date
+      t.date :due_date
       t.timestamps
     end
   end

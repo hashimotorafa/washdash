@@ -1,0 +1,3 @@
+<%= render "layouts/partials/form_modal", modal_title: "Editar Custo" do %>
+  <%= render "store_area/financial/costs/form", url: store_area_financial_income_statement_cost_path(@income_statement.store, @income_statement), local: true, model: @cost %>
+<% end %>

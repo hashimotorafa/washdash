@@ -1,0 +1,97 @@
+<%# Income Statement Details %>
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-light d-flex justify-content-between align-items-center">
+    <h5 class="card-title mb-0 text-dark">
+      <i class="fas fa-chart-line me-2 text-primary"></i>Demonstração de Resultado - <%= "#{@income_statement.month}/#{@income_statement.year}" %>
+    </h5>
+    <div>
+      <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#importModal">
+        <i class="fas fa-file-import"></i> Importar Relatório
+      </button>
+      <%= link_to edit_store_area_financial_income_statement_path(@income_statement.store_id, @income_statement), class: "btn btn-outline-secondary" do %>
+        <i class="fas fa-edit"></i> Editar
+      <% end %>
+      <%= link_to store_area_financial_income_statements_path(@income_statement.store_id), class: "btn btn-outline-secondary ms-2" do %>
+        <i class="fas fa-arrow-left"></i> Voltar
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <%# Summary Metrics Section %>
+    <%= render 'store_area/financial/income_statements/show/metrics', income_statement: @income_statement %>
+
+    <div class="dre-structure">
+      <%# Receita Bruta %>
+      <div class="row mb-4">
+        <div class="col-12">
+          <h6 class="mb-3 text-secondary border-bottom pb-2">
+            <i class="fas fa-hand-holding-usd me-2 text-primary"></i>Receita Bruta
+          </h6>
+        </div>
+        <div class="col-12">
+          <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text">Faturamento Total</span>
+              <span class="fw-bold">R$ <%= number_with_precision(@income_statement.total_revenue, precision: 2) %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <%# DRE Structure %>
+      <%# Custos e Despesas %>
+      <div class="row mb-4">
+        <div class="col-12">
+          <h6 class="mb-3 text-secondary border-bottom pb-2">
+            <i class="fas fa-receipt me-2 text-primary"></i>Custos e Despesas
+          </h6>
+        </div>
+        <div class="col-12">
+          <div class="card border-0 shadow-sm h-100 bg-light">
+            <div class="card-body">
+              <%# Custos Operacionais %>
+              <div class="mb-3">
+                <%= render 'store_area/financial/costs/index', income_statement: @income_statement, costs: @income_statement.costs %>
+              </div>
+
+              <%# Total de Custos e Despesas %>
+              <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-3">
+                <span class="fw-bold">Total de Custos e Despesas</span>
+                <span class="fw-bold text-danger">R$ <%= number_with_precision(@income_statement.total_expenses, precision: 2) %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Import Modal %>
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title" id="importModalLabel">
+          <i class="fas fa-file-import me-2 text-primary"></i>Importar Relatório Financeiro
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag import_transactions_store_area_financial_income_statement_path(@income_statement.store_id, @income_statement), multipart: true do %>
+          <div class="mb-3">
+            <label for="file" class="form-label">Selecione o arquivo</label>
+            <%= file_field_tag :file, class: "form-control", accept: ".xlsx,.xls" %>
+            <div class="form-text">Formatos aceitos: .xlsx, .xls</div>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-upload"></i> Importar
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<%# Bar Chart Section %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Lucro Líquido por Período</h5>
+  </div>
+  <div class="card-body">
+    <canvas id="netProfitChart" height="100"></canvas>
+  </div>
+</div>
+
+<%# Income Statements List Section %>
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-title mb-0">Demonstrações de Resultado</h5>
+    <%= link_to new_store_area_financial_income_statement_path(@current_store.id), class: "btn btn-primary" do %>
+      <i class="fas fa-plus"></i> Nova DRE
+    <% end %>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Competência</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @income_statements.each do |statement| %>
+            <tr>
+              <td>
+                <div>
+                  <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id) do %>
+                    <%= statement.month %>/<%= statement.year %>
+                  <% end %>
+                </div>
+              <td>
+                <div class="btn-group">
+                  <%= link_to edit_store_area_financial_income_statement_path(@current_store.id, statement.id), class: "btn btn-sm btn-outline-primary" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %>
+                  <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id), 
+                      method: :delete,
+                      data: { confirm: "Tem certeza que deseja excluir esta DRE?" },
+                      class: "btn btn-sm btn-outline-danger" do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%# Chart.js initialization %>
+<% content_for :page_scripts do %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('netProfitChart').getContext('2d');
+      const data = {
+        labels: <%= raw @income_statements.map { |s| "#{s.month}/#{s.year}" }.to_json %>,
+        datasets: [{
+          label: 'Lucro Líquido',
+          data: <%= raw @income_statements.map { |s| s.net_profit || 0 }.to_json %>,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
+      
+      new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return 'R$ ' + value.toLocaleString('pt-BR');
+                }
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return 'R$ ' + context.raw.toLocaleString('pt-BR');
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+<% end %>

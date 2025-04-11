@@ -4,16 +4,16 @@
 #
 #  active_days          :bigint
 #  area_code            :string
-#  avg_cicles_per_visit :bigint
-#  canceled_cicles      :bigint
-#  dryer_cicles         :bigint
+#  avg_cycles_per_visit :bigint
+#  canceled_cycles      :bigint
+#  dryer_cycles         :bigint
 #  first_visit          :datetime
 #  last_visit           :datetime
 #  month                :datetime
-#  total_cicles         :bigint
+#  total_cycles         :bigint
 #  total_spent          :decimal(, )
 #  visits               :bigint
-#  washer_cicles        :bigint
+#  washer_cycles        :bigint
 #  customer_id          :bigint
 #  store_id             :bigint           primary key
 #

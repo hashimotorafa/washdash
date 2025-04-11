@@ -1,0 +1,63 @@
+<%# New Cost Modal %>
+<%= form_with(url: url, local: local, model: model) do |f| %>
+  <div class="modal-body">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <%= f.label :name, "Nome", class: "form-label" %>
+        <%= f.text_field :name, class: "form-control", required: true %>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :amount, "Valor", class: "form-label" %>
+        <%= f.number_field :amount, class: "form-control", step: "0.01", required: true %>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :due_date, "Data de Vencimento", class: "form-label" %>
+        <%= f.date_field :due_date, class: "form-control", required: true %>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <%= f.label :category, "Categoria", class: "form-label" %>
+        <%= f.select :category,
+            options_for_select([
+              ['Manutenção', 'maintainance'],
+              ['Insumos', 'supplies'],
+              ['Aluguel', 'rent'],
+              ['Marketing', 'marketing'],
+              ['Custos Operacionais', 'operating_costs'],
+              ['Impostos', 'taxes'],
+              ['Serviços', 'services'],
+              ['Outros', 'other']
+            ]),
+            { prompt: "Selecione a categoria" },
+            class: "form-select",
+            required: true %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :payment_status, "Status do Pagamento", class: "form-label" %>
+        <%= f.select :payment_status,
+            options_for_select([
+              ['Pendente', 'pending'],
+              ['Pago', 'paid'],
+              ['Falhou', 'failed']
+            ]),
+            { prompt: "Selecione o status" },
+            class: "form-select",
+            required: true %>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <%= f.label :description, "Descrição", class: "form-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 3 %>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <%= f.submit "Salvar", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+

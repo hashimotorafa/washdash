@@ -1,6 +1,6 @@
 module StoreArea
   class ApplicationController < ActionController::Base
-    layout "layouts/company/application"
+    layout "layouts/store/application"
     protect_from_forgery with: :exception
 
     before_action :authenticate_user!

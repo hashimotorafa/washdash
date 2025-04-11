@@ -1,0 +1,46 @@
+<!-- Sidebar responsiva com largura aumentada -->
+<div class="sidebar-nav-wrapper">
+  <div class="sidebar-nav-main">
+    <ul class="sidebar-nav">
+      <%= link_to admin_home_index_path, class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
+        <i class="nav-icon cil-speedometer"></i> Dashboard
+      <% end %>
+      <%= link_to company_area_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
+        <i class="nav-icon cil-people"></i> Clientes
+      <% end %>
+      <%= link_to company_area_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+        <i class="nav-icon cil-clock"></i> Ciclos
+      <% end %>
+      <li class="nav-group">
+        <a class="nav-link nav-group-toggle" href="#">
+          <i class="nav-icon cil-dollar"></i> Financeiro
+        </a>
+        <ul class="nav-group-items">
+          <li class="nav-item">
+            <%= link_to store_area_financial_income_statements_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'income_statements'}" do %>
+              <i class="nav-icon cil-library"></i> DRE
+            <% end %>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar-nav-bottom">
+    <ul class="sidebar-nav">
+      <li class="nav-title">Sistema</li>
+
+      <li class="nav-item">
+        <%= link_to company_area_settings_path, class: "nav-link #{'active' if controller_name == 'settings'}" do %>
+          <i class="nav-icon cil-settings"></i> Configurações
+        <% end %>
+      </li>
+
+      <li class="nav-item">
+        <%= button_to destroy_user_session_path, method: :delete, class: "nav-link text-danger border-0 w-100 text-start bg-transparent" do %>
+          <i class="nav-icon cil-account-logout"></i> Sair
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<turbo-frame id="costs-index">
+  <%= turbo_stream.update "modal", '' %>
+  <%= render "store_area/financial/costs/list", income_statement: income_statement, costs: costs %>
+</turbo-frame>

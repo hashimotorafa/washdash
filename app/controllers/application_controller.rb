@@ -3,9 +3,4 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :teste
-
-  def teste
-    puts params
-    puts "teste"
-  end
 end

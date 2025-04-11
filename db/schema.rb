@@ -33,7 +33,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_07_213955) do
     t.integer "category"
     t.integer "payment_method"
     t.integer "payment_status"
-    t.string "payment_date"
+    t.date "payment_date"
+    t.date "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["income_statement_id"], name: "index_costs_on_income_statement_id"

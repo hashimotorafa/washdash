@@ -2,7 +2,7 @@ class Cost < ApplicationRecord
   belongs_to :income_statement
   belongs_to :store
 
-  validates :amount, :description, :category, :payment_method, :payment_status, :payment_date, presence: true
+  validates :name, :amount, presence: true
 
   enum :category, {
     maintainance: 1,
@@ -18,7 +18,8 @@ class Cost < ApplicationRecord
     card: 1,
     bank_transfer: 2,
     pix: 3,
-    cash: 4
+    cash: 4,
+    banking_billet: 5
   }
 
   enum :payment_status, {

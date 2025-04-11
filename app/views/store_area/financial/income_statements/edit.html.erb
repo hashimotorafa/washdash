@@ -1,0 +1,47 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Editar Demonstração de Resultado</h5>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: [:store_area, :financial, @income_statement], local: true) do |f| %>
+      <% if @income_statement.errors.any? %>
+        <div class="alert alert-danger">
+          <h6><%= pluralize(@income_statement.errors.count, "erro") %> impediu que esta DRE fosse salva:</h6>
+          <ul>
+            <% @income_statement.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <%= f.label :year, "Ano", class: "form-label" %>
+            <%= f.number_field :year, class: "form-control", min: 2000, max: 2100 %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <%= f.label :month, "Mês", class: "form-label" %>
+            <%= f.select :month,
+                options_for_select([
+                  ['Janeiro', 1], ['Fevereiro', 2], ['Março', 3], ['Abril', 4],
+                  ['Maio', 5], ['Junho', 6], ['Julho', 7], ['Agosto', 8],
+                  ['Setembro', 9], ['Outubro', 10], ['Novembro', 11], ['Dezembro', 12]
+                ], @income_statement.month),
+                { prompt: "Selecione o mês" },
+                class: "form-select" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <%= f.submit "Atualizar", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", store_area_financial_income_statements_path, class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

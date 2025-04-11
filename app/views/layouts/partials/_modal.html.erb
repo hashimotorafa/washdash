@@ -1,0 +1,18 @@
+<turbo-frame id="modal">
+  <div class="modal show d-block" tabindex="-1"   data-controller="modal" style="background-color: rgba(0, 0, 0, 0.5)">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= modal_title%></h5>
+          <button type="button" class="btn-close" data-action="click->modal#close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= yield :body %>
+        </div>
+        <div class="modal-footer">
+          <%= yield :footer %>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

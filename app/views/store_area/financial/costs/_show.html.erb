@@ -1,0 +1,22 @@
+<%= render "layouts/partials/modal", modal_title: "Detalhes do Custo" do %>
+  <% content_for :body do %>
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Nome:</strong> <%= cost.name %></p>
+        <p><strong>Descrição:</strong> <%= cost.description %></p>
+        <p><strong>Valor:</strong> R$ <%= number_with_precision(cost.amount, precision: 2) %></p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Categoria:</strong> <%= cost.category %></p>
+        <p><strong>Status do Pagamento:</strong> <%= cost.payment_status %></p>
+        <p><strong>Data de Vencimento:</strong> <%= cost.due_date %></p>
+      </div>
+    </div>
+  <% end %>
+  <% content_for :footer do %>
+    <%= link_to edit_store_area_financial_income_statement_cost_path(cost.income_statement.store_id, cost.income_statement, cost), 
+        class: "btn btn-primary" do %>
+      <i class="fas fa-edit"></i> Editar
+    <% end %>
+  <% end %>
+<% end %>

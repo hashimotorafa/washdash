@@ -32,8 +32,16 @@ Rails.application.routes.draw do
     resources :home, only: [ :index ]
   end
 
-  scope "store_area/:store_id", as: :store_area do
+  scope "store_area/:store_id", as: :store_area, module: :store_area do
     root to: "store_area/home#index"
     resources :home, only: [ :index ]
+    namespace :financial do
+      resources :income_statements do
+        member do
+          post :import_transactions
+        end
+        resources :costs
+      end
+    end
   end
 end
