@@ -1,0 +1,16 @@
+<%# Receita Bruta %>
+<div class="row mb-4">
+  <div class="col-12">
+    <h6 class="mb-3 text-secondary border-bottom pb-2">
+      <i class="fas fa-hand-holding-usd me-2 text-primary"></i>Receita Operacional Bruta
+    </h6>
+  </div>
+  <div class="col-12">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="text">Compras de Créditos</span>
+        <span class="fw-bold">R$ <%= number_with_precision(income_statement.total_before_tax, precision: 2) %></span>
+      </div>
+    </div>
+  </div>
+</div>

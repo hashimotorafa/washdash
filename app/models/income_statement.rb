@@ -1,7 +1,6 @@
 class IncomeStatement < ApplicationRecord
   belongs_to :store
   has_many :transactions, through: :store
-  has_many :transactions_monthly_metrics, through: :store
   has_many :costs
   validates :year, :month, presence: true
 
@@ -21,12 +20,28 @@ class IncomeStatement < ApplicationRecord
     transactions_monthly_metrics.sum(:total_transactions)
   end
 
-  def total_revenue
+  def total_before_tax
+    transactions_monthly_metrics.sum(:total_before_tax)
+  end
+
+  def total_royalties
+    transactions_monthly_metrics.sum(:total_royalties)
+  end
+
+  def total_fup
+    transactions_monthly_metrics.sum(:total_fup)
+  end
+
+  def total_payment_method_tax
+    transactions_monthly_metrics.sum(:total_payment_method_tax)
+  end
+
+  def total_receivable
     transactions_monthly_metrics.sum(:total_receivable)
   end
 
   def net_income
-    total_revenue - total_expenses
+    total_receivable - total_expenses
   end
 
   def total_expenses

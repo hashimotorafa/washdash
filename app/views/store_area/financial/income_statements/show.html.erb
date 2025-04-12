@@ -21,24 +21,10 @@
     <%= render 'store_area/financial/income_statements/show/metrics', income_statement: @income_statement %>
 
     <div class="dre-structure">
-      <%# Receita Bruta %>
-      <div class="row mb-4">
-        <div class="col-12">
-          <h6 class="mb-3 text-secondary border-bottom pb-2">
-            <i class="fas fa-hand-holding-usd me-2 text-primary"></i>Receita Bruta
-          </h6>
-        </div>
-        <div class="col-12">
-          <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="text">Faturamento Total</span>
-              <span class="fw-bold">R$ <%= number_with_precision(@income_statement.total_revenue, precision: 2) %></span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render 'store_area/financial/income_statements/show/operational_revenue', income_statement: @income_statement %>
+      <%= render 'store_area/financial/income_statements/show/deductions', income_statement: @income_statement %>
+      <%= render 'store_area/financial/income_statements/show/operational_result', income_statement: @income_statement %>
 
-    <%# DRE Structure %>
       <%# Custos e Despesas %>
       <div class="row mb-4">
         <div class="col-12">
@@ -55,10 +41,27 @@
               </div>
 
               <%# Total de Custos e Despesas %>
-              <div class="d-flex justify-content-between align-items-center pt-2 mt-3">
+              <div class="d-flex justify-content-between align-items-center  pt-2 mt-3">
                 <span class="fw-bold">Total de Custos e Despesas</span>
                 <span class="fw-bold text-danger">R$ <%= number_with_precision(@income_statement.total_expenses, precision: 2) %></span>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Resultado Operacional %>
+      <div class="row mb-4">
+        <div class="col-12">
+          <h6 class="mb-3 text-secondary border-bottom pb-2">
+            <i class="fas fa-hand-holding-usd me-2 text-primary"></i>Resultado Operacional
+          </h6>
+        </div>
+        <div class="col-12">
+          <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text">Lucro/Prejuízo</span>
+              <span class="fw-bold">R$ <%= number_with_precision(@income_statement.net_income, precision: 2) %></span>
             </div>
           </div>
         </div>
