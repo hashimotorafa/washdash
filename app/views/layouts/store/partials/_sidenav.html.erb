@@ -2,7 +2,7 @@
 <div class="sidebar-nav-wrapper">
   <div class="sidebar-nav-main">
     <ul class="sidebar-nav">
-      <%= link_to admin_home_index_path, class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
+      <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
         <i class="nav-icon cil-speedometer"></i> Dashboard
       <% end %>
       <%= link_to company_area_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>

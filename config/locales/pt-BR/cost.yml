@@ -1,0 +1,16 @@
+pt-BR:
+  activerecord:
+    attributes:
+      cost:
+        categories:
+          maintainance: 'Manutenção'
+          supplies: 'Insumos'
+          rent: 'Aluguel'
+          marketing: 'Marketing'
+          operating_costs: 'Custos Operacionais'
+          taxes: 'Impostos'
+          other: 'Outros'
+        payment_statuses:
+          pending: 'Pendente'
+          paid: 'Pago'
+          failed: 'Falha'

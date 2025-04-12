@@ -1,5 +1,4 @@
-// Import CoreUI components as needed
-document.addEventListener('DOMContentLoaded', function() {
+function initAdmin() {
   // Initialize all tooltips
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
   tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle sidebar toggle on mobile
     var sidebarToggler = document.querySelector('.header-toggler');
     if (sidebarToggler) {
-      sidebarToggler.addEventListener('click', function(e) {
+      sidebarToggler.addEventListener('click', function (e) {
         e.preventDefault();
         sidebarInstance.toggle();
       });
@@ -35,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Handle nav groups in sidebar
-  document.querySelectorAll('.nav-group-toggle').forEach(function(element) {
-    element.addEventListener('click', function(e) {
+  document.querySelectorAll('.nav-group-toggle').forEach(function (element) {
+    element.addEventListener('click', function (e) {
       e.preventDefault();
       let parent = this.closest('.nav-group');
       parent.classList.toggle('show');
@@ -65,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+}
+
+document.addEventListener("turbo:load", () => {
+  setTimeout(() => { initAdmin() }, 10);
 });
 
 // Add custom styles for nav-group animations

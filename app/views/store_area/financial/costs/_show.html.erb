@@ -1,22 +1,83 @@
 <%= render "layouts/partials/modal", modal_title: "Detalhes do Custo" do %>
-  <% content_for :body do %>
-    <div class="row">
-      <div class="col-md-6">
-        <p><strong>Nome:</strong> <%= cost.name %></p>
-        <p><strong>Descrição:</strong> <%= cost.description %></p>
-        <p><strong>Valor:</strong> R$ <%= number_with_precision(cost.amount, precision: 2) %></p>
-      </div>
-      <div class="col-md-6">
-        <p><strong>Categoria:</strong> <%= cost.category %></p>
-        <p><strong>Status do Pagamento:</strong> <%= cost.payment_status %></p>
-        <p><strong>Data de Vencimento:</strong> <%= cost.due_date %></p>
+  <div class="row g-3">
+    <%# Informações Principais %>
+    <div class="col-12">
+      <div class="card bg-light border-0">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-3 text-body-secondary">Informações Principais</h6>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div>
+                <small class="text-muted d-block">Nome</small>
+                <strong><%= cost.name %></strong>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div>
+                <small class="text-muted d-block">Valor</small>
+                <strong>R$ <%= number_with_precision(cost.amount, precision: 2) %></strong>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  <% end %>
+
+    <%# Informações de Pagamento %>
+    <div class="col-12">
+      <div class="card bg-light border-0">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-3 text-body-secondary">Informações de Pagamento</h6>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div>
+                <small class="text-muted d-block">Data de Vencimento</small>
+                <strong><%= l(cost.due_date) %></strong>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div>
+                <small class="text-muted d-block">Status do Pagamento</small>
+                <span class="badge <%= cost.payment_status == 'paid' ? 'bg-success' : (cost.payment_status == 'pending' ? 'bg-warning' : 'bg-danger') %>">
+                  <%= t("activerecord.attributes.cost.payment_statuses.#{cost.payment_status}") %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Informações Complementares %>
+    <div class="col-12">
+      <div class="card bg-light border-0">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-3 text-body-secondary">Informações Complementares</h6>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div>
+                <small class="text-muted d-block">Categoria</small>
+                <strong><%= t("activerecord.attributes.cost.categories.#{cost.category}") %></strong>
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <div>
+                <small class="text-muted d-block">Descrição</small>
+                <p class="mb-0"><%= cost.description.presence || "Nenhuma descrição fornecida" %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <% content_for :footer do %>
+  <button type="button" class="btn btn-secondary" data-action="click->modal#close">Cancelar</button>
     <%= link_to edit_store_area_financial_income_statement_cost_path(cost.income_statement.store_id, cost.income_statement, cost), 
-        class: "btn btn-primary" do %>
-      <i class="fas fa-edit"></i> Editar
+        class: "btn btn-primary",
+        data: { turbo_frame: "modal" } do %>
+      Editar
     <% end %>
   <% end %>
 <% end %>

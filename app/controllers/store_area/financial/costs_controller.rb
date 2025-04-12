@@ -18,12 +18,8 @@ module StoreArea
               render turbo_stream: turbo_stream.update(
                 "costs-index",
                 partial: "store_area/financial/costs/index",
-                locals: { income_statement: @income_statement, costs: @income_statement.costs }
+                locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
               )
-            }
-            format.html {
-              redirect_to store_area_financial_income_statement_path(@income_statement.store_id, @income_statement),
-                          notice: "Custo adicionado com sucesso"
             }
           else
             format.turbo_stream {
@@ -32,10 +28,6 @@ module StoreArea
                 partial: "store_area/financial/costs/form",
                 locals: { income_statement: @income_statement, cost: @cost }
               )
-            }
-            format.html {
-              redirect_to store_area_financial_income_statement_path(@income_statement.store_id, @income_statement),
-                          alert: "Erro ao adicionar custo: #{@cost.errors.full_messages.join(', ')}"
             }
           end
         end
@@ -50,18 +42,30 @@ module StoreArea
       end
 
       def update
-        if @cost.update(cost_params)
-          redirect_to store_area_financial_income_statement_path(@income_statement.store_id, @income_statement),
-                      notice: "Custo atualizado com sucesso"
-        else
-          render :edit
+        respond_to do |format|
+          if @cost.update(cost_params)
+            format.turbo_stream {
+              render turbo_stream: turbo_stream.update(
+                "costs-index",
+                partial: "store_area/financial/costs/index",
+                locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
+              )
+            }
+          end
         end
       end
 
       def destroy
         @cost.destroy
-        redirect_to store_area_financial_income_statement_path(@income_statement.store_id, @income_statement),
-                    notice: "Custo excluído com sucesso"
+        respond_to do |format|
+          format.turbo_stream {
+            render turbo_stream: turbo_stream.update(
+              "costs-index",
+              partial: "store_area/financial/costs/index",
+              locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
+            )
+          }
+        end
       end
 
       private

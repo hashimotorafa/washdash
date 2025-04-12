@@ -4,43 +4,52 @@
       <%= link_to new_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement), 
         data: { turbo_frame: "modal" },
         class: "btn btn-primary" do %>
-      <i class="fas fa-edit"></i> Novo Custo
-    <% end %>
+          <i class="fas fa-edit"></i> Novo Custo
+      <% end %>
     </div>
 
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
           <tr>
+            <th>Vencimento</th>
             <th>Nome</th>
             <th>Categoria</th>
             <th>Status</th>
             <th>Valor</th>
-            <th>Vencimento</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <% income_statement.costs.order(due_date: :asc).each do |cost| %>
             <tr>
-              <td><%= cost.due_date %></td>
+              <td><%= l(cost.due_date, format: :short) %></td>
               <td><%= cost.name %></td>
-              <td><%= cost.category %></td>
-              <td><%= cost.payment_status %></td>
+              <td><%= t("activerecord.attributes.cost.categories.#{cost.category}") %></td>
+              <td>
+                <span class="badge <%= cost.payment_status == 'paid' ? 'bg-success' : (cost.payment_status == 'pending' ? 'bg-warning' : 'bg-danger') %>">
+                  <%= t("activerecord.attributes.cost.payment_statuses.#{cost.payment_status}") %>
+                </span>
+              </td>
               <td>R$ <%= number_with_precision(cost.amount, precision: 2) %></td>
               <td>
                 <div class="btn-group">
-                  <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost), 
-                      class: "btn btn-sm btn-outline-info", data: { turbo: true, turbo_frame: "modal" } do %>
-                    <i class="cil cil-eye"></i>
+                  <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                      class: "btn btn-sm btn-outline-info", data: { turbo_frame: "modal" } do %>
+                    <i class="cil cil-description"></i>
                   <% end %>
-                  <%= link_to edit_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost), 
-                      class: "btn btn-sm btn-outline-primary",  data: { turbo: true, turbo_frame: "modal" } do %>
+                  <%= link_to edit_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                      class: "btn btn-sm btn-outline-primary", data: { turbo_frame: "modal" } do %>
                     <i class="cil cil-pencil"></i>
                   <% end %>
-                  <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                  <%= button_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
                       method: :delete,
-                      data: { confirm: "Tem certeza que deseja excluir este custo?" },
+                      form: {
+                        data: {
+                          turbo_confirm: "Tem certeza que deseja excluir este custo?",
+                          turbo_frame: "costs-index"
+                        }
+                      },
                       class: "btn btn-sm btn-outline-danger" do %>
                     <i class="cil cil-trash"></i>
                   <% end %>
