@@ -3,7 +3,7 @@
     <div class="fw-semibold"><%= cycle.customer.name %></div>
     <div class="small text-medium-emphasis"><%= cycle.customer.email %></div>
   </td>
-  <td><%= cycle.machine_type %></td>
+  <td><%= "#{cycle.machine_type} - #{cycle.machine_number}" %></td>
   <td>
     <span class="badge <%= cycle_status_badge_class(cycle.status) %>">
       <%= cycle.status.humanize %>

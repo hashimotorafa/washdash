@@ -1,0 +1,29 @@
+<%# List Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">Ciclos de Lavagem</h4>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th><%= sort_link(@q, :customer_name, 'Cliente') %></th>
+            <th><%= sort_link(@q, :machine_type, 'Máquina') %></th>
+            <th><%= sort_link(@q, :status, 'Status') %></th>
+            <th><%= sort_link(@q, :price, 'Preço') %></th>
+            <th><%= sort_link(@q, :created_at, 'Data') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render partial: 'cycle_row', collection: @cycles, as: :cycle %>
+        </tbody>
+      </table>
+    </div>
+
+    <%# Pagination %>
+    <div class="d-flex justify-content-center align-items-center mt-4">
+      <%= paginate @cycles, theme: 'coreui', class: 'pagination mb-0' %>
+    </div>
+  </div>
+</div>

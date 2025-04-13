@@ -34,12 +34,24 @@ module DataImporters
 
       def find_customer(row)
         @customer ||= {}
+        return @customer[row[1].value] if @customer[row[1].value].present?
 
         email = row[1].value.include?("_excluido") ? row[1].value.split("_excluido").first : row[1].value
-        @customer[row[1].value] ||= Customer.find_by!(email: email)
+        is_active = !row[1].value.include?("_excluido")
+
+        @customer[row[1].value] = Customer.find_by!(email: email).tap do |customer|
+          customer.update(is_active: is_active) if customer.is_active != is_active
+        end
+        @customer[row[1].value]
       rescue ActiveRecord::RecordNotFound => _e
         Rails.logger.error("Customer not found: #{email}")
-        @customer[row[1].value] ||= Customer.create(email: email, name: "Desconhecido", phone_number: "Desconhecido", area_code: "Desconhecido")
+        @customer[row[1].value] ||= Customer.create(
+          email: email,
+          name: "Desconhecido",
+          phone_number: "Desconhecido",
+          area_code: "Desconhecido",
+          is_active: is_active
+        )
       end
 
       def transaction_data(row)
@@ -55,9 +67,21 @@ module DataImporters
           created_at:         row[9].value.to_datetime,
           updated_at:         row[9].value.to_datetime,
           payment_method:     PAYMENT_METHODS[row[10].value],
-          transaction_id:     row[11].value,
+          transaction_id:     set_transaction_id(row),
           store_id:           @store.id
         }
+      end
+
+      def set_transaction_id(row)
+        return row[11].value if row[11].present?
+
+        if @transaction_attributes.last[:transaction_id].to_s.include?("_")
+          base_transaction_id, last_counter = @transaction_attributes.last[:transaction_id].split("_")
+
+          "#{base_transaction_id}_#{last_counter.to_i + 1}"
+        else
+          "#{@transaction_attributes.last[:transaction_id]}_1"
+        end
       end
     end
   end

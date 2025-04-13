@@ -15,6 +15,7 @@
 class Customer < ApplicationRecord
   paginates_per 25
 
+  belongs_to :store
   has_many :cycles, dependent: :destroy
   has_many :monthly_metrics, class_name: "::CustomerMonthlyMetrics", foreign_key: "customer_id"
   has_many :transactions
@@ -35,7 +36,15 @@ class Customer < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "email", "id", "name" ]
+    %w[name email phone_number area_code created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[transactions cycles monthly_metrics]
+  end
+
+  def self.ransortable_attributes(auth_object = nil)
+    %w[name email phone_number created_at total_amount]
   end
 
   def current_month_cycles
