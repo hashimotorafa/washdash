@@ -1,0 +1,68 @@
+  <%# Search Card %>
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="card-title mb-0">Filtros</h4>
+    </div>
+    <div class="card-body">
+      <%= search_form_for @q, url: store_area_cycles_path, data: { turbo_frame: "cycles_metrics cycles_list", turbo_action: "advance" } do |f| %>
+        <div class="row g-3">
+          <%# Customer fields %>
+          <div class="col-md-3">
+            <%= f.label :customer_name_cont, "Nome do Cliente", class: "form-label" %>
+            <%= f.search_field :customer_name_cont, 
+                           class: 'form-control' %>
+          </div>
+          <div class="col-md-3">
+            <%= f.label :customer_email_cont, "Email do Cliente", class: "form-label" %>
+            <%= f.search_field :customer_email_cont,
+                           class: 'form-control' %>
+          </div>
+
+          <%# Machine fields %>
+          <div class="col-md-3">
+            <%= f.label :machine_type_eq, "Tipo de Máquina", class: "form-label" %>
+            <%= f.select :machine_type_eq,
+                      [['Tipo de Máquina', ''], ['Lavadora', 'Lavadora'], ['Secadora', 'Secadora']],
+                      {},
+                      class: 'form-select' %>
+          </div>
+          <div class="col-md-3">
+            <%= f.label :machine_number_eq, "Número da Máquina", class: "form-label" %>
+            <%= f.select :machine_number_eq,
+                      [['Número da Máquina', ''], ['1', '1'], ['2', '2'], ['3', '3']],
+                      {},
+                      class: 'form-select' %>
+          </div>
+
+          <%# Status field %>
+          <div class="col-md-3">
+            <%= f.label :status_eq, "Status", class: "form-label" %>
+            <%= f.select :status_eq,
+                      [['Status', ''], ['Efetivado', 'Efetivado'], ['Estornado', 'Estornado']],
+                      {},
+                      class: 'form-select' %>
+          </div>
+
+          <%# Date range %>
+          <div class="col-md-3">
+            <%= f.label :created_at_gteq, "Data Inicial", class: "form-label" %>
+            <%= f.date_field :created_at_gteq,
+                         class: 'form-control' %>
+          </div>
+          <div class="col-md-3">
+            <%= f.label :created_at_lteq, "Data Final", class: "form-label" %>
+            <%= f.date_field :created_at_lteq,
+                         class: 'form-control' %>
+          </div>
+        </div>
+
+        <%# Submit and Clear buttons %>
+        <div class="row mt-3">
+          <div class="col-12 d-flex justify-content-end gap-2">
+            <%= link_to 'Limpar', store_area_cycles_path, class: 'btn btn-outline-secondary', data: { turbo_frame: "cycles_metrics cycles_list", turbo_action: "advance" } %>
+            <%= f.submit 'Buscar', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>

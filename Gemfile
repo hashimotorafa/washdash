@@ -24,7 +24,7 @@ gem "roo"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 gem "groupdate"
-
+gem "chartkick"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -38,7 +38,6 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "whenever"
-
 gem "sassc-rails"
 gem "selenium-webdriver"
 gem "webdrivers"

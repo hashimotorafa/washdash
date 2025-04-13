@@ -10,5 +10,8 @@
     </span>
   </td>
   <td><%= number_to_currency(cycle.price) %></td>
-  <td><%= cycle.created_at&.strftime("%Y-%m-%d %H:%M") %></td>
+  <td>
+    <div class="fw-semibold"><%= l(cycle.created_at.to_date, format: :short) %></div>
+    <div class="small text-medium-emphasis"><%= l(cycle.created_at, format: :time) %></div>
+  </td>
 </tr>

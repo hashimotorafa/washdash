@@ -27,7 +27,7 @@ class Cycle < ApplicationRecord
 
   # Ransack configuration
   def self.ransackable_attributes(auth_object = nil)
-    [ "created_at", "finished_at", "id", "machine_type", "price", "started_at", "status" ]
+    [ "created_at", "finished_at", "id", "machine_type", "machine_number", "price", "started_at", "status" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
