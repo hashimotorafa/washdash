@@ -3,18 +3,19 @@
 # Table name: customers
 #
 #  id              :bigint           not null, primary key
-#  area_code       :string           not null
-#  document_number :string
-#  email           :string           not null
 #  name            :string
+#  email           :string           not null
+#  area_code       :string           not null
 #  phone_number    :string           not null
+#  is_active       :boolean          default(TRUE)
+#  document_number :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 class Customer < ApplicationRecord
   paginates_per 25
 
-  has_many :cycles
+  has_many :cycles, dependent: :destroy
   has_many :monthly_metrics, class_name: "::CustomerMonthlyMetrics", foreign_key: "customer_id"
   has_many :transactions
   has_many :transactions_monthly_metrics, class_name: "::CustomerTransactionsMonthlyMetrics", foreign_key: "customer_id"
@@ -34,7 +35,7 @@ class Customer < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "email", "name", "phone_number" ]
+    [ "email", "id", "name" ]
   end
 
   def current_month_cycles

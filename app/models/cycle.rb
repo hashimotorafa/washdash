@@ -1,29 +1,31 @@
 # == Schema Information
-# Schema version: 20240721001550
 #
 # Table name: cycles
 #
 #  id             :bigint           not null, primary key
-#  description    :string
-#  machine_number :string
-#  machine_type   :string
-#  price          :string
+#  external_id    :bigint
 #  status         :string
+#  price          :string
+#  machine_type   :string
+#  machine_number :string
+#  description    :string
+#  customer_id    :bigint           not null
+#  store_id       :bigint           not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  customer_id    :bigint
-#  external_id    :bigint
-#  store_id       :bigint
-#
-# Indexes
-#
-#  index_cycles_on_customer_id  (customer_id)
-#  index_cycles_on_external_id  (external_id) UNIQUE
-#  index_cycles_on_store_id     (store_id)
 #
 class Cycle < ApplicationRecord
   belongs_to :customer
   belongs_to :store
+
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    [ "created_at", "finished_at", "id", "machine_type", "price", "started_at", "status" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    [ "customer" ]
+  end
 
   scope :by_store,      ->(store_id) { where(store_id: store_id) }
   scope :by_month,      ->(month)    { where(created_at: month_range(month)) }

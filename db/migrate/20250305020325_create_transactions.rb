@@ -9,7 +9,7 @@ class CreateTransactions < ActiveRecord::Migration[7.2]
       t.string :royalties
       t.string :amount_receivable
       t.integer :payment_method
-      t.bigint :transaction_id
+      t.string :transaction_id
       t.references :customer, null: false, foreign_key: true
       t.references :store, null: false, foreign_key: true
       t.timestamps

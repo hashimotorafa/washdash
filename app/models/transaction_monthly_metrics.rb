@@ -1,4 +1,24 @@
-
+# == Schema Information
+#
+# Table name: transaction_monthly_metrics
+#
+#  customer_id              :bigint
+#  area_code                :string
+#  store_id                 :bigint           primary key
+#  month                    :datetime
+#  card                     :bigint
+#  card_reversal            :bigint
+#  pix                      :bigint
+#  pix_reversal             :bigint
+#  voucher                  :bigint
+#  total_transactions       :bigint
+#  total_spent              :decimal(, )
+#  total_receivable         :decimal(, )
+#  total_before_tax         :decimal(, )
+#  total_royalties          :decimal(, )
+#  total_fup                :decimal(, )
+#  total_payment_method_tax :decimal(, )
+#
 #
 class TransactionMonthlyMetrics < ApplicationRecord
   self.primary_key = :store_id

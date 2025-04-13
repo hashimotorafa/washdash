@@ -2,25 +2,20 @@
 #
 # Table name: customer_monthly_metrics
 #
-#  active_days          :bigint
+#  customer_id          :bigint
 #  area_code            :string
-#  avg_cycles_per_visit :bigint
-#  canceled_cycles      :bigint
-#  dryer_cycles         :bigint
-#  first_visit          :datetime
-#  last_visit           :datetime
+#  store_id             :bigint           primary key
 #  month                :datetime
-#  total_cycles         :bigint
-#  total_spent          :decimal(, )
 #  visits               :bigint
 #  washer_cycles        :bigint
-#  customer_id          :bigint
-#  store_id             :bigint           primary key
-#
-# Indexes
-#
-#  index_customer_monthly_metrics_on_customer_id  (customer_id)
-#  index_customer_monthly_metrics_on_store_id     (store_id)
+#  dryer_cycles         :bigint
+#  canceled_cycles      :bigint
+#  total_cycles         :bigint
+#  avg_cycles_per_visit :bigint
+#  last_visit           :datetime
+#  first_visit          :datetime
+#  total_spent          :decimal(, )
+#  active_days          :bigint
 #
 class CustomerMonthlyMetrics < ApplicationRecord
   self.primary_key = :store_id

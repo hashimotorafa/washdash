@@ -1,0 +1,58 @@
+<%# Customers List Section %>
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-title mb-0">Clientes</h5>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Status</th>
+            <th>Última Compra</th>
+            <th>Total Gasto</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @customers.each do |customer| %>
+            <tr>
+              <td><%= customer.name %></td>
+              <td><%= customer.email %></td>
+              <td><%= "(#{customer.area_code}) #{customer.phone_number}" %></td>
+              <td>
+                <span class="badge <%= customer.is_active? ? 'bg-success' : 'bg-danger' %>">
+                  <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
+                </span>
+              </td>
+              <td>
+                <% if customer.transactions.last %>
+                  <%= l(customer.transactions.last.created_at, format: :short) %>
+                <% else %>
+                  <span class="text-muted">Sem compras</span>
+                <% end %>
+              </td>
+              <td>
+                R$ <%= number_with_precision(customer.transactions.sum(:amount), precision: 2) %>
+              </td>
+              <td>
+                <div class="btn-group">
+                  <%= link_to store_area_customer_path(@current_store.id, customer),
+                      class: "btn btn-sm btn-outline-info",
+                      data: { turbo_frame: "modal" } do %>
+                    <i class="cil-eye"></i>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

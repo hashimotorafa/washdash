@@ -1,64 +1,77 @@
-<div class="row">
-  <div class="col-12">
-    <div class="d-flex align-items-right mb-3">
-      <%= link_to new_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement), 
-        data: { turbo_frame: "modal" },
-        class: "btn btn-primary" do %>
-          <i class="fas fa-edit"></i> Novo Custo
-      <% end %>
+<div class="card border-0 shadow-sm h-100 bg-light">
+  <div class="card-body">
+    <%# Custos Operacionais %>
+    <div class="mb-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex align-items-right mb-3">
+            <%= link_to new_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement), 
+              data: { turbo_frame: "modal" },
+              class: "btn btn-primary" do %>
+                <i class="fas fa-edit"></i> Novo Custo
+            <% end %>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Vencimento</th>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Status</th>
+                  <th>Valor</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% income_statement.costs.order(due_date: :asc).each do |cost| %>
+                  <tr>
+                    <td><%= l(cost.due_date, format: :short) %></td>
+                    <td><%= cost.name %></td>
+                    <td><%= t("activerecord.attributes.cost.categories.#{cost.category}") %></td>
+                    <td>
+                      <span class="badge <%= cost.payment_status == 'paid' ? 'bg-success' : (cost.payment_status == 'pending' ? 'bg-warning' : 'bg-danger') %>">
+                        <%= t("activerecord.attributes.cost.payment_statuses.#{cost.payment_status}") %>
+                      </span>
+                    </td>
+                    <td>R$ <%= number_with_precision(cost.amount, precision: 2) %></td>
+                    <td>
+                      <div class="btn-group">
+                        <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                            class: "btn btn-sm btn-outline-info", data: { turbo_frame: "modal" } do %>
+                          <i class="cil cil-description"></i>
+                        <% end %>
+                        <%= link_to edit_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                            class: "btn btn-sm btn-outline-primary", data: { turbo_frame: "modal" } do %>
+                          <i class="cil cil-pencil"></i>
+                        <% end %>
+                        <%= button_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
+                            method: :delete,
+                            form: {
+                              data: {
+                                turbo_confirm: "Tem certeza que deseja excluir este custo?",
+                                turbo_frame: "costs-index"
+                              }
+                            },
+                            class: "btn btn-sm btn-outline-danger" do %>
+                          <i class="cil cil-trash"></i>
+                        <% end %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Vencimento</th>
-            <th>Nome</th>
-            <th>Categoria</th>
-            <th>Status</th>
-            <th>Valor</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% income_statement.costs.order(due_date: :asc).each do |cost| %>
-            <tr>
-              <td><%= l(cost.due_date, format: :short) %></td>
-              <td><%= cost.name %></td>
-              <td><%= t("activerecord.attributes.cost.categories.#{cost.category}") %></td>
-              <td>
-                <span class="badge <%= cost.payment_status == 'paid' ? 'bg-success' : (cost.payment_status == 'pending' ? 'bg-warning' : 'bg-danger') %>">
-                  <%= t("activerecord.attributes.cost.payment_statuses.#{cost.payment_status}") %>
-                </span>
-              </td>
-              <td>R$ <%= number_with_precision(cost.amount, precision: 2) %></td>
-              <td>
-                <div class="btn-group">
-                  <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
-                      class: "btn btn-sm btn-outline-info", data: { turbo_frame: "modal" } do %>
-                    <i class="cil cil-description"></i>
-                  <% end %>
-                  <%= link_to edit_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
-                      class: "btn btn-sm btn-outline-primary", data: { turbo_frame: "modal" } do %>
-                    <i class="cil cil-pencil"></i>
-                  <% end %>
-                  <%= button_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
-                      method: :delete,
-                      form: {
-                        data: {
-                          turbo_confirm: "Tem certeza que deseja excluir este custo?",
-                          turbo_frame: "costs-index"
-                        }
-                      },
-                      class: "btn btn-sm btn-outline-danger" do %>
-                    <i class="cil cil-trash"></i>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <%# Total de Custos e Despesas %>
+    <div class="d-flex justify-content-between align-items-center  pt-2 mt-3">
+      <span class="fw-bold">Total de Custos e Despesas</span>
+      <span class="fw-bold text-danger">R$ <%= number_with_precision(@income_statement.total_expenses, precision: 2) %></span>
     </div>
   </div>
 </div>

@@ -23,11 +23,10 @@ module DataImporters
             @customers << find_or_initialize_customer(customer_data(row))
           else
             cycle_data = cycle_data(row)
-            unless @customers.last.persisted?
-              create_customer(@customers.last, cycle_data[:created_at])
-              @customers.last.reload
-            end
-            @cycles_attributes << cycle_data.merge({ customer_id: @customers.last.id, store_id:  @store.id })
+            customer = @customers.last
+            customer = create_customer(customer, cycle_data[:created_at]) unless customer.persisted?
+
+            @cycles_attributes << cycle_data.merge({ customer_id: customer.id, store_id: @store.id })
           end
         end
         Cycle.upsert_all(@cycles_attributes, unique_by: :external_id)
@@ -78,6 +77,7 @@ module DataImporters
         customer.created_at = created_at
         customer.updated_at = created_at
         customer.save
+        customer
       end
     end
   end

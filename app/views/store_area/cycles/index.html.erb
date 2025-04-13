@@ -1,0 +1,168 @@
+<%# Main content container %>
+<div class="container-lg px-4">
+  <%# Charts Card %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4 class="card-title mb-0">Análise de Ciclos</h4>
+    </div>
+    <div class="card-body">
+      <div class="row" data-controller="charts">
+        <%# Status distribution chart %>
+        <div class="col-sm-6 col-lg-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5 class="card-title mb-0">Distribuição por Status</h5>
+                  <div class="small text-medium-emphasis">Últimos 30 dias</div>
+                </div>
+              </div>
+              <div class="c-chart-wrapper mt-3">
+                <canvas class="chart" id="status-chart"
+                  data-coreui-chart="bar"
+                  data-coreui-dataset-label="Status"
+                  data-coreui-labels="<%= @cycles_by_status.keys.to_json.html_safe %>"
+                  data-coreui-dataset-data="<%= @cycles_by_status.values.to_json.html_safe %>">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%# Daily cycles chart %>
+        <div class="col-sm-6 col-lg-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5 class="card-title mb-0">Ciclos por Dia</h5>
+                  <div class="small text-medium-emphasis">Últimos 30 dias</div>
+                </div>
+              </div>
+              <div class="c-chart-wrapper mt-3">
+                <canvas class="chart" id="daily-chart"
+                  data-coreui-chart="line"
+                  data-coreui-dataset-label="Ciclos"
+                  data-coreui-labels="<%= @cycles_by_day.keys.map { |date| date.strftime("%d/%m") }.to_json.html_safe %>"
+                  data-coreui-dataset-data="<%= @cycles_by_day.values.to_json.html_safe %>">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Search Card %>
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="card-title mb-0">Filtros</h4>
+      <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#importModal">
+        <i class="fas fa-file-import me-1"></i>
+        Importar Relatório de Ciclos
+      </button>
+    </div>
+    <div class="card-body">
+      <%= search_form_for @q, url: store_area_cycles_path do |f| %>
+        <div class="row g-3">
+          <%# Customer fields %>
+          <div class="col-md-3">
+            <%= f.search_field :customer_name_cont, 
+                           class: 'form-control', 
+                           placeholder: 'Nome do Cliente' %>
+          </div>
+          <div class="col-md-3">
+            <%= f.search_field :customer_email_cont, 
+                           class: 'form-control', 
+                           placeholder: 'Email do Cliente' %>
+          </div>
+
+          <%# Date range %>
+          <div class="col-md-3">
+            <%= f.date_field :created_at_gteq, 
+                         class: 'form-control', 
+                         placeholder: 'Data Inicial' %>
+          </div>
+          <div class="col-md-3">
+            <%= f.date_field :created_at_lteq, 
+                         class: 'form-control', 
+                         placeholder: 'Data Final' %>
+          </div>
+        </div>
+
+        <%# Submit and Clear buttons %>
+        <div class="row mt-3">
+          <div class="col-12 d-flex justify-content-end gap-2">
+            <%= link_to 'Limpar', store_area_cycles_path, class: 'btn btn-outline-secondary' %>
+            <%= f.submit 'Buscar', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# List Card %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4 class="card-title mb-0">Ciclos de Lavagem</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th><%= sort_link(@q, :customer_name, 'Cliente') %></th>
+              <th><%= sort_link(@q, :machine_type, 'Máquina') %></th>
+              <th><%= sort_link(@q, :status, 'Status') %></th>
+              <th><%= sort_link(@q, :price, 'Preço') %></th>
+              <th><%= sort_link(@q, :created_at, 'Data') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: 'cycle', collection: @cycles %>
+          </tbody>
+        </table>
+      </div>
+
+      <%# Pagination %>
+      <div class="d-flex justify-content-center mt-3">
+        <%= paginate @cycles %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Import Modal %>
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">Importar Relatório de Ciclos</h5>
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag import_cycles_store_area_cycles_path(@current_store.id), multipart: true do %>
+          <div class="mb-3">
+            <label for="file" class="form-label">Selecione o arquivo</label>
+            <%= file_field_tag :file, class: 'form-control', accept: '.xlsx,.xls', required: true %>
+            <div class="form-text">Formatos aceitos: .xlsx, .xls</div>
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary" data-coreui-dismiss="modal">Cancelar</button>
+            <%= submit_tag 'Importar', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Cycle Details Modal %>
+<div class="modal fade" id="cycleModal" tabindex="-1" aria-labelledby="cycleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= turbo_frame_tag "cycle-modal" %>
+    </div>
+  </div>
+</div>

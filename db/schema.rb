@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_07_213955) do
     t.string "email", null: false
     t.string "area_code", null: false
     t.string "phone_number", null: false
+    t.boolean "is_active", default: true
     t.string "document_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -116,7 +117,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_07_213955) do
     t.string "royalties"
     t.string "amount_receivable"
     t.integer "payment_method"
-    t.bigint "transaction_id"
+    t.string "transaction_id"
     t.bigint "customer_id", null: false
     t.bigint "store_id", null: false
     t.datetime "created_at", null: false

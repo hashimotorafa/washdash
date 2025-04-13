@@ -1,0 +1,14 @@
+<tr id="<%= dom_id(cycle) %>">
+  <td>
+    <div class="fw-semibold"><%= cycle.customer.name %></div>
+    <div class="small text-medium-emphasis"><%= cycle.customer.email %></div>
+  </td>
+  <td><%= cycle.machine_type %></td>
+  <td>
+    <span class="badge <%= cycle_status_badge_class(cycle.status) %>">
+      <%= cycle.status.humanize %>
+    </span>
+  </td>
+  <td><%= number_to_currency(cycle.price) %></td>
+  <td><%= cycle.created_at&.strftime("%Y-%m-%d %H:%M") %></td>
+</tr>

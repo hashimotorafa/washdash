@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  id              :bigint           not null, primary key
+#  name            :string
+#  city            :string
+#  state           :string
+#  status          :integer          default("active")
+#  document_number :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class Company < ApplicationRecord
   # Enums
   enum status: {

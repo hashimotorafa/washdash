@@ -19,6 +19,7 @@ store_attributes = credentials[:store].with_indifferent_access.merge(company_id:
 User.find_or_create_by(email: user_attributes[:email]) do |user|
   user.assign_attributes(user_attributes)
 end
+
 puts 'User created'
 
 Store.find_or_create_by(store_attributes)

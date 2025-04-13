@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: income_statements
+#
+#  id         :bigint           not null, primary key
+#  store_id   :bigint           not null
+#  year       :integer
+#  month      :integer
+#  net_profit :decimal(10, 2)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class IncomeStatement < ApplicationRecord
   belongs_to :store
   has_many :transactions, through: :store
@@ -21,7 +33,7 @@ class IncomeStatement < ApplicationRecord
   end
 
   def total_before_tax
-    transactions_monthly_metrics.sum(:total_before_tax)
+    transactions_monthly_metrics.sum(:total_spent)
   end
 
   def total_royalties
@@ -34,6 +46,10 @@ class IncomeStatement < ApplicationRecord
 
   def total_payment_method_tax
     transactions_monthly_metrics.sum(:total_payment_method_tax)
+  end
+
+  def total_after_payment_method_tax
+    total_before_tax - total_payment_method_tax
   end
 
   def total_receivable

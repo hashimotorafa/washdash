@@ -5,14 +5,14 @@
       <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
         <i class="nav-icon cil-speedometer"></i> Dashboard
       <% end %>
-      <%= link_to company_area_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
+      <%= link_to store_area_customers_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'customers'}" do %>
         <i class="nav-icon cil-people"></i> Clientes
       <% end %>
-      <%= link_to company_area_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+      <%= link_to store_area_cycles_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'cycles'}" do %>
         <i class="nav-icon cil-clock"></i> Ciclos
       <% end %>
       <li class="nav-group">
-        <a class="nav-link nav-group-toggle" href="#">
+        <a class="nav-link nav-group-toggle #{'active' if controller_name == 'income_statements'}" href="#">
           <i class="nav-icon cil-dollar"></i> Financeiro
         </a>
         <ul class="nav-group-items">

@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: costs
+#
+#  id                  :bigint           not null, primary key
+#  name                :string
+#  income_statement_id :bigint           not null
+#  store_id            :bigint           not null
+#  amount              :decimal(10, 2)
+#  description         :string
+#  category            :integer
+#  payment_method      :integer
+#  payment_status      :integer
+#  payment_date        :date
+#  due_date            :date
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
 class Cost < ApplicationRecord
   belongs_to :income_statement
   belongs_to :store
