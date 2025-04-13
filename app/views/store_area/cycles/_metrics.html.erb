@@ -1,7 +1,11 @@
 <%# Charts Card %>
 <div class="card mb-4">
-  <div class="card-header">
+  <div class="card-header d-flex justify-content-between align-items-center">
     <h4 class="card-title mb-0">Análise de Ciclos</h4>
+    <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#importModal">
+      <i class="cil-data-transfer-up me-1"></i>
+      Importar Relatório de Ciclos
+    </button>
   </div>
   <div class="card-body">
     <%= turbo_frame_tag "cycles_metrics", target: "_top" do %>
@@ -56,5 +60,30 @@
         </div>
       </div>
     <% end %>
+  </div>
+</div>
+
+<%# Import Modal %>
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">Importar Relatório de Ciclos</h5>
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag import_cycles_store_area_cycles_path(@current_store.id), multipart: true do %>
+          <div class="mb-3">
+            <label for="file" class="form-label">Selecione o arquivo</label>
+            <%= file_field_tag :file, class: 'form-control', accept: '.xlsx,.xls', required: true %>
+            <div class="form-text">Formatos aceitos: .xlsx, .xls</div>
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary" data-coreui-dismiss="modal">Cancelar</button>
+            <%= submit_tag 'Importar', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

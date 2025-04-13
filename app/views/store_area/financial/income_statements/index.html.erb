@@ -4,7 +4,27 @@
     <h5 class="card-title mb-0">Resultado Financeiro por Período</h5>
   </div>
   <div class="card-body">
-    <canvas id="financialResultChart" height="100"></canvas>
+    <%= column_chart [
+      { name: "Faturamento", data: @income_statements.map { |s| ["#{s.month}/#{s.year}", s.total_receivable || 0] } },
+      { name: "Despesas", data: @income_statements.map { |s| ["#{s.month}/#{s.year}", s.total_expenses || 0] } },
+      { name: "Resultado", data: @income_statements.map { |s| ["#{s.month}/#{s.year}", s.net_income || 0] } }
+    ],
+    colors: ["#28a745", "#dc3545", "#007bff"],
+    library: {
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: "function(value) { return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2}); }"
+          }
+        }
+      }
+    } %>
   </div>
 </div>
 
@@ -12,13 +32,11 @@
 <div class="card">
   <div class="card-header d-flex justify-content-between align-items-center">
     <h5 class="card-title mb-0">Demonstrações de Resultado</h5>
-    <%= link_to new_store_area_financial_income_statement_path(@current_store.id), class: "btn btn-primary" do %>
-      <i class="fas fa-plus"></i> Nova DRE
-    <% end %>
+    <%= link_to "Nova DRE", new_store_area_financial_income_statement_path(@current_store.id), class: "btn btn-primary" %>
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover align-middle">
         <thead>
           <tr>
             <th>Competência</th>
@@ -32,29 +50,40 @@
           <% @income_statements.each do |statement| %>
             <tr>
               <td>
-                <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id) do %>
-                  <%= statement.month %>/<%= statement.year %>
+                <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id), class: "text-decoration-none" do %>
+                  <span class="fw-semibold"><%= "#{statement.month.to_s.rjust(2, '0')}/#{statement.year}" %></span>
                 <% end %>
               </td>
-              <td>R$ <%= number_with_precision(statement.total_receivable, precision: 2) %></td>
-              <td>R$ <%= number_with_precision(statement.total_expenses, precision: 2) %></td>
+              <td>
+                <span class="text-success">R$ <%= number_with_precision(statement.total_receivable, precision: 2) %></span>
+              </td>
+              <td>
+                <span class="text-danger">R$ <%= number_with_precision(statement.total_expenses, precision: 2) %></span>
+              </td>
               <td>
                 <% net_profit = statement.net_income %>
                 <span class="<%= net_profit >= 0 ? 'text-success' : 'text-danger' %>">
                   R$ <%= number_with_precision(net_profit.abs, precision: 2) %>
-                  <small><%= net_profit >= 0 ? '(lucro)' : '(prejuízo)' %></small>
+                  <small class="text-muted"><%= net_profit >= 0 ? '(lucro)' : '(prejuízo)' %></small>
                 </span>
               </td>
               <td>
                 <div class="btn-group">
-                  <%= link_to edit_store_area_financial_income_statement_path(@current_store.id, statement.id), class: "btn btn-sm btn-outline-primary" do %>
-                    <i class="fas fa-edit"></i>
+                  <%= link_to edit_store_area_financial_income_statement_path(@current_store.id, statement.id), 
+                      class: "btn btn-sm btn-outline-primary",
+                      data: { bs_toggle: "tooltip", bs_placement: "top", title: "Editar" } do %>
+                    <i class="cil-pencil"></i>
                   <% end %>
                   <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id), 
                       method: :delete,
-                      data: { confirm: "Tem certeza que deseja excluir esta DRE?" },
+                      data: { 
+                        confirm: "Tem certeza que deseja excluir esta DRE?",
+                        bs_toggle: "tooltip",
+                        bs_placement: "top",
+                        title: "Excluir"
+                      },
                       class: "btn btn-sm btn-outline-danger" do %>
-                    <i class="fas fa-trash"></i>
+                    <i class="cil-trash"></i>
                   <% end %>
                 </div>
               </td>
@@ -65,71 +94,3 @@
     </div>
   </div>
 </div>
-
-<%# Chart.js initialization %>
-<% content_for :page_scripts do %>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ctx = document.getElementById('financialResultChart').getContext('2d');
-      const data = {
-        labels: <%= raw @income_statements.map { |s| "#{s.month}/#{s.year}" }.to_json %>,
-        datasets: [
-          {
-            label: 'Faturamento',
-            data: <%= raw @income_statements.map { |s| s.total_receivable || 0 }.to_json %>,
-            backgroundColor: 'rgba(40, 167, 69, 0.5)',
-            borderColor: 'rgba(40, 167, 69, 1)',
-            borderWidth: 1,
-            order: 3
-          },
-          {
-            label: 'Despesas',
-            data: <%= raw @income_statements.map { |s| s.total_expenses || 0 }.to_json %>,
-            backgroundColor: 'rgba(220, 53, 69, 0.5)',
-            borderColor: 'rgba(220, 53, 69, 1)',
-            borderWidth: 1,
-            order: 2
-          },
-          {
-            label: 'Resultado',
-            data: <%= raw @income_statements.map { |s| s.net_income || 0 }.to_json %>,
-            type: 'line',
-            borderColor: 'rgba(0, 123, 255, 1)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(0, 123, 255, 1)',
-            fill: false,
-            order: 1
-          }
-        ]
-      };
-
-      new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return 'R$ ' + value.toLocaleString('pt-BR');
-                }
-              }
-            }
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return context.dataset.label + ': R$ ' + context.raw.toLocaleString('pt-BR');
-                }
-              }
-            }
-          }
-        }
-      });
-    });
-  </script>
-<% end %>

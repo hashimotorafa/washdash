@@ -1,7 +1,7 @@
 # WashDash - Histórico do Projeto
 
 ## Sobre o Projeto
-O WashDash é um sistema desenvolvido para gerenciar e monitorar operações de lavanderias self-service, com foco especial na integração com a rede Wash&Go. O projeto visa automatizar e otimizar processos de importação de dados, gestão de clientes e monitoramento de ciclos de lavagem/secagem.
+O WashDash é um sistema desenvolvido para gerenciar e monitorar operações de lavanderias self-service, com foco especial na integração com a rede Wash&Go. O projeto visa automatizar e otimizar processos de importação de dados, gestão de clientes e monitoramento de ciclos de lavagem e secagem.
 
 ## Padrões de Código
 
@@ -80,4 +80,150 @@ O projeto está estruturado para permitir:
 - Hotwire (Turbo e Stimulus)
 - CoreUI
 - PostgreSQL (banco de dados)
-- Roo (processamento de Excel) 
+- Roo (processamento de Excel)
+- Chartkick (visualização de dados e gráficos)
+- Groupdate (agrupamento e análise temporal de dados)
+
+## Estrutura do Banco de Dados
+
+### Tabelas Principais
+
+1. **Stores (Lojas)**
+   - Representa as unidades de lavanderia
+   - Campos principais: nome, endereço, CNPJ, configurações
+   - Relacionamentos:
+     - has_many :customers (clientes)
+     - has_many :cycles (ciclos)
+     - has_many :costs (custos)
+     - has_many :transactions (transações)
+
+2. **Customers (Clientes)**
+   - Armazena informações dos clientes
+   - Campos principais: nome, email, telefone, status
+   - Relacionamentos:
+     - belongs_to :store (loja)
+     - has_many :cycles (ciclos)
+     - has_many :transactions (transações)
+
+3. **Cycles (Ciclos)**
+   - Registra cada ciclo de operação (lavagem ou secagem)
+   - Campos principais:
+     - machine_type (tipo de máquina: lavadora/secadora)
+     - status (pendente, em_andamento, concluído, cancelado)
+     - price (preço)
+     - started_at (início)
+     - finished_at (término)
+   - Relacionamentos:
+     - belongs_to :store (loja)
+     - belongs_to :customer (cliente)
+     - has_one :transaction (transação)
+
+4. **Transactions (Transações)**
+   - Controla as transações financeiras
+   - Campos principais: valor, data, tipo, status
+   - Relacionamentos:
+     - belongs_to :store (loja)
+     - belongs_to :customer (cliente)
+     - belongs_to :cycle (ciclo)
+
+5. **Costs (Custos)**
+   - Gerencia custos e despesas da operação
+   - Campos principais: descrição, valor, categoria, data
+   - Relacionamentos:
+     - belongs_to :store (loja)
+     - belongs_to :cost_category (categoria)
+
+### Tabelas de Suporte
+
+1. **CostCategories (Categorias de Custo)**
+   - Categorização dos custos e despesas
+   - Campos principais: nome, descrição, tipo
+   - Relacionamentos:
+     - has_many :costs (custos)
+
+2. **Settings (Configurações)**
+   - Configurações específicas por loja
+   - Campos principais: chave, valor, tipo
+   - Relacionamentos:
+     - belongs_to :store (loja)
+
+### Características do Schema
+
+1. **Índices Otimizados**
+   - Índices em chaves estrangeiras
+   - Índices compostos para buscas frequentes
+   - Índices para campos de ordenação comum
+
+2. **Constraints de Integridade**
+   - Chaves estrangeiras com delete cascade quando apropriado
+   - Validações de unicidade
+   - Checks para valores válidos
+
+3. **Campos Temporais**
+   - Timestamps padrão (created_at, updated_at)
+   - Campos específicos para datas de negócio
+   - Suporte a timezone
+
+### Gems para Análise de Dados
+1. **Chartkick**
+   - Geração de gráficos interativos
+   - Integração com JavaScript moderno
+   - Suporte a diversos tipos de visualizações
+   - Customização flexível de aparência
+
+2. **Groupdate**
+   - Agrupamento inteligente de dados por períodos
+   - Suporte a diferentes granularidades (hora, dia, semana, mês)
+   - Tratamento automático de fusos horários
+   - Otimização de queries no PostgreSQL
+
+# Histórico de Alterações
+
+### Adicionado
+- Implementação inicial do sistema de lavanderia
+- Funcionalidades básicas de gerenciamento de ciclos
+- Interface de usuário com CoreUI
+- Autenticação de usuários
+- Relatórios e métricas básicas
+
+### Melhorias
+- Otimização de consultas no banco de dados
+- Melhoria na performance das views
+- Refatoração de código para melhor manutenibilidade
+- Adição de testes automatizados
+- Implementação de boas práticas de desenvolvimento
+
+### Observações
+- É recomendado utilizar scopes ao invés de escrever queries Active Record diretamente nos controllers para melhor organização e reutilização do código
+
+## 📈 Métricas de Negócio Relevantes - WashDash
+
+Estas métricas foram definidas para apoiar decisões estratégicas baseadas em dados e garantir a prosperidade das lavanderias self-service integradas ao WashDash. Elas estão organizadas em três categorias principais:
+
+### 💰 Financeiras
+- **Faturamento Mensal por Loja**: Total de transações concluídas por loja/mês.
+- **Lucro Operacional (DRE)**: Faturamento menos custos fixos e variáveis.
+- **Ticket Médio por Cliente**: Valor médio gasto por cliente.
+- **Custo por Ciclo**: Custo total dividido pelo número de ciclos executados.
+- **Taxa de Estorno**: Proporção de transações canceladas ou estornadas.
+
+### ⚙️ Operacionais
+- **Ciclos por Máquina por Dia**: Volume de uso diário por tipo de máquina.
+- **Tempo Médio de Ciclo**: Tempo médio de execução dos ciclos.
+- **Taxa de Ocupação por Máquina**: Proporção de tempo que a máquina esteve em uso.
+- **Ciclos Cancelados vs Concluídos**: Indicador de falhas operacionais.
+- **Custos por Categoria**: Agrupamento dos custos por tipo (água, energia, manutenção etc).
+
+### 👥 Relacionamento com o Cliente
+- **Clientes Ativos por Mês**: Clientes que utilizaram ao menos um ciclo no mês.
+- **Frequência Média por Cliente**: Número médio de ciclos por cliente/mês.
+- **Tempo Médio desde Último Uso**: Identificação de clientes inativos.
+- **Churn de Clientes**: Percentual de clientes que não retornam após certo período.
+- **Clientes por Código de Área**: Distribuição geográfica da base de clientes.
+
+### 🎯 Uso Estratégico
+Essas métricas permitem:
+- Identificar gargalos operacionais e oportunidades de otimização
+- Monitorar saúde financeira das lojas
+- Melhorar a retenção e engajamento dos clientes
+- Guiar ações promocionais e decisões de expansão
