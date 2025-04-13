@@ -1,58 +1,65 @@
-<%# Customers List Section %>
-<div class="card">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <h5 class="card-title mb-0">Clientes</h5>
-  </div>
+<%# Main content container %>
+<div class="container-lg px-4">
+  <%= render 'store_area/customers/metrics' %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4 class="card-title mb-0">
+        Busca de Clientes
+      </h4>
+    </div>
+    <div class="card-body">
+      <%= search_form_for @q, url: store_area_customers_path(@current_store.id), class: "row g-3" do |f| %>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <%= f.search_field :name_cont, class: "form-control", placeholder: "Nome do cliente" %>
+            <%= f.label :name_cont, "Nome do cliente" %>
+          </div>
+        </div>
 
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Status</th>
-            <th>Última Compra</th>
-            <th>Total Gasto</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @customers.each do |customer| %>
-            <tr>
-              <td><%= customer.name %></td>
-              <td><%= customer.email %></td>
-              <td><%= "(#{customer.area_code}) #{customer.phone_number}" %></td>
-              <td>
-                <span class="badge <%= customer.is_active? ? 'bg-success' : 'bg-danger' %>">
-                  <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
-                </span>
-              </td>
-              <td>
-                <% if customer.transactions.last %>
-                  <%= l(customer.transactions.last.created_at, format: :short) %>
-                <% else %>
-                  <span class="text-muted">Sem compras</span>
-                <% end %>
-              </td>
-              <td>
-                R$ <%= number_with_precision(customer.transactions.sum(:amount), precision: 2) %>
-              </td>
-              <td>
-                <div class="btn-group">
-                  <%= link_to store_area_customer_path(@current_store.id, customer),
-                      class: "btn btn-sm btn-outline-info",
-                      data: { turbo_frame: "modal" } do %>
-                    <i class="cil-eye"></i>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <%= f.search_field :email_cont, class: "form-control", placeholder: "Email do cliente" %>
+            <%= f.label :email_cont, "Email do cliente" %>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.search_field :area_code_cont, class: "form-control", placeholder: "DDD" %>
+            <%= f.label :area_code_cont, "DDD" %>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.search_field :phone_number_cont, class: "form-control", placeholder: "Telefone" %>
+            <%= f.label :phone_number_cont, "Telefone" %>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.date_field :first_cycle_date_gteq, class: "form-control", placeholder: "Data inicial" %>
+            <%= f.label :first_cycle_date_gteq, "Data inicial" %>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.date_field :first_cycle_date_lteq, class: "form-control", placeholder: "Data final" %>
+            <%= f.label :first_cycle_date_lteq, "Data final" %>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-end gap-2">
+            <%= link_to "Limpar", store_area_customers_path(@current_store.id), class: "btn btn-outline-secondary" %>
+            <%= f.submit "Buscar", class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
+  <%= render 'store_area/customers/list' %>
 </div>
 

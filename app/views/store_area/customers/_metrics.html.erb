@@ -1,0 +1,60 @@
+<%# Charts Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">Análise de Clientes</h4>
+  </div>
+  <div class="card-body">
+    <%= turbo_frame_tag "customers_metrics", target: "_top" do %>
+      <div class="row">
+        <%# Status distribution card %>
+        <div class="col-sm-6 col-lg-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5 class="card-title mb-0">Distribuição por Status</h5>
+                  <div class="small text-medium-emphasis">
+                    <%= period_text %>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 text-center" style="height: 300px; display: flex; flex-direction: column; justify-content: center;">
+                <h1 class="display-4 mb-0"><%= @total_customers %></h1>
+                <p class="text-medium-emphasis mb-0">Total de Clientes</p>
+                <div class="d-flex justify-content-center gap-4 mt-2">
+                  <div>
+                    <h3 class="text-success mb-0"><%= @active_customers %></h3>
+                    <p class="text-medium-emphasis mb-0">Ativos</p>
+                  </div>
+                  <div>
+                    <h3 class="text-danger mb-0"><%= @inactive_customers %></h3>
+                    <p class="text-medium-emphasis mb-0">Inativos</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%# Daily customers chart %>
+        <div class="col-sm-6 col-lg-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5 class="card-title mb-0">Clientes por Dia</h5>
+                  <div class="small text-medium-emphasis">
+                    <%= period_text %>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3" style="height: 300px;">
+                <%= line_chart @customers_by_day %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div> 

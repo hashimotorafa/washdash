@@ -21,6 +21,14 @@ class Customer < ApplicationRecord
   has_many :transactions
   has_many :transactions_monthly_metrics, class_name: "::CustomerTransactionsMonthlyMetrics", foreign_key: "customer_id"
 
+  ransacker :first_cycle_date do
+    Arel.sql("(SELECT MIN(c2.created_at) FROM cycles c2 WHERE c2.customer_id = customers.id)")
+  end
+
+  ransacker :last_cycle_date do
+    Arel.sql("(SELECT MAX(c2.created_at) FROM cycles c2 WHERE c2.customer_id = customers.id)")
+  end
+
   scope :current_month, -> { where(created_at: current_month_range) }
   scope :by_month,      ->(month) { where(created_at: month_range(month)) }
   scope :by_store,      ->(store_id) { includes(:cycles).joins(:cycles).where(cycles: { store_id: store_id }).distinct }
@@ -36,7 +44,7 @@ class Customer < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name email phone_number area_code created_at updated_at]
+    %w[name email phone_number area_code is_active created_at updated_at first_cycle_date last_cycle_date]
   end
 
   def self.ransackable_associations(auth_object = nil)

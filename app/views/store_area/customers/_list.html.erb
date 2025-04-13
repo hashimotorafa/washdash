@@ -1,0 +1,35 @@
+<%# List Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">
+      Clientes
+    </h4>
+  </div>
+  <div class="card-body">
+    <%= turbo_frame_tag "customers_list" do %>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th><%= sort_link(@q, :name, 'Nome', default_order: :desc) %></th>
+              <th><%= sort_link(@q, :phone_number, 'Telefone', default_order: :desc) %></th>
+              <th><%= sort_link(@q, :is_active, 'Status', default_order: :desc) %></th>
+              <th><%= sort_link(@q, :first_cycle_date, 'Primeiro Ciclo', default_order: :desc) %></th>
+              <th><%= sort_link(@q, :last_cycle_date, 'Último Ciclo', default_order: :desc) %></th>
+              <th><%= sort_link(@q, :cycles_count, 'Ciclos no Período', default_order: :desc) %></th>
+              <th/>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: 'customer_row', collection: @customers, as: :customer %>
+          </tbody>
+        </table>
+      </div>
+
+      <%# Pagination %>
+      <div class="d-flex justify-content-center align-items-center mt-4">
+        <%= paginate @customers, theme: 'coreui', class: 'pagination mb-0' %>
+      </div>
+    <% end %>
+  </div>
+</div>

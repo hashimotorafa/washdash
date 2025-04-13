@@ -63,14 +63,14 @@ pt-BR:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: aproximadamente %{count} hora
-        other: aproximadamente %{count} horas
+        one: aprox. %{count} hora
+        other: aprox. %{count} horas
       about_x_months:
-        one: aproximadamente %{count} mês
-        other: aproximadamente %{count} meses
+        one: aprox. %{count} mês
+        other: aprox. %{count} meses
       about_x_years:
-        one: aproximadamente %{count} ano
-        other: aproximadamente %{count} anos
+        one: aprox. %{count} ano
+        other: aprox. %{count} anos
       almost_x_years:
         one: quase %{count} ano
         other: quase %{count} anos

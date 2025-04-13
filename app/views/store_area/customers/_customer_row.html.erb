@@ -1,0 +1,56 @@
+<tr>
+  <td>
+    <div class="d-flex align-items-center">
+      <div class="flex-grow-1 ms-2">
+        <div class="fw-semibold"><%= customer.name %></div>
+        <div class="small text-muted">
+          <i class="cil-envelope-open me-1"></i>
+          <%= customer.email %>
+        </div>
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="d-flex flex-column">
+      <div class="flex-grow-1 ms-2">
+        <%= customer.phone_number %>
+      </div>
+    </div>
+  </td>
+  <td>
+    <span class="badge <%= customer.is_active? ? 'bg-success' : 'bg-danger' %>">
+      <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
+    </span>
+  </td>
+  <td>
+    <div class="d-flex flex-column">
+      <span><%= l(customer.first_cycle_date.to_date, format: :short) %></span>
+      <small class="text-muted">
+        <%= time_ago_in_words(customer.first_cycle_date.to_date) %> atrás
+      </small>
+    </div>
+  </td>
+  <td>
+    <div class="d-flex flex-column">
+      <span><%= l(customer.last_cycle_date.to_date, format: :short) %></span>
+      <small class="text-muted">
+        <%= time_ago_in_words(customer.last_cycle_date.to_date) %> atrás
+      </small>
+    </div>
+  </td>
+  <td class="text-center">
+    <span>
+      <%= customer.cycles_count %> ciclos
+    </span>
+  </td>
+  <td>
+    <div class="d-flex align-items-center">
+      <%= link_to store_area_customer_path(@current_store.id, customer),
+          class: "btn btn-sm btn-outline-primary",
+          data: { turbo_frame: "modal" },
+          title: "Ver Detalhes" do %>
+        <i class="cil-zoom-in"></i>
+      <% end %>
+    </div>
+  </td>
+</tr>
