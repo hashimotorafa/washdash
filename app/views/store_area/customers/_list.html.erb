@@ -1,35 +1,67 @@
 <%# List Card %>
-<div class="card mb-4">
-  <div class="card-header">
-    <h4 class="card-title mb-0">
-      Clientes
-    </h4>
-  </div>
-  <div class="card-body">
-    <%= turbo_frame_tag "customers_list" do %>
+<%= turbo_frame_tag "customers_list" do %>
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0 py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="card-title mb-0">Lista de Clientes</h4>
+      </div>
+    </div>
+    <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-hover align-middle">
+        <table class="table table-hover">
           <thead>
             <tr>
-              <th><%= sort_link(@q, :name, 'Nome', default_order: :desc) %></th>
-              <th><%= sort_link(@q, :phone_number, 'Telefone', default_order: :desc) %></th>
-              <th><%= sort_link(@q, :is_active, 'Status', default_order: :desc) %></th>
-              <th><%= sort_link(@q, :first_cycle_date, 'Primeiro Ciclo', default_order: :desc) %></th>
-              <th><%= sort_link(@q, :last_cycle_date, 'Último Ciclo', default_order: :desc) %></th>
-              <th><%= sort_link(@q, :cycles_count, 'Ciclos no Período', default_order: :desc) %></th>
-              <th/>
+              <th><%= sort_link(@q, :name, "Cliente") %></th>
+              <th><%= sort_link(@q, :phone_number, "Telefone") %></th>
+              <th><%= sort_link(@q, :is_active, "Status") %></th>
+              <th class="text-center"><%= sort_link(@q, :cycles_count, "Ciclos") %></th>
+              <th><%= sort_link(@q, :first_cycle_date, "Data de Cadastro") %></th>
+              <th><%= sort_link(@q, :last_cycle_date, "Última Visita") %></th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <%= render partial: 'customer_row', collection: @customers, as: :customer %>
+            <% @customers.each do |customer| %>
+              <tr>
+                <td>
+                  <div class="fw-bold"><%= customer.name %></div>
+                  <div class="text-muted small"><%= customer.email %></div>
+                </td>
+                <td><%= customer.phone_number %></td>
+                <td>
+                  <span class="badge bg-<%= customer.is_active? ? 'success' : 'danger' %>">
+                    <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
+                  </span>
+                </td>
+                <td class="text-center"><%= customer.cycles.count %></td>
+                <td>
+                  <div><%= l(customer.first_cycle_date, format: :short) %></div>
+                  <div class="text-muted small">
+                    <%= distance_of_time_in_words_to_now(customer.first_cycle_date) %> atrás
+                  </div>
+                </td>
+                <td>
+                  <div><%= l(customer.last_cycle_date, format: :short) %></div>
+                  <div class="text-muted small">
+                    <%= distance_of_time_in_words_to_now(customer.last_cycle_date) %> atrás
+                  </div>
+                </td>
+                <td>
+
+                </td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>
-
-      <%# Pagination %>
-      <div class="d-flex justify-content-center align-items-center mt-4">
-        <%= paginate @customers, theme: 'coreui', class: 'pagination mb-0' %>
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-muted">
+          <%= page_entries_info @customers %>
+        </div>
+        <div class="pagination pagination-sm">
+          <%= paginate @customers %>
+        </div>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>

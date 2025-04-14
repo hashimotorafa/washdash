@@ -68,7 +68,6 @@ class Customer < ApplicationRecord
   end
 
   def new?(date)
-    byebug if self.created_at.month == 2 && self.created_at.year == 2025
     self.created_at.month == date.month && self.created_at.year == date.year
   end
 
