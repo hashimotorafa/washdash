@@ -24,7 +24,11 @@ module DataImporters
           else
             cycle_data = cycle_data(row)
             customer = @customers.last
-            customer = create_customer(customer, cycle_data[:created_at]) unless customer.persisted?
+
+            unless customer.persisted?
+              create_customer(customer, cycle_data[:created_at])
+              customer.reload
+            end
 
             @cycles_attributes << cycle_data.merge({ customer_id: customer.id, store_id: @store.id })
           end
@@ -41,6 +45,7 @@ module DataImporters
           customer.area_code = customer_data[:area_code]
           customer.phone_number = customer_data[:phone_number]
           customer.document_number = customer_data[:document_number]
+          customer.is_active ||= true
           customer.save if customer.changed?
         end
       end
@@ -76,8 +81,8 @@ module DataImporters
       def create_customer(customer, created_at)
         customer.created_at = created_at
         customer.updated_at = created_at
+        Rails.logger.info(customer.errors.full_messages)
         customer.save
-        customer
       end
     end
   end

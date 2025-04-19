@@ -1,88 +1,14 @@
 <%# Main content container %>
 <div class="container-fluid">
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-12">
-      <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white border-0 py-3">
-          <h4 class="card-title mb-0">Filtros</h4>
-        </div>
-        <div class="card-body">
-          <%= search_form_for @q, url: store_area_customers_path, data: { turbo_frame: "customers_list", turbo_action: "advance" } do |f| %>
-            <div class="row g-3">
-              <%# Customer fields %>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.search_field :name_cont, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Nome do Cliente</label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.search_field :email_cont, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Email do Cliente</label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.search_field :phone_number_cont, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Telefone</label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.select :is_active_eq,
-                      [['Status', ''], ['Ativo', true], ['Inativo', false]],
-                      {},
-                      class: 'form-select border-0 bg-light' %>
-                  <label class="text-muted small">Status</label>
-                </div>
-              </div>
-
-              <%# Registration period %>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.date_field :first_cycle_date_gteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Data Inicial Cadastro</label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.date_field :first_cycle_date_lteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Data Final Cadastro</label>
-                </div>
-              </div>
-
-              <%# Usage period %>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.date_field :cycles_created_at_gteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Data Inicial Uso</label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating">
-                  <%= f.date_field :cycles_created_at_lteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
-                  <label class="text-muted small">Data Final Uso</label>
-                </div>
-              </div>
-            </div>
-
-            <%# Submit and Clear buttons %>
-            <div class="row mt-4">
-              <div class="col-12 d-flex justify-content-end gap-2">
-                <%= link_to 'Limpar', store_area_customers_path, class: 'btn btn-outline-secondary', data: { turbo_frame: "customers_list", turbo_action: "advance" } %>
-                <%= f.submit 'Buscar', class: 'btn btn-primary' %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
+      <%= render 'metrics' %>
     </div>
   </div>
 
   <div class="row mt-3">
     <div class="col-12">
-      <%= render 'metrics' %>
+      <%= render 'search_form' %>
     </div>
   </div>
 
@@ -110,4 +36,6 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   }
 </style>
+
+
 

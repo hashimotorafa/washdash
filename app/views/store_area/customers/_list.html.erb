@@ -33,7 +33,7 @@
                     <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
                   </span>
                 </td>
-                <td class="text-center"><%= customer.cycles.count %></td>
+                <td class="text-center"><%= customer.cycles_count %></td>
                 <td>
                   <div><%= l(customer.first_cycle_date, format: :short) %></div>
                   <div class="text-muted small">
@@ -48,6 +48,13 @@
                 </td>
                 <td>
 
+                  <%= button_to store_area_customer_path(@current_store.id, customer.attributes['id']),
+                      method: :get,
+                      class: "btn btn-sm btn-outline-primary",
+                      form: { data: { turbo_frame: "modal" } } do %>
+                    <i class="cil-magnifying-glass"></i>
+                    <span class="ms-1">Visualizar</span>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

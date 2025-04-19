@@ -21,8 +21,8 @@ class CustomerMonthlyMetrics < ApplicationRecord
   self.primary_key = :store_id
 
   belongs_to :customer, foreign_key: "customer_id"
+  belongs_to :store
   scope :by_store, ->(store_id) { where(store_id: store_id) }
-
 
   def self.refresh
     ActiveRecord::Base.connection.execute(

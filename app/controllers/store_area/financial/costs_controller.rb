@@ -15,11 +15,15 @@ module StoreArea
         respond_to do |format|
           if @cost.save
             format.turbo_stream {
-              render turbo_stream: turbo_stream.update(
-                "costs-index",
-                partial: "store_area/financial/costs/index",
-                locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
-              )
+              render turbo_stream: [
+                turbo_stream.update("costs-index", partial: "store_area/financial/costs/index",
+                  locals: { income_statement: @income_statement.reload, costs: @income_statement.costs }),
+                turbo_stream.update("metrics", partial: "store_area/financial/income_statements/show/metrics",
+                  locals: { income_statement: @income_statement }),
+                turbo_stream.update("operational_result", partial: "store_area/financial/income_statements/show/operational_result",
+                  locals: { income_statement: @income_statement }),
+                turbo_stream.update("modal", "")
+              ]
             }
           else
             format.turbo_stream {
@@ -45,11 +49,14 @@ module StoreArea
         respond_to do |format|
           if @cost.update(cost_params)
             format.turbo_stream {
-              render turbo_stream: turbo_stream.update(
-                "costs-index",
-                partial: "store_area/financial/costs/index",
-                locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
-              )
+              render turbo_stream: [
+                turbo_stream.update("costs-index", partial: "store_area/financial/costs/index",
+                  locals: { income_statement: @income_statement.reload, costs: @income_statement.costs }),
+                turbo_stream.update("metrics", partial: "store_area/financial/income_statements/show/metrics",
+                  locals: { income_statement: @income_statement }),
+                turbo_stream.update("operational_result", partial: "store_area/financial/income_statements/show/operational_result",
+                  locals: { income_statement: @income_statement })
+              ]
             }
           end
         end
@@ -59,11 +66,14 @@ module StoreArea
         @cost.destroy
         respond_to do |format|
           format.turbo_stream {
-            render turbo_stream: turbo_stream.update(
-              "costs-index",
-              partial: "store_area/financial/costs/index",
-              locals: { income_statement: @income_statement, costs: @income_statement.reload.costs }
-            )
+            render turbo_stream: [
+              turbo_stream.update("costs-index", partial: "store_area/financial/costs/index",
+                locals: { income_statement: @income_statement.reload, costs: @income_statement.costs }),
+              turbo_stream.update("metrics", partial: "store_area/financial/income_statements/show/metrics",
+                locals: { income_statement: @income_statement }),
+              turbo_stream.update("operational_result", partial: "store_area/financial/income_statements/show/operational_result",
+                locals: { income_statement: @income_statement })
+            ]
           }
         end
       end

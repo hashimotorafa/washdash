@@ -1,0 +1,77 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Detalhes do Cliente</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="text-muted">Informações Pessoais</h6>
+          <div class="mb-2">
+            <strong>Nome:</strong> <%= @customer.name %>
+          </div>
+          <div class="mb-2">
+            <strong>Email:</strong> <%= @customer.email %>
+          </div>
+          <div class="mb-2">
+            <strong>Telefone:</strong> <%= @customer.phone_number %>
+          </div>
+          <div class="mb-2">
+            <strong>Status:</strong>
+            <span class="badge bg-<%= @customer.is_active? ? 'success' : 'danger' %>">
+              <%= @customer.is_active? ? 'Ativo' : 'Inativo' %>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted">Métricas</h6>
+          <div class="mb-2">
+            <strong>Total de Ciclos:</strong> <%= @customer.cycles_count %>
+          </div>
+          <div class="mb-2">
+            <strong>Data de Cadastro:</strong> <%= l(@customer.first_cycle_date, format: :short) %>
+          </div>
+          <div class="mb-2">
+            <strong>Última Visita:</strong> <%= l(@customer.last_cycle_date, format: :short) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h6 class="text-muted mb-3">Histórico de Ciclos</h6>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Tipo</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @customer.cycles.order(created_at: :desc).limit(5).each do |cycle| %>
+                  <tr>
+                    <td><%= l(cycle.created_at, format: :short) %></td>
+                    <td><%= cycle.cycle_type.titleize %></td>
+                    <td><%= number_to_currency(cycle.value) %></td>
+                    <td>
+                      <span class="badge bg-<%= cycle.completed? ? 'success' : 'warning' %>">
+                        <%= cycle.completed? ? 'Concluído' : 'Em andamento' %>
+                      </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+    </div>
+  </div>
+</div>

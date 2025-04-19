@@ -1,8 +1,7 @@
 module StoreArea
   module Financial
     class IncomeStatementsController < StoreArea::ApplicationController
-      before_action :current_store
-      before_action :income_statement, only: [ :show, :edit, :update, :destroy ]
+      before_action :income_statement, only: [ :show, :edit, :update, :destroy, :import_transactions ]
 
       def index
         @income_statements = IncomeStatement.where(store: current_store)
@@ -38,9 +37,9 @@ module StoreArea
           # Clean up the temporary file after processing
           File.delete(file_path) if File.exist?(file_path)
 
-          redirect_to store_area_financial_income_statements_path(@current_store.id), notice: "Importação concluída com sucesso"
+          redirect_to store_area_financial_income_statement_path(@current_store.id, @income_statement.id), notice: "Importação concluída com sucesso"
         else
-          redirect_to store_area_financial_income_statements_path(@current_store.id), alert: "Por favor, selecione um arquivo para importar"
+          redirect_to store_area_financial_income_statement_path(@current_store.id, @income_statement.id), alert: "Por favor, selecione um arquivo para importar"
         end
       end
 

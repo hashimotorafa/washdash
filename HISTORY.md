@@ -227,3 +227,62 @@ Essas métricas permitem:
 - Monitorar saúde financeira das lojas
 - Melhorar a retenção e engajamento dos clientes
 - Guiar ações promocionais e decisões de expansão
+
+# Histórico de Versões
+
+## [0.1.0] - 2024-03-19
+
+### Adicionado
+- Implementação inicial do sistema
+- Estrutura básica do projeto
+- Configuração do ambiente de desenvolvimento
+- Sistema de autenticação básico
+- Sistema de busca de clientes
+- Gráficos de métricas de clientes
+- Filtros por período
+- Ordenação de resultados
+- Paginação de resultados
+- Importação automática de dados do Wash&Go
+- Pesquisa por data de cadastro (first_cycle_date)
+- Pesquisa por período de uso
+
+### Modificado
+- Melhorias na interface de usuário
+- Otimização de queries
+- Refatoração de código
+- Melhorias na performance
+- Atualização de dependências
+
+### Corrigido
+- Correção de bugs
+- Correção de vulnerabilidades
+- Correção de problemas de performance
+- Correção de problemas de usabilidade
+
+### Removido
+- Código obsoleto
+- Dependências não utilizadas
+- Funcionalidades descontinuadas
+
+### Notas Técnicas
+- O sistema utiliza uma estrutura onde usuários (customers) e lojas (stores) são relacionados exclusivamente através da tabela de ciclos (cycles)
+- Um mesmo usuário pode ter ciclos em múltiplas lojas diferentes
+- A data de "cadastro" de um usuário em cada loja é determinada pelo primeiro ciclo registrado
+- Todas as queries e métricas são sempre no contexto de uma loja específica
+- Não há relação direta entre usuários e lojas, apenas através dos ciclos
+- Essa estrutura permite que um usuário ter diferentes padrões de uso e histórico em cada loja
+- As métricas e estatísticas são calculadas considerando apenas os ciclos da loja em questão
+- O sistema foi projetado para lidar com essa relação muitos-para-muitos entre usuários e lojas
+- Os dados de clientes, ciclos e transações são importados automaticamente do sistema Wash&Go
+- Não há interface para criação ou edição manual desses dados
+
+### Funcionalidades Pendentes
+- Gestão financeira completa
+- Sistema de relatórios detalhados
+- Integração com outras redes de lavanderias
+
+### TODO
+- Adicionar índices compostos para otimização de queries:
+  - (customer_id, store_id, created_at) na tabela cycles
+  - (store_id, created_at) na tabela cycles
+  - Índices para campos frequentemente usados em buscas

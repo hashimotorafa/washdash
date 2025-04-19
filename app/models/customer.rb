@@ -15,7 +15,6 @@
 class Customer < ApplicationRecord
   paginates_per 25
 
-  belongs_to :store
   has_many :cycles, dependent: :destroy
   has_many :monthly_metrics, class_name: "::CustomerMonthlyMetrics", foreign_key: "customer_id"
   has_many :transactions
