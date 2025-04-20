@@ -47,11 +47,9 @@
                   </div>
                 </td>
                 <td>
-
-                  <%= button_to store_area_customer_path(@current_store.id, customer.attributes['id']),
-                      method: :get,
+                  <%= link_to store_area_customer_path(@current_store.id, customer.attributes['id']),
                       class: "btn btn-sm btn-outline-primary",
-                      form: { data: { turbo_frame: "modal" } } do %>
+                      data: { turbo_frame: "modal" } do %>
                     <i class="cil-magnifying-glass"></i>
                     <span class="ms-1">Visualizar</span>
                   <% end %>

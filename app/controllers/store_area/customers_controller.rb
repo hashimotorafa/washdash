@@ -109,9 +109,7 @@ module StoreArea
         .group("customers.id")
         .find(params[:id])
 
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.update("modal", partial: "show") }
-      end
+      render partial: "show", locals: { customer: @customer }
     end
 
     private
