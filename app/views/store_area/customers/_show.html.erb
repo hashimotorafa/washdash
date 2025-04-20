@@ -25,10 +25,20 @@
           <strong>Total de Ciclos:</strong> <%= @customer.cycles_count %>
         </div>
         <div class="mb-2">
-          <strong>Data de Cadastro:</strong> <%= l(@customer.first_cycle_date, format: :short) %>
+          <strong>Data de Cadastro:</strong>
+          <% if @customer.first_visit_date %>
+            <%= l(@customer.first_visit_date.to_date, format: :short) %>
+          <% else %>
+            <span class="text-muted">Não cadastrado</span>
+          <% end %>
         </div>
         <div class="mb-2">
-          <strong>Última Visita:</strong> <%= l(@customer.last_cycle_date, format: :short) %>
+          <strong>Última Visita:</strong>
+          <% if @customer.last_cycle_date %>
+            <%= l(@customer.last_cycle_date, format: :short) %>
+          <% else %>
+            <span class="text-muted">Nenhuma visita</span>
+          <% end %>
         </div>
       </div>
     </div>

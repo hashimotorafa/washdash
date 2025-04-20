@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row mt-3">
     <div class="col-12">
-      <%= render 'metrics' %>
+      <%= render 'metrics', active_customers: @active_customers, inactive_customers: @inactive_customers, customers_by_day: @customers_by_day, customers: @customers %>
     </div>
   </div>
 

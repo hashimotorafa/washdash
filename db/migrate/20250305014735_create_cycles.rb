@@ -3,7 +3,7 @@ class CreateCycles < ActiveRecord::Migration[7.2]
     create_table :cycles do |t|
       t.bigint :external_id
       t.string :status
-      t.string :price
+      t.decimal :price, precision: 10, scale: 2
       t.string :machine_type
       t.string :machine_number
       t.string :description

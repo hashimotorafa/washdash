@@ -15,7 +15,7 @@
               <th><%= sort_link(@q, :phone_number, "Telefone") %></th>
               <th><%= sort_link(@q, :is_active, "Status") %></th>
               <th class="text-center"><%= sort_link(@q, :cycles_count, "Ciclos") %></th>
-              <th><%= sort_link(@q, :first_cycle_date, "Data de Cadastro") %></th>
+              <th><%= sort_link(@q, :first_visit_date, "Data de Cadastro") %></th>
               <th><%= sort_link(@q, :last_cycle_date, "Última Visita") %></th>
               <th>Ações</th>
             </tr>
@@ -35,21 +35,29 @@
                 </td>
                 <td class="text-center"><%= customer.cycles_count %></td>
                 <td>
-                  <div><%= l(customer.first_cycle_date, format: :short) %></div>
-                  <div class="text-muted small">
-                    <%= distance_of_time_in_words_to_now(customer.first_cycle_date) %> atrás
-                  </div>
+                  <% if customer.first_visit_date %>
+                    <div><%= l(customer.first_visit_date.to_date, format: :short) %></div>
+                    <div class="text-muted small">
+                      <%= distance_of_time_in_words_to_now(customer.first_visit_date) %> atrás
+                    </div>
+                  <% else %>
+                    <div class="text-muted">Não cadastrado</div>
+                  <% end %>
                 </td>
                 <td>
-                  <div><%= l(customer.last_cycle_date, format: :short) %></div>
-                  <div class="text-muted small">
-                    <%= distance_of_time_in_words_to_now(customer.last_cycle_date) %> atrás
-                  </div>
+                  <% if customer.last_cycle_date %>
+                    <div><%= l(customer.last_cycle_date, format: :short) %></div>
+                    <div class="text-muted small">
+                      <%= distance_of_time_in_words_to_now(customer.last_cycle_date) %> atrás
+                    </div>
+                  <% else %>
+                    <div class="text-muted">Nenhuma visita</div>
+                  <% end %>
                 </td>
                 <td>
                   <%= link_to store_area_customer_path(@current_store.id, customer.attributes['id']),
                       class: "btn btn-sm btn-outline-primary",
-                      data: { turbo_frame: "modal" } do %>
+                      form: { data: { turbo_frame: "modal" } } do %>
                     <i class="cil-magnifying-glass"></i>
                     <span class="ms-1">Visualizar</span>
                   <% end %>

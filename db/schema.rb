@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_14_000000) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_20_202427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,6 +39,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_14_000000) do
     t.datetime "updated_at", null: false
     t.index ["income_statement_id"], name: "index_costs_on_income_statement_id"
     t.index ["store_id"], name: "index_costs_on_store_id"
+  end
+
+  create_table "customer_stores", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "store_id", null: false
+    t.datetime "first_visit_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_customer_stores_on_customer_id"
+    t.index ["store_id"], name: "index_customer_stores_on_store_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -157,6 +167,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_14_000000) do
 
   add_foreign_key "costs", "income_statements"
   add_foreign_key "costs", "stores"
+  add_foreign_key "customer_stores", "customers"
+  add_foreign_key "customer_stores", "stores"
   add_foreign_key "cycles", "customers"
   add_foreign_key "cycles", "stores"
   add_foreign_key "income_statements", "stores"

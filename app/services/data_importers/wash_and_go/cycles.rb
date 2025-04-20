@@ -11,6 +11,7 @@ module DataImporters
       def initialize(store, xslx_file_path: nil)
         @xlsx_file          = Roo::Spreadsheet.open(xslx_file_path, extension: :xlsx)
         @customers          = []
+        @customer_stores    = {}
         @cycles_attributes  = []
         @store              = store
       end
@@ -26,9 +27,13 @@ module DataImporters
             customer = @customers.last
 
             unless customer.persisted?
-              create_customer(customer, cycle_data[:created_at])
-              customer.reload
+              Rails.logger.info(customer.errors.full_messages)
+              customer.save
             end
+
+            customer_store = find_or_create_customer_store(customer)
+            customer_store.first_visit_date = cycle_data[:created_at] if customer_store.first_visit_date.nil? || customer_store.first_visit_date > cycle_data[:created_at]
+            customer_store.save if customer_store.changed?
 
             @cycles_attributes << cycle_data.merge({ customer_id: customer.id, store_id: @store.id })
           end
@@ -48,6 +53,12 @@ module DataImporters
           customer.is_active ||= true
           customer.save if customer.changed?
         end
+      end
+
+      def find_or_create_customer_store(customer)
+        return @customer_stores[customer.id] if @customer_stores[customer.id]
+
+        customer.customer_stores.find_by(store: @store) || customer.create_customer_store(store: @store)
       end
 
       def customer_row?(row)
@@ -76,13 +87,6 @@ module DataImporters
           description:    row[6].value,
           created_at:     "#{row[1]} #{row[2]}".to_datetime
         }
-      end
-
-      def create_customer(customer, created_at)
-        customer.created_at = created_at
-        customer.updated_at = created_at
-        Rails.logger.info(customer.errors.full_messages)
-        customer.save
       end
     end
   end

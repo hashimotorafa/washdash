@@ -3,7 +3,7 @@
     <h4 class="card-title mb-0">Filtros</h4>
   </div>
   <div class="card-body">
-    <%= search_form_for @q, url: store_area_customers_path, data: { turbo_frame: "customers_list", turbo_action: "advance" } do |f| %>
+    <%= search_form_for @q, url: store_area_customers_path, data: { turbo_frame: "customers_list customers_metrics", turbo_action: "advance" } do |f| %>
       <div class="row g-3">
         <%# Customer fields %>
         <div class="col-md-3">
@@ -37,13 +37,13 @@
         <%# Registration period %>
         <div class="col-md-3">
           <div class="form-floating">
-            <%= f.date_field :first_cycle_date_gteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+            <%= f.date_field :first_visit_date_gteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
             <label class="text-muted small">Data Inicial Cadastro</label>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-floating">
-            <%= f.date_field :first_cycle_date_lteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+            <%= f.date_field :first_visit_date_lteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
             <label class="text-muted small">Data Final Cadastro</label>
           </div>
         </div>
@@ -59,6 +59,20 @@
           <div class="form-floating">
             <%= f.date_field :cycles_created_at_lteq, class: 'form-control border-0 bg-light', placeholder: ' ' %>
             <label class="text-muted small">Data Final Uso</label>
+          </div>
+        </div>
+
+        <%# Number of cycles %>
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.number_field :cycles_count_gteq, class: 'form-control border-0 bg-light', placeholder: ' ', min: 0 %>
+            <label class="text-muted small">Mínimo de Ciclos</label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-floating">
+            <%= f.number_field :cycles_count_lteq, class: 'form-control border-0 bg-light', placeholder: ' ', min: 0 %>
+            <label class="text-muted small">Máximo de Ciclos</label>
           </div>
         </div>
       </div>

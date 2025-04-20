@@ -5,7 +5,7 @@ class CustomerDailyMetrics < ApplicationRecord
   belongs_to :customer
 
   def self.refresh
-    connection.execute("REFRESH MATERIALIZED VIEW CONCURRENTLY customer_cycles_daily_stats")
+    connection.execute("REFRESH MATERIALIZED VIEW customer_daily_metrics;")
   end
 
   def self.for_store(store_id)
