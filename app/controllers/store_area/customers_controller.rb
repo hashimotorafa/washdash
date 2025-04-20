@@ -118,17 +118,30 @@ module StoreArea
     end
 
     def show
-      @customer = current_store.customers
-        .joins("LEFT JOIN customer_daily_metrics ON customer_daily_metrics.customer_id = customers.id")
-        .joins("LEFT JOIN customer_stores cs ON cs.customer_id = customers.id AND cs.store_id = #{current_store.id}")
-        .select("customers.*,
-                 cs.first_visit_date as first_visit_date,
-                 MAX(customer_daily_metrics.date) as last_cycle_date,
-                 SUM(customer_daily_metrics.total_cycles) as cycles_count")
-        .group("customers.id, customers.name, customers.email, customers.phone_number, cs.first_visit_date")
-        .find(params[:id])
+      @customer = current_store.customers.find(params[:id])
+      # Buscar transações do cliente na loja atual
+      @transactions = current_store.transactions
+        .where(customer_id: @customer.id)
+        .order(created_at: :desc)
+        .page(params[:page])
+        .per(5)
 
-      render partial: "show", locals: { customer: @customer }
+      cicles = @customer.cycles
+        .where(store_id: current_store.id)
+
+      @cycles_metrics = {
+        total_count: cicles.count,
+        washer_count: cicles.where(machine_type: "Lavadora").count,
+        dryer_count: cicles.where(machine_type: "Secadora").count,
+        canceled_count: cicles.where(status: "Estornado").count
+      }
+
+      @cycles = cicles
+        .order(created_at: :desc)
+        .page(params[:page])
+        .per(5)
+
+        render partial: "show", locals: { customer: @customer }
     end
 
     private

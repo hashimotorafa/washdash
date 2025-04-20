@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: customer_daily_metrics
+#
+#  store_id      :bigint           primary key
+#  customer_id   :bigint           primary key
+#  date          :date             primary key
+#  total_cycles  :integer
+#  dryer_cycles  :integer
+#  washer_cycles :integer
+#
 class CustomerDailyMetrics < ApplicationRecord
   self.primary_key = [ :store_id, :customer_id, :date ]
 

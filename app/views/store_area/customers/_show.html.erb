@@ -1,53 +1,140 @@
 <%= render "layouts/partials/form_modal", modal_title: "Cliente" do %>
   <div class="modal-body">
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <h6 class="text-muted">Informações Pessoais</h6>
-        <div class="mb-2">
-          <strong>Nome:</strong> <%= @customer.name %>
-        </div>
-        <div class="mb-2">
-          <strong>Email:</strong> <%= @customer.email %>
-        </div>
-        <div class="mb-2">
-          <strong>Telefone:</strong> <%= @customer.phone_number %>
-        </div>
-        <div class="mb-2">
-          <strong>Status:</strong>
-          <span class="badge bg-<%= @customer.is_active? ? 'success' : 'danger' %>">
-            <%= @customer.is_active? ? 'Ativo' : 'Inativo' %>
-          </span>
-        </div>
+    <div class="mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <h6 class="mb-0">Informações Básicas</h6>
       </div>
-      <div class="col-md-6">
-        <h6 class="text-muted">Métricas</h6>
-        <div class="mb-2">
-          <strong>Total de Ciclos:</strong> <%= @customer.cycles_count %>
+      <div class="bg-white rounded p-3">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="text-muted small">Nome</div>
+            <div class="fw-bold"><%= customer.name %></div>
+          </div>
+          <div class="col-md-6">
+            <div class="text-muted small">Status</div>
+            <span class="badge bg-<%= customer.is_active? ? 'success' : 'danger' %>">
+              <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
+            </span>
+          </div>
         </div>
-        <div class="mb-2">
-          <strong>Data de Cadastro:</strong>
-          <% if @customer.first_visit_date %>
-            <%= l(@customer.first_visit_date.to_date, format: :short) %>
-          <% else %>
-            <span class="text-muted">Não cadastrado</span>
-          <% end %>
-        </div>
-        <div class="mb-2">
-          <strong>Última Visita:</strong>
-          <% if @customer.last_cycle_date %>
-            <%= l(@customer.last_cycle_date, format: :short) %>
-          <% else %>
-            <span class="text-muted">Nenhuma visita</span>
-          <% end %>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="text-muted small">Email</div>
+            <div class="fw-bold"><%= customer.email %></div>
+          </div>
+          <div class="col-md-6">
+            <div class="text-muted small">Telefone</div>
+            <div class="fw-bold"><%= customer.phone_number %></div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <h6 class="text-muted mb-3">Histórico de Ciclos</h6>
+
+    <div class="mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <h6 class="mb-0">Histórico do Cliente</h6>
+      </div>
+      <div class="bg-white rounded p-3">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="text-muted small">Data de Cadastro</div>
+            <div class="fw-bold">
+              <% if customer.customer_stores.find_by(store_id: @current_store.id).first_visit_date %>
+                <%= l(customer.customer_stores.find_by(store_id: @current_store.id).first_visit_date.to_date, format: :short) %>
+              <% else %>
+                <span class="text-muted">Não cadastrado</span>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="text-muted small">Última Visita</div>
+            <div class="fw-bold">
+              <% if @cycles.first&.created_at %>
+                <%= l(@cycles.first.created_at, format: :short) %>
+              <% else %>
+                <span class="text-muted">Nenhuma visita</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <h6 class="mb-0">Métricas</h6>
+      </div>
+      <div class="bg-white rounded p-3">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center">
+              <div class="me-3">
+                <i class="fas fa-money-bill-wave text-success" style="font-size: 2rem;"></i>
+              </div>
+              <div>
+                <div class="text-muted small">Total Gasto</div>
+                <div class="fw-bold h4 mb-0"><%= number_to_currency(@transactions.sum(:amount)) %></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex align-items-center">
+              <div class="me-3">
+                <i class="fas fa-sync text-primary" style="font-size: 2rem;"></i>
+              </div>
+              <div>
+                <div class="text-muted small">Total de Ciclos</div>
+                <div class="fw-bold h4 mb-0"><%= @cycles_metrics[:total_count] %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="me-3">
+                <i class="fas fa-washer text-info" style="font-size: 1.5rem;"></i>
+              </div>
+              <div>
+                <div class="text-muted small">Ciclos Lavadora</div>
+                <div class="fw-bold"><%= @cycles_metrics[:washer_count] %></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="me-3">
+                <i class="fas fa-wind text-warning" style="font-size: 1.5rem;"></i>
+              </div>
+              <div>
+                <div class="text-muted small">Ciclos Secadora</div>
+                <div class="fw-bold"><%= @cycles_metrics[:dryer_count] %></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="me-3">
+                <i class="fas fa-undo text-danger" style="font-size: 1.5rem;"></i>
+              </div>
+              <div>
+                <div class="text-muted small">Ciclos Estornados</div>
+                <div class="fw-bold"><%= @cycles_metrics[:canceled_count] %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="d-flex align-items-center mb-3">
+        <h6 class="mb-0">Histórico de Ciclos</h6>
+      </div>
+      <div class="bg-white rounded">
         <div class="table-responsive">
-          <table class="table table-sm">
-            <thead>
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
               <tr>
                 <th>Data</th>
                 <th>Tipo</th>
@@ -56,7 +143,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @customer.cycles.order(created_at: :desc).limit(5).each do |cycle| %>
+              <% @cycles.each do |cycle| %>
                 <tr>
                   <td><%= l(cycle.created_at, format: :short) %></td>
                   <td><%= cycle.machine_type.titleize %></td>
@@ -70,6 +157,10 @@
               <% end %>
             </tbody>
           </table>
+        </div>
+        <%# Pagination %>
+        <div class="d-flex justify-content-center align-items-center p-3">
+          <%= paginate @cycles, theme: 'coreui', class: 'pagination mb-0' %>
         </div>
       </div>
     </div>
