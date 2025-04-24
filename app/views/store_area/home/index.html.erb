@@ -1,94 +1,207 @@
-<div class="container mt-4">
-  <!-- Métricas de Performance -->
+<div class="container-fluid p-0">
   <div class="row mb-4">
-    <div class="col-md-3">
-      <div class="card bg-primary text-white">
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Ciclos</h5>
+        </div>
         <div class="card-body">
-          <h6 class="card-title">Receita Bruta</h6>
-          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:gross_revenue], precision: 2) %></h3>
+          <div class="row text-center mb-4">
+            <div class="col">
+              <h2 class="mb-0"><%= @cycles.count %></h2>
+              <p class="text-muted mb-0">Total de Ciclos</p>
+            </div>
+          </div>
+
+          <%= pie_chart @cycles_count, 
+              colors: ["#4e73df", "#1cc88a", "#e74a3b"],
+              legend: "bottom",
+              donut: true,
+              defer: true %>
+          
+          <div class="row text-center mt-4">
+            <div class="col">
+              <h3 class="mb-0"><%= @cycles.select { |c| !c.canceled? && c.washer? }.count %></h3>
+              <p class="text-muted mb-0">Lavagens</p>
+            </div>
+            <div class="col">
+              <h3 class="mb-0"><%= @cycles.select { |c| !c.canceled? && c.dryer? }.count %></h3>
+              <p class="text-muted mb-0">Secagens</p>
+            </div>
+            <div class="col">
+              <h3 class="mb-0"><%= @cycles.select { |c| c.canceled? }.count %></h3>
+              <p class="text-muted mb-0">Estornos</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="card bg-success text-white">
-        <div class="card-body">
-          <h6 class="card-title">Receita Líquida</h6>
-          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:net_revenue], precision: 2) %></h3>
+
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Clientes</h5>
         </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card bg-info text-white">
         <div class="card-body">
-          <h6 class="card-title">Total Ciclos</h6>
-          <h3 class="mb-0"><%= @performance_metrics[:total_cycles] %></h3>
-          <small class="text-white-50">
-            <%= @machine_usage_data&.washer_cycles || 0 %> lav. | <%= @machine_usage_data&.dryer_cycles || 0 %> sec.
-          </small>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card bg-warning text-white">
-        <div class="card-body">
-          <h6 class="card-title">Ticket Médio</h6>
-          <h3 class="mb-0">R$ <%= number_with_precision(@performance_metrics[:average_ticket], precision: 2) %></h3>
+          <div class="row text-center mb-4">
+            <div class="col">
+              <h2 class="mb-0"><%= @customers.count %></h2>
+              <p class="text-muted mb-0">Total de Clientes</p>
+            </div>
+          </div>
+
+          <%= pie_chart @customers_count,
+              colors: ["#4e73df", "#1cc88a"],
+              legend: "bottom",
+              donut: true,
+              defer: true %>
+          
+          <div class="row text-center mt-4">
+            <div class="col">
+              <h3 class="mb-0"><%= @customers.select { |c| c.area_code == @current_store.area_code }.count %></h3>
+              <p class="text-muted mb-0">Clientes Locais</p>
+            </div>
+            <div class="col">
+              <h3 class="mb-0"><%= @customers.select { |c| c.area_code != @current_store.area_code }.count %></h3>
+              <p class="text-muted mb-0">Clientes Externos</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Gráficos -->
   <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title mb-0">Evolução da Receita</h5>
-        </div>
-        <div class="card-body">
-          <canvas id="revenueChart"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title mb-0">Distribuição por Tipo de Máquina</h5>
-        </div>
-        <div class="card-body">
-          <canvas id="machineUsageChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Top 5 Clientes -->
-  <div class="row">
     <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title mb-0">Top 5 Clientes</h5>
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Clientes por Mês</h5>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Telefone</th>
-                  <th>Valor Total</th>
-                  <th>Última Visita</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @top_customers.each do |customer| %>
-                  <tr>
-                    <td><%= customer.name %></td>
-                    <td><%= customer.phone_number %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+          <%= column_chart([
+            {
+              name: 'Clientes Locais',
+              data: @customers_per_type.select { |c| c[:type] == 'local' }.map { |c| c.except(:type) }.map(&:values).flatten
+            },
+            {
+              name: 'Clientes Visitantes',
+              data: @customers_per_type.select { |c| c[:type] == 'others' }.map { |c| c.except(:type) }.map(&:values).flatten
+            }
+          ], stacked: true, xtitle: 'Mêses', ytitle: 'Clientes', 
+             colors: ['#43BCCD', '#F86624'],
+             defer: true,
+             library: {
+               xAxis: {
+                 categories: @customers_per_type.select { |c| c[:type] == 'others' }.map { |c| c.except(:type) }.map(&:keys).flatten.uniq.sort.map(&:to_s)
+               }
+             }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Ciclos por Clientes</h5>
+        </div>
+        <div class="card-body">
+          <%= column_chart @cycles_per_customer_type,
+              colors: ["#4e73df", "#1cc88a"],
+              legend: "bottom",
+              defer: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Ciclos por Dia da Semana e Horário</h5>
+        </div>
+        <div class="card-body">
+          <%= column_chart([
+            {
+              name: "Noite",
+              data: @current_store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:evening] || 0 },
+              color: "#1f507a"
+            },
+            {
+              name: "Tarde",
+              data: @current_store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:afternoon] || 0 },
+              color: "#F7B632"
+            },
+            {
+              name: "Manhã",
+              data: @current_store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:morning] || 0 },
+              color: "#3692e2"
+            }
+          ], stacked: true,
+             defer: true,
+             library: {
+               xAxis: {
+                 categories: @current_store.cycles.group_by_weekday_and_period.keys
+               }
+             }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Média de Ciclos por Mês</h5>
+        </div>
+        <div class="card-body">
+          <%= line_chart @avg_cycles_per_month,
+              colors: ["#4e73df"],
+              legend: "bottom",
+              defer: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Métricas de Clientes</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <%= column_chart([
+                {
+                  name: 'Clientes Locais Novos',
+                  data: @visits_data[:local_visits].transform_values { |v| v || 0 },
+                  color: "#43BCCD"
+                },
+                {
+                  name: 'Clientes Externos Novos',
+                  data: @visits_data[:foreign_visits].transform_values { |v| v || 0 },
+                  color: "#F86624"
+                },
+                {
+                  name: 'Clientes Locais Recorrentes',
+                  data: @visits_data[:old_local_visits].transform_values { |v| v || 0 },
+                  color: "#3692e2"
+                },
+                {
+                  name: 'Clientes Externos Recorrentes',
+                  data: @visits_data[:old_foreign_visits].transform_values { |v| v || 0 },
+                  color: "#F7B632"
+                }
+              ],
+              stacked: true,
+              defer: true,
+              title: "Visitas por Tipo de Cliente",
+              xtitle: "Mês",
+              ytitle: "Visitas") %>
+            </div>
           </div>
         </div>
       </div>
@@ -96,51 +209,10 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Gráfico de Evolução da Receita
-    const revenueCtx = document.getElementById('revenueChart');
-    if (revenueCtx) {
-      new Chart(revenueCtx.getContext('2d'), {
-        type: 'bar',
-        data: <%= raw @revenue_chart_data.to_json %>,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Gráfico de Distribuição por Tipo de Máquina
-    const machineCtx = document.getElementById('machineUsageChart');
-    if (machineCtx) {
-      new Chart(machineCtx.getContext('2d'), {
-        type: 'pie',
-        data: <%= raw @machine_usage_chart_data.to_json %>,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }
-      });
-    }
+  document.addEventListener('turbo:load', function() {
+    Chartkick.eachChart(function(chart) {
+      chart.redraw();
+    });
   });
 </script>
