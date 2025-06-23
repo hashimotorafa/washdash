@@ -33,18 +33,9 @@
           <%= render 'layouts/store/partials/navbar'%>
         </div>
       </header>
-      
+
       <div class="body flex-grow-1">
         <div class="container-lg">
-          <!-- Breadcrumb -->
-          <div class="row mb-4">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><%= link_to 'Home', admin_root_path %></li>
-                <%= yield :breadcrumb %>
-              </ol>
-            </nav>
-          </div>
 
           <!-- Flash Messages -->
           <% flash.each do |name, msg| %>

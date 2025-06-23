@@ -1,0 +1,53 @@
+<%= render "layouts/partials/section", title: "Clientes" do %>
+  <div class="row g-4 mb-4">
+    <div class="col-md-4 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Clientes Novos</h6>
+          <div class="display-6 fw-bold text-info"><%= @customers_metrics.new_customers_total %></div>
+          <div class="text-muted small mb-1">Locais: <%= @customers_metrics.new_local_customers %> &nbsp;|&nbsp; Externos: <%= @customers_metrics.new_foreign_customers %></div>
+          <div class="fw-semibold <%= @customers_metrics.new_customers_percentage >= 0 ? 'text-success' : 'text-danger' %>"><%= '+' if @customers_metrics.new_customers_percentage >= 0 %><%= @customers_metrics.new_customers_percentage %>% <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Clientes Recorrentes</h6>
+          <div class="display-6 fw-bold text-info"><%= @customers_metrics.old_customers_total %></div>
+          <div class="text-muted small mb-1">Locais: <%= @customers_metrics.old_local_customers %> &nbsp;|&nbsp; Externos: <%= @customers_metrics.old_foreign_customers %></div>
+          <div class="fw-semibold <%= @customers_metrics.old_customers_percentage >= 0 ? 'text-success' : 'text-danger' %>"><%= '+' if @customers_metrics.old_customers_percentage >= 0 %><%= @customers_metrics.old_customers_percentage %>% <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Clientes Perdidos</h6>
+          <div class="display-6 fw-bold text-danger"><%= @customers_metrics.lost_customers_total %></div>
+          <div class="text-muted small mb-1">Locais: <%= @customers_metrics.lost_local_customers %> &nbsp;|&nbsp; Externos: <%= @customers_metrics.lost_foreign_customers %></div>
+          <div class="fw-semibold <%= @customers_metrics.lost_customers_percentage >= 0 ? 'text-danger' : 'text-success' %>"><%= '+' if @customers_metrics.lost_customers_percentage >= 0 %><%= @customers_metrics.lost_customers_percentage %>% <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card border-0">
+      <div class="card-header bg-transparent border-0">
+        <h5 class="card-title mb-0">Clientes por Mês</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <%= column_chart(@customers_metrics.column_chart_data,
+            stacked: true,
+            title: "Tipo de Cliente",
+            xtitle: "Mês",
+            ytitle: "Visitas") %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

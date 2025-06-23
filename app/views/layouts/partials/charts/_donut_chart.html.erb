@@ -1,0 +1,22 @@
+<div id="main-chart" style="min-height: 435px;">
+	<%= donut_chart(series,
+		{
+      legend: { position: 'bottom' },
+			plotOptions: {
+				pie: {
+					donut: {
+						labels: {
+							show: true,
+							total: {
+								show: true,
+								label: 'Total'
+							}
+						}
+					}
+				}
+			},
+			dataLabels: { enabled: true },
+			defer: true
+		}
+	)%>
+</div>

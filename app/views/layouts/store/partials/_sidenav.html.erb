@@ -1,6 +1,11 @@
 <!-- Sidebar responsiva com largura aumentada -->
 <div class="sidebar-nav-wrapper">
   <div class="sidebar-nav-main">
+    <div class="nav-scope mb-3">
+      <%= link_to company_area_stores_path, class: "nav-link border-start border-4 ps-3" do %>
+        <i class="nav-icon cil-arrow-left me-2"></i>Área da Empresa
+      <% end %>
+    </div>
     <ul class="sidebar-nav">
       <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
         <i class="nav-icon cil-speedometer"></i> Dashboard

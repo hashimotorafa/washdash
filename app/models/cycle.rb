@@ -15,6 +15,8 @@
 #  updated_at     :datetime         not null
 #
 class Cycle < ApplicationRecord
+  enum machine_type: { washer: "Lavadora", dryer: "Secadora" }
+
   belongs_to :customer
   belongs_to :store
 
@@ -31,7 +33,9 @@ class Cycle < ApplicationRecord
   scope :by_month,      ->(month)    { where(created_at: month_range(month)) }
   scope :current_month, -> { where(created_at: current_month_range) }
   scope :today,         -> { where("created_at::date = ?", Date.today) }
+  scope :by_machine_type, ->(machine_type) { where(machine_type: machine_type) }
   scope :by_time_range, ->(from_date, until_date) { where(created_at: from_date..until_date) }
+  scope :group_by_month_year, -> { group(:id, :month, :year) }
   scope :by_customers_visits, ->(customer_ids) {
     result = ActiveRecord::Base.connection.execute(
       %Q(
@@ -102,7 +106,7 @@ class Cycle < ApplicationRecord
     end
 
     def month_range(date)
-      date.beginning_of_month..date.end_of_month
+      date.beginning_of_month..date.end_of_month.end_of_day
     end
 
     def period_of_day(datetime)

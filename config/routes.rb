@@ -23,10 +23,8 @@ Rails.application.routes.draw do
 
   namespace :company_area do
     root to: "company_area/home#index"
-    resources :companies
-    resources :users
-    resources :stores
-    resources :customers
+    resources :users, only: [ :new, :create, :index, :edit, :update ]
+    resources :stores, only: [ :index, :edit, :update ]
     resources :settings
     resources :home, only: [ :index ]
   end

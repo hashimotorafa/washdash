@@ -34,16 +34,7 @@
       </header>
       
       <div class="body flex-grow-1">
-        <div class="container-lg">
-          <!-- Breadcrumb -->
-          <div class="row mb-4">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><%= link_to 'Home', admin_root_path %></li>
-                <%= yield :breadcrumb %>
-              </ol>
-            </nav>
-          </div>
+        <div class="container-lg pt-5">
 
           <!-- Flash Messages -->
           <% flash.each do |name, msg| %>

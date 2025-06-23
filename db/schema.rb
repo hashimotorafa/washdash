@@ -132,8 +132,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_20_202427) do
     t.bigint "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["customer_id", "store_id"], name: "index_transactions_on_customer_id_and_store_id"
     t.index ["customer_id"], name: "index_transactions_on_customer_id"
     t.index ["store_id"], name: "index_transactions_on_store_id"
+    t.index ["transaction_id"], name: "index_transactions_on_transaction_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

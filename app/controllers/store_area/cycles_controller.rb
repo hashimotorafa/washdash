@@ -64,6 +64,7 @@ module StoreArea
 
         DataImporters::WashAndGo::Cycles.new(@current_store, xslx_file_path: file_path).sync_tables
         CustomerMonthlyMetrics.refresh
+        CustomerDailyMetrics.refresh
 
         redirect_to store_area_cycles_path(@current_store), notice: "Ciclos importados com sucesso!"
       else

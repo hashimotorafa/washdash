@@ -4,7 +4,7 @@ module StoreArea
       before_action :income_statement, only: [ :show, :edit, :update, :destroy, :import_transactions ]
 
       def index
-        @income_statements = IncomeStatement.where(store: current_store)
+        @income_statements = IncomeStatement.where(store: current_store).order(year: :asc, month: :asc)
       end
 
       def new
@@ -13,6 +13,7 @@ module StoreArea
 
       def create
         @income_statement = @current_store.income_statements.new(income_statement_params)
+        @income_statement.created_at = @income_statement.month_year
         if @income_statement.save
           redirect_to store_area_financial_income_statement_path(@current_store.id, @income_statement.id), notice: "DRE criada com sucesso"
         else

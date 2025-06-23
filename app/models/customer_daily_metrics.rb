@@ -44,4 +44,13 @@ class CustomerDailyMetrics < ApplicationRecord
          )
          .order(:date)
   end
+
+  def self.to_csv(customers)
+    CSV.generate do |csv|
+      csv << %w[nome telefone email ciclos data_cadastro ultima_visita]
+      customers.each do |c|
+        csv << [c.name, c.phone_number, c.email, c.cycles_count, c.first_visit_date.to_date, c.last_cycle_date.to_date]
+      end
+    end
+  end
 end

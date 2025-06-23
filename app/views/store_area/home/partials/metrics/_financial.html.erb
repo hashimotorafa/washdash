@@ -1,0 +1,90 @@
+<%= render "layouts/partials/section", title: "Financeiro" do %>
+  <div class="row g-4 mb-4">
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Faturamento</h6>
+          <div class="display-6 fw-bold text-info">R$ <%= number_with_delimiter(@financial_metrics.revenue, delimiter: '.') %></div>
+          <% if @revenue_goal%>
+            <div class="text-muted small mb-1">Meta: R$ 20.000</div>
+              <div class="progress mb-1" style="height: 6px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            <div class="text-muted small mb-2">92% da meta</div>
+          <% end %>
+          <div class="mt-1">
+            <span class="fw-semibold <%= @financial_metrics.revenue_percentage >= 0 ? 'text-success' : 'text-danger' %>"><%= '+' if @financial_metrics.revenue_percentage >= 0 %><%= @financial_metrics.revenue_percentage %>%</span>
+            <span class="text-muted small">vs mês anterior</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Custos</h6>
+          <div class="display-6 fw-bold text-danger">R$ <%= number_with_delimiter(@financial_metrics.costs, delimiter: '.') %></div>
+          <div class="mt-1">
+            <span class="fw-semibold <%= @financial_metrics.costs_percentage >= 0 ? 'text-success' : 'text-danger' %>"><%= '+' if @financial_metrics.costs_percentage >= 0 %><%= @financial_metrics.costs_percentage %>%</span>
+            <span class="text-muted small">vs mês anterior</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Resultado</h6>
+          <div class="display-6 fw-bold <%= @financial_metrics.profit.positive? ? 'text-success' : 'text-danger' %> mb-0">
+            R$ <%= number_with_delimiter(@financial_metrics.profit, delimiter: '.') %>
+          </div>
+          <div class="mt-1">
+            <span class="fw-semibold <%= @financial_metrics.profit_percentage >= 0 ? 'text-success' : 'text-danger' %>"><%= '+' if @financial_metrics.profit_percentage >= 0 %><%= @financial_metrics.profit_percentage %>%</span>
+            <span class="text-muted small">vs mês anterior</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-12">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body py-3">
+          <h6 class="card-title text-muted mb-1">Ticket Médio</h6>
+          <div class="fw-bold text-info fs-4">R$ <%= number_with_delimiter(@financial_metrics.average_ticket, delimiter: '.') %></div>
+          <div class="fw-semibold text-success mb-3"><%= '+' if @financial_metrics.average_ticket_percentage >= 0 %><%= @financial_metrics.average_ticket_percentage %>% <span class="text-muted small">vs mês anterior</span></div>
+          <hr class="my-2">
+          <h6 class="card-title text-muted mb-1">Custo por Ciclo</h6>
+          <div class="fw-bold text-info fs-4">R$ <%= number_with_delimiter(@financial_metrics.average_cost, delimiter: '.') %></div>
+          <div class="fw-semibold text-danger"><%= '-' if @financial_metrics.average_cost_percentage < 0 %><%= @financial_metrics.average_cost_percentage %>% <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Performance Financeira</h5>
+        </div>
+        <div class="card-body">
+          <%= column_chart(
+            [
+              {
+                name: 'Faturamento',
+                data: @financial_metrics.chart[:revenue].transform_values { |v| v || 0 },
+                color: "#1cc88a"
+              },
+              {
+                name: 'Custos',
+                data: @financial_metrics.chart[:costs].transform_values { |v| v || 0 },
+                color: "#F86624"
+              }
+            ],
+            xtitle: "Mês",
+            ytitle: "R$",
+            )
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

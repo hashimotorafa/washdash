@@ -23,9 +23,11 @@
 class TransactionMonthlyMetrics < ApplicationRecord
   self.primary_key = :store_id
 
+  belongs_to :store
   belongs_to :customer, foreign_key: "customer_id"
   scope :by_store, ->(store_id) { where(store_id: store_id) }
   scope :by_month_and_year, ->(month, year) { where(month: "#{month}/#{year}".to_date) }
+  scope :by_time_range, ->(start_date, end_date) { where(month: start_date..end_date) }
 
   def self.refresh
     ActiveRecord::Base.connection.execute(

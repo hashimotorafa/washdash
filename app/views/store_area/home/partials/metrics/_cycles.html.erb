@@ -1,0 +1,95 @@
+<%= render "layouts/partials/section", title: "Ciclos" do %>
+  <div class="row g-4 mb-4">
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Ciclos de Lavagem</h6>
+          <div class="display-6 fw-bold text-info"><%= @cycles_metrics.wash_cycles %></div>
+          <div class="fw-semibold <%= @cycles_metrics.wash_cycles_percentage > 0 ? "text-success" : "text-danger" %>">
+            <%= @cycles_metrics.wash_cycles_percentage > 0 ? "+" : "" %><%= @cycles_metrics.wash_cycles_percentage %>%
+            <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Ciclos de Secagem</h6>
+          <div class="display-6 fw-bold text-info"><%= @cycles_metrics.dry_cycles %></div>
+          <div class="fw-semibold <%= @cycles_metrics.dry_cycles_percentage > 0 ? "text-success" : "text-danger" %>">
+            <%= @cycles_metrics.dry_cycles_percentage > 0 ? "+" : "" %><%= @cycles_metrics.dry_cycles_percentage %>%
+            <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Ciclos Estornados</h6>
+          <div class="display-6 fw-bold text-danger"><%= @cycles_metrics.cancelled_cycles %></div>
+          <div class="fw-semibold <%= @cycles_metrics.cancelled_cycles_percentage > 0 ? "text-danger" : "text-success" %>">
+            <%= @cycles_metrics.cancelled_cycles_percentage > 0 ? "+" : "" %><%= @cycles_metrics.cancelled_cycles_percentage %>%
+            <span class="text-muted small">vs mês anterior</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="card-title text-muted">Média de Ciclos</h6>
+          <div class="display-6 fw-bold text-info"><%= @cycles_metrics.average_cycles %></div>
+          <div class="fw-semibold <%= @cycles_metrics.average_cycles_percentage > 0 ? "text-success" : "text-danger" %> ">
+            <%= @cycles_metrics.average_cycles_percentage > 0 ? "+" : "" %><%= @cycles_metrics.average_cycles_percentage %>%
+            <span class="text-muted small">vs mês anterior</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Média de Ciclos/Dia</h5>
+            <%= line_chart @cycles_metrics.cycles_charts[:average_cycles],
+                colors: ["#4e73df"],
+                legend: "bottom",
+                defer: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Ciclos por Dia da Semana e Horário</h5>
+        </div>
+        <div class="card-body">
+          <%= column_chart(@cycles_metrics.cycles_charts[:cycles_per_weekday_and_period], stacked: true,
+            defer: true,
+            library: {
+              xAxis: {
+                categories: @current_store.cycles.group_by_weekday_and_period.keys
+              }
+            }) %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Ciclos Estornados</h5>
+        </div>
+        <div class="card-body">
+          <%= line_chart(@cycles_metrics.cycles_charts[:cancelled_cycles],
+              title: "Ciclos Estornados por Mês",
+              xtitle: "Mês",
+              ytitle: "Quantidade",
+              colors: ["#dc3545"],
+              curve: true) %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

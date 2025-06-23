@@ -23,6 +23,7 @@ class CustomerMonthlyMetrics < ApplicationRecord
   belongs_to :customer, foreign_key: "customer_id"
   belongs_to :store
   scope :by_store, ->(store_id) { where(store_id: store_id) }
+  scope :by_time_range, ->(start_date, end_date) { where(month: start_date..end_date) }
 
   def self.refresh
     ActiveRecord::Base.connection.execute(

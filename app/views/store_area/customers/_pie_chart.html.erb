@@ -1,0 +1,32 @@
+    <div class="col-md-6">
+      <div class="card border-0">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">Clientes</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center mb-4">
+            <div class="col">
+              <h2 class="mb-0"><%= @customers.count %></h2>
+              <p class="text-muted mb-0">Total de Clientes</p>
+            </div>
+          </div>
+
+          <%= pie_chart @customers_count,
+              colors: ["#4e73df", "#1cc88a"],
+              legend: "bottom",
+              donut: true,
+              defer: true %>
+          
+          <div class="row text-center mt-4">
+            <div class="col">
+              <h3 class="mb-0"><%= @customers.select { |c| c.area_code == @current_store.area_code }.count %></h3>
+              <p class="text-muted mb-0">Clientes Locais</p>
+            </div>
+            <div class="col">
+              <h3 class="mb-0"><%= @customers.select { |c| c.area_code != @current_store.area_code }.count %></h3>
+              <p class="text-muted mb-0">Clientes Externos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

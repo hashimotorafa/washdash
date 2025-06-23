@@ -74,8 +74,9 @@ module DataImporters
 
       def set_transaction_id(row)
         return row[11].value if row[11].present?
-
-        if @transaction_attributes.last[:transaction_id].to_s.include?("_")
+        if @transaction_attributes.last.nil?
+          SecureRandom.uuid
+        elsif @transaction_attributes.last[:transaction_id].to_s.include?("_")
           base_transaction_id, last_counter = @transaction_attributes.last[:transaction_id].split("_")
 
           "#{base_transaction_id}_#{last_counter.to_i + 1}"

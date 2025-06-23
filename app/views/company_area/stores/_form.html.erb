@@ -1,0 +1,39 @@
+<%= form_with(model: store, url: company_area_store_path(store), local: true) do |f| %>
+  <% if store.errors.any? %>
+    <div class="alert alert-danger">
+      <h6><%= pluralize(store.errors.count, "erro") %> impediu que esta loja fosse salva:</h6>
+      <ul class="mb-0">
+        <% store.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :name, "Nome", class: "form-label" %>
+      <%= f.text_field :name, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= f.label :started_at, "Data de Início", class: "form-label" %>
+      <%= f.date_field :started_at, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <%= f.label :area_code, "Código da Área", class: "form-label" %>
+      <%= f.text_field :area_code, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <%= f.label :external_id, "ID Externo", class: "form-label" %>
+      <%= f.text_field :external_id, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= f.submit "Atualizar", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", company_area_stores_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %> 

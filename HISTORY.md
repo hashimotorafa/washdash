@@ -286,3 +286,67 @@ Essas métricas permitem:
   - (customer_id, store_id, created_at) na tabela cycles
   - (store_id, created_at) na tabela cycles
   - Índices para campos frequentemente usados em buscas
+
+### Design System - Store Area
+
+#### Layout e Estrutura
+- Container fluido para conteúdo principal (`container-fluid`)
+- Sistema de grid responsivo com Bootstrap
+- Sidebar responsiva com largura de 16rem (`--cui-sidebar-width: 16rem`)
+- Cards sem borda por padrão (`border-0`)
+- Sombras suaves em cards (`shadow-sm`)
+
+#### Componentes
+1. **Cards**
+   - Cabeçalho transparente (`bg-transparent`)
+   - Sem bordas por padrão (`border-0`)
+   - Efeito hover com sombra suave
+   - Transição suave em interações (`transition: all 0.2s ease-in-out`)
+
+2. **Formulários**
+   - Labels flutuantes com estilo personalizado
+   - Foco sem outline padrão (`box-shadow: none`)
+   - Background light no foco (`background-color: var(--bs-light)`)
+   - Cores de texto em cinza médio (`var(--bs-gray-500)`)
+
+3. **Navegação**
+   - Sidebar com links flexbox alinhados
+   - Ícones com margem direita (`margin-right: 0.5rem`)
+   - Estados hover e active com background semi-transparente
+   - Agrupamento de itens com indentação
+
+4. **Botões**
+   - Grupo de botões para ações relacionadas
+   - Tooltips em botões de ação
+   - Ícones com classes Font Awesome e CoreUI Icons
+   - Variantes: primary, secondary, outline, danger
+
+5. **Tabelas**
+   - Responsivas com scroll horizontal
+   - Bordas suaves
+   - Striped rows para melhor legibilidade
+   - Alinhamento de ações à direita
+
+6. **Gráficos e Métricas**
+   - Cards dedicados para visualizações
+   - Altura fixa para gráficos (300px)
+   - Cores consistentes para diferentes tipos de dados
+   - Layout flexbox para métricas com ícones
+
+7. **Modais**
+   - Cabeçalho com fundo light
+   - Ícones nos títulos
+   - Botões de ação alinhados à direita
+   - Formulários com espaçamento consistente
+
+#### Cores e Tipografia
+- Uso de variáveis CSS do Bootstrap
+- Texto em cinza médio para labels e descrições
+- Ícones com cores semânticas (success, primary, warning, danger)
+- Títulos com pesos e tamanhos consistentes
+
+#### Interatividade
+- Transições suaves em hover states
+- Feedback visual em interações
+- Tooltips para ações secundárias
+- Confirmações para ações destrutivas

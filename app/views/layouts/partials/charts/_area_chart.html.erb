@@ -1,0 +1,8 @@
+  <div id="main-chart" style="min-height: 435px;">
+    <% y_annotations ||= [] %>
+    <%= area_chart(series, options.merge(defer: true, module: true)) do %>
+      <% y_annotations.each do |y_annotation_attributes| %>
+        <% y_annotation(**y_annotation_attributes) unless y_annotation_attributes.blank? %>
+      <% end %>
+    <% end %>
+  </div>

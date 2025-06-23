@@ -16,8 +16,14 @@ class IncomeStatement < ApplicationRecord
   has_many :costs
   validates :year, :month, presence: true
 
+  scope :by_store, ->(store_id) { where(store_id: store_id) }
+  scope :by_time_range, ->(start_date, end_date) { where(created_at: start_date..end_date) }
+  scope :by_month_year, ->(month, year) { where(month: month, year: year) }
+  scope :group_by_month_year, -> { group(:id, :month, :year) }
+  scope :order_by_month_year, -> { order(:month, :year) }
+
   def month_year
-    "#{month}/#{year}"
+    Date.new(year, month, 1).strftime("%m/%Y")
   end
 
   def transactions_monthly_metrics

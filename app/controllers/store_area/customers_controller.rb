@@ -24,6 +24,8 @@ module StoreArea
                  cs.first_visit_date as first_visit_date,
                  MAX(customer_daily_metrics.date) as last_cycle_date,
                  SUM(customer_daily_metrics.total_cycles) as cycles_count")
+      # colocar média de faturamento por visita
+      # customer monthly metrics visits divido por total gasto
 
       # Aplicar filtros de data
       if start_date.present?
@@ -31,7 +33,7 @@ module StoreArea
       end
 
       if end_date.present?
-        base_query = base_query.where("cs.first_visit_date <= ?", end_date)
+        base_query = base_query.where("cs.first_visit_date <= ?", end_date.end_of_day)
       end
 
       # Aplicar filtros de uso
@@ -101,6 +103,12 @@ module StoreArea
       setup_metrics_data(base_query)
 
       respond_to do |format|
+        format.csv do
+          send_data CustomerDailyMetrics.to_csv(base_query),
+                    type: "text/csv",
+                    filename: "customers-#{Time.current.strftime('%Y-%m-%d')}.csv"
+        end
+
         format.html
         format.turbo_stream do
           render turbo_stream: [

@@ -58,7 +58,7 @@ module DataImporters
       def find_or_create_customer_store(customer)
         return @customer_stores[customer.id] if @customer_stores[customer.id]
 
-        customer.customer_stores.find_by(store: @store) || customer.create_customer_store(store: @store)
+        customer.customer_stores.find_by(store: @store) || customer.customer_stores.create(store: @store)
       end
 
       def customer_row?(row)

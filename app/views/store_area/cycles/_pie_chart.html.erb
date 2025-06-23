@@ -1,0 +1,38 @@
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card border-0">
+      <div class="card-header bg-transparent border-0">
+        <h5 class="card-title mb-0">Ciclos</h5>
+      </div>
+      <div class="card-body">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="mb-0"><%= @cycles.count %></h2>
+            <p class="text-muted mb-0">Total de Ciclos</p>
+          </div>
+        </div>
+
+        <%= pie_chart @cycles_count,
+            colors: ["#4e73df", "#1cc88a", "#e74a3b"],
+            legend: "bottom",
+            donut: true,
+            defer: true %>
+
+        <div class="row text-center mt-4">
+          <div class="col">
+            <h3 class="mb-0"><%= @cycles.select { |c| !c.canceled? && c.washer? }.count %></h3>
+            <p class="text-muted mb-0">Lavagens</p>
+          </div>
+          <div class="col">
+            <h3 class="mb-0"><%= @cycles.select { |c| !c.canceled? && c.dryer? }.count %></h3>
+            <p class="text-muted mb-0">Secagens</p>
+          </div>
+          <div class="col">
+            <h3 class="mb-0"><%= @cycles.select { |c| c.canceled? }.count %></h3>
+            <p class="text-muted mb-0">Estornos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

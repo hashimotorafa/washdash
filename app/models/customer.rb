@@ -90,26 +90,7 @@ class Customer < ApplicationRecord
     end
 
     def month_range(date)
-      date.beginning_of_month..date.end_of_month
-    end
-
-    def to_csv(store_id)
-      customers = by_store(store_id).order(:id)
-
-      CSV.generate do |csv|
-        csv << %w[id nome telefone email ciclos data_cadastro ultima_visita]
-        customers.each do |c|
-          csv << [ c.id, c.name, c.phone_number, c.email, c.cycles.count, first_cycle(c),  last_cycle(c) ]
-        end
-      end
-    end
-
-    def first_cycle(customer)
-      customer.cycles.order(:external_id).first.created_at.strftime("%d/%m/%Y")
-    end
-
-    def last_cycle(customer)
-      customer.cycles.order(:external_id).last.created_at.strftime("%d/%m/%Y")
+      date.beginning_of_month..date.end_of_month.end_of_day
     end
   end
 end
