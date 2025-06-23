@@ -10,40 +10,43 @@
     </div>
   <% end %>
 
-  <div class="row">
-    <div class="col-md-6 mb-3">
-      <%= f.label :first_name, "Nome", class: "form-label" %>
-      <%= f.text_field :first_name, class: "form-control" %>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= f.text_field :first_name, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+        <label class="text-muted small">Nome</label>
+      </div>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <%= f.label :last_name, "Sobrenome", class: "form-label" %>
-      <%= f.text_field :last_name, class: "form-control" %>
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= f.text_field :last_name, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+        <label class="text-muted small">Sobrenome</label>
+      </div>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <%= f.label :email, "E-mail", class: "form-label" %>
-      <%= f.email_field :email, class: "form-control" %>
+    <div class="col-md-12">
+      <div class="form-floating">
+        <%= f.email_field :email, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+        <label class="text-muted small">E-mail</label>
+      </div>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <%= f.label :status, "Status", class: "form-label" %>
-      <%= f.select :status, User.statuses.keys.map { |status| [status.titleize, status] },
-          { include_blank: "Selecione um status" },
-          class: "form-select" %>
-    </div>
-
-    <div class="col-md-6 mb-3">
-      <%= f.label :password, "Senha", class: "form-label" %>
-      <%= f.password_field :password, class: "form-control" %>
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= f.password_field :password, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+        <label class="text-muted small">Senha</label>
+      </div>
       <% if user.persisted? %>
         <div class="form-text">Deixe em branco se não quiser alterar a senha.</div>
       <% end %>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <%= f.label :password_confirmation, "Confirmação de Senha", class: "form-label" %>
-      <%= f.password_field :password_confirmation, class: "form-control" %>
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= f.password_field :password_confirmation, class: 'form-control border-0 bg-light', placeholder: ' ' %>
+        <label class="text-muted small">Confirmação de Senha</label>
+      </div>
     </div>
   </div>
 
@@ -51,4 +54,4 @@
     <%= f.submit "Atualizar", class: "btn btn-primary" %>
     <%= link_to "Cancelar", company_area_users_path, class: "btn btn-outline-secondary" %>
   </div>
-<% end %> 
+<% end %>
