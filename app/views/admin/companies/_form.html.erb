@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, company], local: true) do |f| %>
+<%= form_with(scope: :company, url: url, method: method, local: true) do |f| %>
   <% if company.errors.any? %>
     <div class="alert alert-danger">
       <h6><%= pluralize(company.errors.count, "erro") %> impediu que esta empresa fosse salva:</h6>
@@ -27,20 +27,6 @@
 
     <div class="col-md-4">
       <div class="form-floating">
-        <%= f.text_field :phone, class: 'form-control border-0 bg-light', placeholder: ' ', data: { mask: '(00) 0000-0000' } %>
-        <label class="text-muted small">Telefone</label>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="form-floating">
-        <%= f.text_field :zip, class: 'form-control border-0 bg-light', placeholder: ' ', data: { mask: '00000-000' } %>
-        <label class="text-muted small">CEP</label>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="form-floating">
         <%= f.select :status, Company.statuses.keys.map { |status| [status.titleize, status] }, 
             { include_blank: 'Selecione um status' }, 
             class: 'form-select border-0 bg-light' %>
@@ -48,7 +34,7 @@
       </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-4">
       <div class="form-floating">
         <%= f.text_field :city, class: 'form-control border-0 bg-light', placeholder: ' ' %>
         <label class="text-muted small">Cidade</label>
@@ -67,7 +53,7 @@
   </div>
 
   <div class="mt-4">
-    <%= f.submit "Salvar", class: "btn btn-primary" %>
+    <%= f.submit company.persisted? ? "Atualizar" : "Salvar", class: "btn btn-primary" %>
     <%= link_to "Cancelar", admin_companies_path, class: "btn btn-outline-secondary" %>
   </div>
 <% end %>

@@ -4,7 +4,7 @@
       <h4 class="card-title mb-0">Nova Empresa</h4>
     </div>
     <div class="card-body">
-      <%= render 'form', company: @company %>
+      <%= render 'form', company: @company, url: admin_companies_path, method: :post %>
     </div>
   </div>
-</div> 
+</div>
