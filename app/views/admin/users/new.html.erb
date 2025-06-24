@@ -4,7 +4,7 @@
       <h4 class="card-title mb-0">Novo Usuário</h4>
     </div>
     <div class="card-body">
-      <%= render 'form', user: @user %>
+      <%= render 'form', user: @user, url: admin_users_path, method: :post %>
     </div>
   </div>
-</div> 
+</div>

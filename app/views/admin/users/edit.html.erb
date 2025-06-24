@@ -4,7 +4,7 @@
       <h4 class="card-title mb-0">Editar Usuário</h4>
     </div>
     <div class="card-body">
-      <%= render 'form', user: @user %>
+      <%= render 'form', user: @user, url: admin_user_path(@user), method: :put %>
     </div>
   </div>
-</div> 
+</div>
