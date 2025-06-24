@@ -48,10 +48,20 @@
         <label class="text-muted small">Confirmação de Senha</label>
       </div>
     </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= f.select :status,
+            [['Selecione um status', ''], ['Ativo', 'active'], ['Inativo', 'inactive']],
+            {},
+            class: 'form-select border-0 bg-light' %>
+        <label class="text-muted small">Status</label>
+      </div>
+    </div>
   </div>
 
   <div class="mt-4">
-    <%= f.submit "Atualizar", class: "btn btn-primary" %>
+    <%= f.submit user.persisted? ? "Atualizar" : "Salvar", class: "btn btn-primary" %>
     <%= link_to "Cancelar", company_area_users_path, class: "btn btn-outline-secondary" %>
   </div>
 <% end %>

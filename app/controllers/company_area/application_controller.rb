@@ -6,7 +6,11 @@ module CompanyArea
     before_action :authenticate_user!
 
     def current_company
-      @current_company ||= current_user.company
+      if current_user.admin
+        @current_company ||= Company.find(params[:company_id])
+      else
+        @current_company ||= current_user.company
+      end
     end
   end
 end

@@ -135,14 +135,11 @@ module StoreArea
     def update_customer_data(key, month)
       month = month.strftime("%m/%Y")
       @customer_data[key][month] += 1
-    rescue
-      byebug
     end
 
     def prepare_visits_data
       customer_metrics.each do |metrics|
         month  = metrics.month
-        byebug if month == '08/2024'
         visits = metrics.visits
 
         # Define conditions for new/old and local/outside
