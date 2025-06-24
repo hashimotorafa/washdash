@@ -4,7 +4,7 @@
       <h4 class="card-title mb-0">Editar Loja</h4>
     </div>
     <div class="card-body">
-      <%= render 'form', store: @store %>
+      <%= render 'form', store: @store, url: admin_store_path(@store), method: :put %>
     </div>
   </div>
-</div> 
+</div>
