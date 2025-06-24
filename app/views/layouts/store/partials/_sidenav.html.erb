@@ -2,7 +2,7 @@
 <div class="sidebar-nav-wrapper">
   <div class="sidebar-nav-main">
     <div class="nav-scope mb-3">
-      <%= link_to company_area_stores_path, class: "nav-link border-start border-4 ps-3" do %>
+      <%= link_to company_area_stores_path(company_id: @current_store.company_id), class: "nav-link border-start border-4 ps-3" do %>
         <i class="nav-icon cil-arrow-left me-2"></i>Área da Empresa
       <% end %>
     </div>

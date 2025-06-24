@@ -2,6 +2,15 @@
 <div class="sidebar-nav-wrapper">
   <div class="sidebar-nav-main">
     <ul class="sidebar-nav">
+      <% if current_user.admin? %>
+        <li class="nav-title">Administração</li>
+        <li class="nav-item">
+          <%= link_to admin_companies_path, class: "nav-link border-start border-4 border-warning ps-3" do %>
+            <i class="nav-icon cil-arrow-left"></i> Área Admin
+          <% end %>
+        </li>
+      <% end %>
+      
       <li class="nav-title">Gestão</li>
         <%= link_to company_area_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
           <i class="nav-icon cil-building"></i> Lojas
