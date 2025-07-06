@@ -21,4 +21,13 @@ Things you may want to cover:
 
 * Deployment instructions
 
+### AWS COPILOT
+#### Deploy
+`copilot svc deploy --app washdash --env production --name app`
+
+#### Access
+`copilot svc exec --name app --env production -- bash`
+
+#### Logs
+`copilot svc logs --name app --env production --follow`
 * ...
