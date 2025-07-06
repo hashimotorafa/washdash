@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   namespace :admin do
-    root to: "admin/home#index"
+    root to: "home#index"
     resources :home, only: [ :index ]
     resources :companies
     resources :users
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
 
   namespace :company_area do
-    root to: "company_area/home#index"
+    root to: "home#index"
     resources :users, only: [ :new, :create, :index, :edit, :update ]
     resources :stores, only: [ :index, :edit, :update ]
     resources :settings

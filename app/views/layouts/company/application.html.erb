@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WashDash Admin</title>
+    <title>WashDash</title>
 
     <!-- CoreUI CSS -->
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/css/coreui.min.css" rel="stylesheet">
@@ -33,9 +33,9 @@
           <%= render 'layouts/company/partials/navbar'%>
         </div>
       </header>
-      
+
       <div class="body flex-grow-1">
-        <div class="container-lg pt-5">
+        <div class="container-lg">
 
           <!-- Flash Messages -->
           <% flash.each do |name, msg| %>
@@ -56,18 +56,15 @@
         <div class="container-fluid">
           <div class="row align-items-center justify-content-between">
             <div class="col-md">
-              <div class="text-body-secondary">WashDash Admin &copy; <%= Time.current.year %></div>
+              <div class="text-body-secondary">WashDash &copy; <%= Time.current.year %></div>
             </div>
           </div>
         </div>
       </footer>
     </div>
-
-    <!-- Bootstrap Bundle com Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <turbo-frame id="modal"></turbo-frame>
     <!-- CoreUI JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/js/coreui.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/js/coreui.bundle.min.js" integrity="sha384-4jCojw0A851W9UpCRsgB98M0sAJ/aaq8Qlb3jfsBLFdq6x6X3zG4xyBIGuvjw8" crossorigin="anonymous"></script>
     
     <!-- Custom Admin JS -->
     <%= javascript_include_tag "admin", "data-turbo-track": "reload", defer: true %>
