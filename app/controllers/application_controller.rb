@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     if resource.admin
       admin_root_path
     elsif resource.company
-      company_root_path
+      company_area_root_path
     end
   end
 end
