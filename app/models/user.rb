@@ -34,7 +34,7 @@ class User < ApplicationRecord
   belongs_to :company, optional: true
 
   # Enums
-  enum :role, { manager: 1, operator: 2 }
+  enum :role, { owner: 0, manager: 1, operator: 2 }
   enum :status, { active: 0, inactive: 1 }
 
   # Validations

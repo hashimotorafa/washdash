@@ -3,6 +3,7 @@
 # Ignore git directory.
 /.git/
 /.gitignore
+.gitattributes
 
 # Ignore bundler config.
 /.bundle
@@ -46,3 +47,67 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
+# Logs
+log/*
+*.log
+
+# Temporary files
+tmp/*
+!tmp/.gitkeep
+
+# Database
+db/*.sqlite3
+db/*.sqlite3-*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Documentation
+README.md
+CHANGELOG.md
+docs/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if using yarn/npm)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+coverage/
+
+# Test files
+spec/
+test/
+
+# Docker files
+docker-compose*
+
+# CI/CD
+.gitlab-ci.yml
+.travis.yml
+
+# Backup files
+*.bak
+*.backup
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Build artifacts
+public/assets/
+public/packs/
