@@ -1,8 +1,4 @@
-console.log('Dashboard module loaded!');
-
 function initDashboard() {
-  console.log('initDashboard called');
-  
   // Initialize all tooltips - CoreUI 5.x syntax
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
   tooltipTriggerList.map(function (tooltipTriggerEl) {

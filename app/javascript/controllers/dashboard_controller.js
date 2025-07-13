@@ -2,24 +2,19 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    console.log('Dashboard controller connected!');
     // Wait for CoreUI to be available
     this.waitForCoreUI();
   }
 
   waitForCoreUI() {
     if (typeof window.coreui !== 'undefined') {
-      console.log('CoreUI is available, initializing dashboard');
       this.initDashboard();
     } else {
-      console.log('CoreUI not yet available, waiting...');
       setTimeout(() => this.waitForCoreUI(), 100);
     }
   }
 
   initDashboard() {
-    console.log('initDashboard called from Stimulus controller');
-    
     // Initialize all tooltips - CoreUI 5.x syntax
     if (window.coreui && window.coreui.Tooltip) {
       var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
