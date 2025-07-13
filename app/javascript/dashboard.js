@@ -200,6 +200,3 @@ document.addEventListener('DOMContentLoaded', initDashboard);
 
 // Re-initialize when navigating with Turbo
 document.addEventListener('turbo:load', initDashboard);
-
-// Export for ES6 module compatibility
-export { initDashboard };

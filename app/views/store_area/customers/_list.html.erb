@@ -17,11 +17,11 @@
           <thead>
             <tr>
               <th><%= sort_link(@q, :name, "Cliente") %></th>
-              <th><%= sort_link(@q, :phone_number, "Telefone") %></th>
+              <th class="text-center phone-column"><%= sort_link(@q, :phone_number, "Telefone") %></th>
               <th><%= sort_link(@q, :is_active, "Status") %></th>
-              <th class="text-center"><%= sort_link(@q, :cycles_count, "Ciclos") %></th>
-              <th><%= sort_link(@q, :first_visit_date, "Data de Cadastro") %></th>
-              <th><%= sort_link(@q, :last_cycle_date, "Última Visita") %></th>
+              <th><%= sort_link(@q, :cycles_count, "Ciclos") %></th>
+              <th><%= sort_link(@q, :first_visit_date, "Cadastro") %></th>
+              <th><%= sort_link(@q, :last_cycle_date, "Último ciclo") %></th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -32,13 +32,13 @@
                   <div class="fw-bold"><%= customer.name %></div>
                   <div class="text-muted small"><%= customer.email %></div>
                 </td>
-                <td><%= customer.phone_number %></td>
+                <td class="text-center phone-column"><%= customer.phone_number %></td>
                 <td>
                   <span class="badge bg-<%= customer.is_active? ? 'success' : 'danger' %>">
                     <%= customer.is_active? ? 'Ativo' : 'Inativo' %>
                   </span>
                 </td>
-                <td class="text-center"><%= customer.cycles_count %></td>
+                <td><%= customer.cycles_count %></td>
                 <td>
                   <% if customer.first_visit_date %>
                     <div><%= l(customer.first_visit_date.to_date, format: :short) %></div>

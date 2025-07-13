@@ -706,4 +706,15 @@ body.dashboard {
       transform: translateY(-50%) rotate(-135deg);
     }
   }
+
+  // Table styles
+  .table {
+    th, td {
+      &.phone-column {
+        width: 1%;
+        white-space: nowrap;
+        min-width: 120px; // Largura mínima para números de telefone brasileiros
+      }
+    }
+  }
 } 
