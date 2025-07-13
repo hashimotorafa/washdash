@@ -51,10 +51,7 @@
     <turbo-frame id="modal"></turbo-frame>
     <!-- CoreUI JS -->
     <%= javascript_include_tag "coreui/coreui.bundle.min.js", "data-turbo-track": "reload" %>
-    
-    <!-- Custom Dashboard JS via importmap -->
-    <script type="module">
-      import 'dashboard';
-    </script>
+    <!-- Custom Dashboard JS -->
+    <%= javascript_include_tag "dashboard", "data-turbo-track": "reload", defer: true %>
   </body>
 </html>

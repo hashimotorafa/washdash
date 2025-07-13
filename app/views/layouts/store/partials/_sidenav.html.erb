@@ -8,10 +8,10 @@
           <i class="nav-icon cil-arrow-left"></i> Área da Empresa
         <% end %>
       </li>
-      
+
       <li class="nav-title">Gestão</li>
       <li class="nav-item">
-        <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
+        <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'home'}" do %>
           <i class="nav-icon cil-speedometer"></i> Dashboard
         <% end %>
       </li>
@@ -25,15 +25,14 @@
           <i class="nav-icon cil-clock"></i> Ciclos
         <% end %>
       </li>
-      <li class="nav-group">
+      <li class="nav-group<%= ' show' if controller_name == 'income_statements' %>">
         <a class="nav-link nav-group-toggle #{'active' if controller_name == 'income_statements'}" 
-           href="#" 
-           role="button" 
-           aria-expanded="false"
-           data-bs-toggle="collapse">
+          href="#"
+          role="button"
+          aria-expanded="<%= controller_name == 'income_statements' ? 'true' : 'false' %>">
           <i class="nav-icon cil-dollar"></i> Financeiro
         </a>
-        <ul class="nav-group-items" aria-hidden="true">
+        <ul class="nav-group-items" aria-hidden="<%= controller_name == 'income_statements' ? 'false' : 'true' %>">
           <li class="nav-item">
             <%= link_to store_area_financial_income_statements_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'income_statements'}" do %>
               <i class="nav-icon cil-library"></i> DRE

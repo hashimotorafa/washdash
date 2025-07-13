@@ -109,17 +109,17 @@ module StoreArea
         [
           {
             name: "Noite",
-            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:evening] || 0 },
+            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods.present? ? periods[:evening] : 0 },
             color: "#1f507a"
           },
           {
             name: "Tarde",
-            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:afternoon] || 0 },
+            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods.present? ? periods[:afternoon] : 0 },
             color: "#F7B632"
           },
           {
             name: "Manhã",
-            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods[:morning] || 0 },
+            data: @store.cycles.group_by_weekday_and_period.transform_values { |periods| periods.present? ? periods[:morning] : 0 },
             color: "#3692e2"
           }
         ]

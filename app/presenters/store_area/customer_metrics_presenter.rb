@@ -20,6 +20,9 @@ module StoreArea
       @customer_data[:foreign_customers][previous_accounting_period.strftime("%m/%Y")] +
       @customer_data[:old_local_customers][previous_accounting_period.strftime("%m/%Y")] +
       @customer_data[:old_foreign_customers][previous_accounting_period.strftime("%m/%Y")]
+    rescue NoMethodError => e
+      Rails.logger.error("previous_total_customers: #{@customer_data.inspect}")
+      0
     end
 
     def new_customers_total
@@ -50,12 +53,17 @@ module StoreArea
       @customer_data[:old_foreign_customers][@accounting_period.strftime("%m/%Y")]
     end
 
+    def old_customers_percentage
+      @old_customers_percentage ||= calculate_percentage(old_customers_total, previous_total_customers)
+    end
+
+
     def lost_local_customers
-      @customer_data[:local_customers][@accounting_period.strftime("%m/%Y")] - @customer_data[:old_local_customers][previous_accounting_period.strftime("%m/%Y")]
+      @customer_data[:local_customers][@accounting_period.strftime("%m/%Y")].to_i - @customer_data[:old_local_customers][previous_accounting_period.strftime("%m/%Y")].to_i
     end
 
     def lost_foreign_customers
-      @customer_data[:foreign_customers][@accounting_period.strftime("%m/%Y")] - @customer_data[:old_foreign_customers][@accounting_period.strftime("%m/%Y")]
+      @customer_data[:foreign_customers][@accounting_period.strftime("%m/%Y")].to_i - @customer_data[:old_foreign_customers][@accounting_period.strftime("%m/%Y")].to_i
     end
 
     def lost_customers_total
@@ -63,11 +71,7 @@ module StoreArea
     end
 
     def lost_customers_percentage
-      calculate_percentage(total_customers, previous_total_customers)*-1
-    end
-
-    def old_customers_percentage
-      calculate_percentage(old_customers_total, previous_total_customers)
+      @lost_customers_percentage ||= calculate_percentage(total_customers, previous_total_customers)*-1
     end
 
     def column_chart_data

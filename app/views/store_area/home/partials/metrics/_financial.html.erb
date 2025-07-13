@@ -66,23 +66,27 @@
           <h5 class="card-title mb-0">Performance Financeira</h5>
         </div>
         <div class="card-body">
-          <%= column_chart(
-            [
-              {
-                name: 'Faturamento',
-                data: @financial_metrics.chart[:revenue].transform_values { |v| v || 0 },
-                color: "#1cc88a"
-              },
-              {
-                name: 'Custos',
-                data: @financial_metrics.chart[:costs].transform_values { |v| v || 0 },
-                color: "#F86624"
-              }
-            ],
-            xtitle: "Mês",
-            ytitle: "R$",
-            )
-          %>
+          <% financial_chart_data = [
+            {
+              name: 'Faturamento',
+              data: @financial_metrics.chart[:revenue].transform_values { |v| v || 0 },
+              color: "#1cc88a"
+            },
+            {
+              name: 'Custos',
+              data: @financial_metrics.chart[:costs].transform_values { |v| v || 0 },
+              color: "#F86624"
+            }
+          ] %>
+
+          <%= render_chart_or_empty_message(financial_chart_data, "gráfico de performance financeira") do %>
+            <%= column_chart(
+              financial_chart_data,
+              xtitle: "Mês",
+              ytitle: "R$",
+              )
+            %>
+          <% end %>
         </div>
       </div>
     </div>

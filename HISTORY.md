@@ -282,6 +282,33 @@ Essas métricas permitem:
   - Suporte a múltiplos formatos de fonte (TTF, WOFF, WOFF2)
   - Otimização do carregamento de fontes
 
+## [0.2.1] - 2025-01-15
+
+### Corrigido
+- **Store Area**: Correção do erro "invalid date" no controller home
+  - Problema: Métodos `previous_month` e `next_month` usando `Date.parse` com formato `'%Y-%m'`
+  - Solução: Substituído por `gsub("-", "/").to_date` para compatibilidade com Rails
+  - Alinhamento com padrão já usado no método `accounting_period`
+- **JavaScript**: Correção de erro de sintaxe em `application.js`
+  - Problema: Imports na mesma linha sem separação adequada
+  - Solução: Separação de imports em linhas individuais
+- **UI/UX**: Otimização da coluna de telefone na tabela de clientes
+  - Adicionado CSS específico para coluna de telefone (`phone-column`)
+  - Largura otimizada com `width: 1%` e `min-width: 120px`
+  - Prevenção de quebra de linha com `white-space: nowrap`
+  - Melhora na experiência visual da tabela
+
+### Adicionado
+- **CSS**: Estilo específico para colunas de telefone em tabelas
+  - Classe `.phone-column` para controle preciso de largura
+  - Aplicado no contexto `body.dashboard` para especificidade
+  - Largura mínima adequada para números brasileiros
+
+### Melhorado
+- **Experiência do Usuário**: Tabela de clientes mais compacta e organizada
+- **Performance**: Redução de espaço desnecessário em colunas de dados estruturados
+- **Manutenibilidade**: Código JavaScript mais limpo e sem erros de sintaxe
+
 ## [0.1.0] - 2024-03-19
 
 ### Adicionado

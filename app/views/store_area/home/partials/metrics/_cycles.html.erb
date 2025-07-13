@@ -51,10 +51,12 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title mb-3">Média de Ciclos/Dia</h5>
+          <%= render_chart_or_empty_message(@cycles_metrics.cycles_charts[:average_cycles], "gráfico de média de ciclos por dia") do %>
             <%= line_chart @cycles_metrics.cycles_charts[:average_cycles],
                 colors: ["#4e73df"],
                 legend: "bottom",
                 defer: true %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -66,13 +68,15 @@
           <h5 class="card-title mb-0">Ciclos por Dia da Semana e Horário</h5>
         </div>
         <div class="card-body">
-          <%= column_chart(@cycles_metrics.cycles_charts[:cycles_per_weekday_and_period], stacked: true,
-            defer: true,
-            library: {
-              xAxis: {
-                categories: @current_store.cycles.group_by_weekday_and_period.keys
-              }
-            }) %>
+          <%= render_chart_or_empty_message(@cycles_metrics.cycles_charts[:cycles_per_weekday_and_period], "gráfico por dia da semana") do %>
+            <%= column_chart(@cycles_metrics.cycles_charts[:cycles_per_weekday_and_period], stacked: true,
+              defer: true,
+              library: {
+                xAxis: {
+                  categories: @current_store.cycles.group_by_weekday_and_period.keys
+                }
+              }) %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -82,12 +86,14 @@
           <h5 class="card-title mb-0">Ciclos Estornados</h5>
         </div>
         <div class="card-body">
-          <%= line_chart(@cycles_metrics.cycles_charts[:cancelled_cycles],
-              title: "Ciclos Estornados por Mês",
-              xtitle: "Mês",
-              ytitle: "Quantidade",
-              colors: ["#dc3545"],
-              curve: true) %>
+          <%= render_chart_or_empty_message(@cycles_metrics.cycles_charts[:cancelled_cycles], "gráfico de ciclos estornados") do %>
+            <%= line_chart(@cycles_metrics.cycles_charts[:cancelled_cycles],
+                title: "Ciclos Estornados por Mês",
+                xtitle: "Mês",
+                ytitle: "Quantidade",
+                colors: ["#dc3545"],
+                curve: true) %>
+          <% end %>
         </div>
       </div>
     </div>

@@ -717,4 +717,17 @@ body.dashboard {
       }
     }
   }
-} 
+
+  // Empty chart message styles
+  .empty-chart-message {
+    min-height: 200px;
+
+    i {
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover i {
+      opacity: 0.5 !important;
+    }
+  }
+}
