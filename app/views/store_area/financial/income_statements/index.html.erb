@@ -74,7 +74,7 @@
                       data: { bs_toggle: "tooltip", bs_placement: "top", title: "Editar" } do %>
                     <i class="cil-pencil"></i>
                   <% end %>
-                  <%= link_to store_area_financial_income_statement_path(@current_store.id, statement.id), 
+                  <%= button_to store_area_financial_income_statement_path(@current_store.id, statement.id), 
                       method: :delete,
                       data: { 
                         confirm: "Tem certeza que deseja excluir esta DRE?",

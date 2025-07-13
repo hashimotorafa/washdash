@@ -1,4 +1,4 @@
-// Admin-specific styles for CoreUI 5.4.1
+// Dashboard-specific styles for CoreUI 5.4.1
 @import "coreui/coreui.min.css";
 @import "coreui-icons/all.min.css";
 
@@ -8,8 +8,8 @@
   --cui-sidebar-brand-height: 4rem;
 }
 
-// Admin area styles
-body.admin {
+// Dashboard area styles
+body.dashboard {
   background-color: #f1f3f4; // Darker light gray background
   
   // Sidebar
@@ -155,13 +155,6 @@ body.admin {
         color: #fff;
         background: rgba(255, 255, 255, 0.1);
         font-weight: 500;
-      }
-
-      .nav-icon {
-        margin-right: 0.5rem;
-        width: 1rem;
-        height: 1rem;
-        flex-shrink: 0;
       }
     }
   }
@@ -373,6 +366,63 @@ body.admin {
           text-align: center;
         }
       }
+      
+      // Fix button grouping for Rails button_to forms
+      form {
+        display: inline-block;
+        margin: 0;
+        
+        button {
+          padding: 0.375rem 0.5rem;
+          font-size: 0.875rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          border-radius: 0;
+          
+          i[class*="cil-"] {
+            font-size: 0.875rem;
+            margin-right: 0;
+            display: inline-block;
+            width: 1rem;
+            text-align: center;
+            line-height: 1;
+            vertical-align: middle;
+          }
+        }
+      }
+      
+      // First child styling
+      > :first-child {
+        .btn, button {
+          border-top-left-radius: 0.375rem !important;
+          border-bottom-left-radius: 0.375rem !important;
+        }
+      }
+      
+      // Last child styling
+      > :last-child {
+        .btn, button {
+          border-top-right-radius: 0.375rem !important;
+          border-bottom-right-radius: 0.375rem !important;
+        }
+      }
+      
+      // Middle children (not first, not last)
+      > :not(:first-child):not(:last-child) {
+        .btn, button {
+          border-radius: 0 !important;
+          border-left: 0;
+        }
+      }
+      
+      // Not first child
+      > :not(:first-child) {
+        .btn, button {
+          border-left: 0;
+        }
+      }
     }
   }
 
@@ -557,9 +607,19 @@ body.admin {
     width: 1rem;
     height: 1rem;
     flex-shrink: 0;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1rem;
     line-height: 1;
+    vertical-align: middle;
+  }
+  
+  // Ensure CoreUI icons are properly aligned
+  [class*="cil-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   i[class*="cil-"] {
@@ -600,40 +660,50 @@ body.admin {
     }
   }
 
-  // Navigation groups (for future use)
-  .nav-group-items {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    padding-left: 0;
+  // Navigation groups
+  .nav-group {
+    .nav-group-items {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
 
-    .nav-link {
-      padding-left: 2.5rem;
+      .nav-link {
+        padding-left: 2.5rem;
+        font-size: 0.875rem;
+      }
     }
-  }
 
-  .nav-group.show .nav-group-items {
-    max-height: 1000px;
-  }
-
-  .nav-group-toggle {
-    position: relative;
-
-    &::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-right: 2px solid;
-      border-bottom: 2px solid;
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%) rotate(45deg);
-      transition: transform 0.3s ease;
+    &.show .nav-group-items {
+      max-height: 500px;
     }
-  }
 
-  .nav-group.show .nav-group-toggle::after {
-    transform: translateY(-50%) rotate(-135deg);
+    .nav-group-toggle {
+      position: relative;
+      cursor: pointer;
+
+      &::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid rgba(255, 255, 255, 0.6);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        transition: transform 0.3s ease;
+      }
+
+      &:hover::after {
+        border-color: rgba(255, 255, 255, 0.87);
+      }
+    }
+
+    &.show .nav-group-toggle::after {
+      transform: translateY(-50%) rotate(-135deg);
+    }
   }
 } 

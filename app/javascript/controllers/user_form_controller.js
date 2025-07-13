@@ -12,7 +12,7 @@ export default class extends Controller {
     const isOperator = roleSelect.value === 'operator'
     
     if (this.hasStoreFieldTarget) {
-      this.storeFieldTarget.style.display = isOperator ? 'block' : 'none'
+      this.storeFieldTarget.classList.toggle('d-none', !isOperator)
       
       const storeSelect = this.storeFieldTarget.querySelector('select')
       storeSelect.required = isOperator

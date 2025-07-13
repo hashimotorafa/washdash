@@ -7,7 +7,7 @@ module CompanyArea
 
     def current_company
       if current_user.admin
-        @current_company ||= Company.find(params[:company_id])
+        @current_company ||= Company.find(session[:company_id] || params[:company_id])
       else
         @current_company ||= current_user.company
       end

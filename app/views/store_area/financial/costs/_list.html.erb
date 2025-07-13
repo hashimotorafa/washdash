@@ -40,11 +40,11 @@
                       <div class="btn-group">
                         <%= link_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
                             class: "btn btn-sm btn-outline-info", data: { turbo_frame: "modal" } do %>
-                          <i class="cil cil-description"></i>
+                          <i class="cil-description"></i>
                         <% end %>
                         <%= link_to edit_store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
                             class: "btn btn-sm btn-outline-primary", data: { turbo_frame: "modal" } do %>
-                          <i class="cil cil-pencil"></i>
+                          <i class="cil-pencil"></i>
                         <% end %>
                         <%= button_to store_area_financial_income_statement_cost_path(income_statement.store_id, income_statement, cost),
                             method: :delete,
@@ -55,7 +55,7 @@
                               }
                             },
                             class: "btn btn-sm btn-outline-danger" do %>
-                          <i class="cil cil-trash"></i>
+                          <i class="cil-trash"></i>
                         <% end %>
                       </div>
                     </td>

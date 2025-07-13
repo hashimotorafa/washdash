@@ -10,7 +10,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.img_src     :self, :https, :data
   policy.object_src  :none
 
-  # Allow CoreUI CDN
+  # Allow CoreUI CDN and inline styles for Chartkick
   policy.style_src   :self, :https, "'unsafe-inline'", "https://cdn.jsdelivr.net"
   policy.script_src  :self, :https, "'unsafe-inline'", "https://cdn.jsdelivr.net"
 
@@ -19,7 +19,8 @@ Rails.application.config.content_security_policy do |policy|
 end
 
 # Generate session nonces for permitted importmap and inline scripts
-Rails.application.config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+# Disabled nonce generation to allow unsafe-inline styles for Chartkick
+# Rails.application.config.content_security_policy_nonce_generator = ->(request) { SecureRandom.base64(16) }
 
 # Report violations without enforcing the policy.
 # Rails.application.config.content_security_policy_report_only = true

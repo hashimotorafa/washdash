@@ -1,4 +1,4 @@
-function initAdmin() {
+function initDashboard() {
   // Initialize all tooltips - CoreUI 5.x syntax
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
   tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -96,11 +96,37 @@ function initAdmin() {
   document.querySelectorAll('.nav-group-toggle').forEach(function (element) {
     element.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation();
+      
       var navGroup = element.closest('.nav-group');
       if (navGroup) {
+        // Toggle the show class
         navGroup.classList.toggle('show');
+        
+        // Update aria attributes for accessibility
+        var isExpanded = navGroup.classList.contains('show');
+        element.setAttribute('aria-expanded', isExpanded);
+        
+        // Find the nav-group-items and update aria-hidden
+        var navGroupItems = navGroup.querySelector('.nav-group-items');
+        if (navGroupItems) {
+          navGroupItems.setAttribute('aria-hidden', !isExpanded);
+        }
       }
     });
+    
+    // Set initial aria attributes
+    var navGroup = element.closest('.nav-group');
+    if (navGroup) {
+      var isExpanded = navGroup.classList.contains('show');
+      element.setAttribute('aria-expanded', isExpanded);
+      element.setAttribute('role', 'button');
+      
+      var navGroupItems = navGroup.querySelector('.nav-group-items');
+      if (navGroupItems) {
+        navGroupItems.setAttribute('aria-hidden', !isExpanded);
+      }
+    }
   });
 
   // Handle table row clicks for better UX
@@ -146,9 +172,9 @@ function initAdmin() {
       tableRows.forEach(function (row) {
         var text = row.textContent.toLowerCase();
         if (text.includes(searchTerm)) {
-          row.style.display = '';
+          row.classList.remove('d-none');
         } else {
-          row.style.display = 'none';
+          row.classList.add('d-none');
         }
       });
     });
@@ -168,7 +194,7 @@ function initAdmin() {
 }
 
 // Initialize admin functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', initAdmin);
+document.addEventListener('DOMContentLoaded', initDashboard);
 
 // Re-initialize when navigating with Turbo
-document.addEventListener('turbo:load', initAdmin);
+document.addEventListener('turbo:load', initDashboard);

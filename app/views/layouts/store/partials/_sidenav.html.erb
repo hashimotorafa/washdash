@@ -1,26 +1,39 @@
 <!-- Sidebar responsiva com largura aumentada -->
 <div class="sidebar-nav-wrapper">
   <div class="sidebar-nav-main">
-    <div class="nav-scope mb-3">
-      <%= link_to company_area_stores_path(company_id: @current_store.company_id), class: "nav-link border-start border-4 ps-3" do %>
-        <i class="nav-icon cil-arrow-left me-2"></i>Área da Empresa
-      <% end %>
-    </div>
     <ul class="sidebar-nav">
-      <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
-        <i class="nav-icon cil-speedometer"></i> Dashboard
-      <% end %>
-      <%= link_to store_area_customers_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'customers'}" do %>
-        <i class="nav-icon cil-people"></i> Clientes
-      <% end %>
-      <%= link_to store_area_cycles_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'cycles'}" do %>
-        <i class="nav-icon cil-clock"></i> Ciclos
-      <% end %>
+      <li class="nav-title">Navegação</li>
+      <li class="nav-item">
+        <%= link_to company_area_stores_path(company_id: @current_store.company_id), class: "nav-link border-start border-4 border-primary ps-3 bg-primary text-white" do %>
+          <i class="nav-icon cil-arrow-left"></i> Área da Empresa
+        <% end %>
+      </li>
+      
+      <li class="nav-title">Gestão</li>
+      <li class="nav-item">
+        <%= link_to store_area_root_path(@current_store.id), class: "nav-link #{'active' if current_page?(admin_home_index_path)}" do %>
+          <i class="nav-icon cil-speedometer"></i> Dashboard
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to store_area_customers_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'customers'}" do %>
+          <i class="nav-icon cil-people"></i> Clientes
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to store_area_cycles_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'cycles'}" do %>
+          <i class="nav-icon cil-clock"></i> Ciclos
+        <% end %>
+      </li>
       <li class="nav-group">
-        <a class="nav-link nav-group-toggle #{'active' if controller_name == 'income_statements'}" href="#">
+        <a class="nav-link nav-group-toggle #{'active' if controller_name == 'income_statements'}" 
+           href="#" 
+           role="button" 
+           aria-expanded="false"
+           data-bs-toggle="collapse">
           <i class="nav-icon cil-dollar"></i> Financeiro
         </a>
-        <ul class="nav-group-items">
+        <ul class="nav-group-items" aria-hidden="true">
           <li class="nav-item">
             <%= link_to store_area_financial_income_statements_path(@current_store.id), class: "nav-link #{'active' if controller_name == 'income_statements'}" do %>
               <i class="nav-icon cil-library"></i> DRE

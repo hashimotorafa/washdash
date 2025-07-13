@@ -1,20 +1,17 @@
-<div class="container-fluid p-0">
-
-  <div class="d-flex justify-content-end mb-4">
-    <%= form_with url: store_area_home_index_path, method: :get, local: true, class: "row g-2 align-items-end" do %>
-      <div class="col-auto">
-        <%= label_tag :month, "Competência", class: "form-label mb-1" %>
-        <%= month_field_tag :month, params[:month] || Date.today.strftime('%Y-%m'), class: "form-control form-control-sm", lang: "pt-BR" %>
-      </div>
-      <div class="col-auto">
-        <%= submit_tag "Filtrar", class: "btn btn-primary btn-sm" %>
-      </div>
-    <% end %>
-  </div>
-
-  <%= render "store_area/home/partials/metrics/financial" %>
-
-  <%= render "store_area/home/partials/metrics/customers"  %>
-
-  <%= render 'store_area/home/partials/metrics/cycles' %>
+<div class="d-flex justify-content-end mb-4">
+  <%= form_with url: store_area_home_index_path, method: :get, local: true, class: "row g-2 align-items-end" do %>
+    <div class="col-auto">
+      <%= label_tag :month, "Competência", class: "form-label mb-1" %>
+      <%= month_field_tag :month, params[:month] || Date.today.strftime('%Y-%m'), class: "form-control form-control-sm", lang: "pt-BR" %>
+    </div>
+    <div class="col-auto">
+      <%= submit_tag "Filtrar", class: "btn btn-primary btn-sm" %>
+    </div>
+  <% end %>
 </div>
+
+<%= render "store_area/home/partials/metrics/financial" %>
+
+<%= render "store_area/home/partials/metrics/customers"  %>
+
+<%= render 'store_area/home/partials/metrics/cycles' %>

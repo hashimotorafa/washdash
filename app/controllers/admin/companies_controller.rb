@@ -41,7 +41,7 @@ module Admin
 
     def switch
       session[:company_id] = @company.id
-      redirect_to company_area_root_path
+      redirect_to company_area_root_path(id: @company.id)
     end
 
     private
