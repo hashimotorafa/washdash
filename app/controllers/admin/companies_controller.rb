@@ -1,6 +1,6 @@
 module Admin
   class CompaniesController < Admin::ApplicationController
-    before_action :set_company, only: [ :show, :edit, :update, :destroy ]
+    before_action :set_company, except: [ :index, :new, :create ]
 
     def index
       @companies = Company.ordered
@@ -37,6 +37,11 @@ module Admin
     def destroy
       @company.destroy
       redirect_to admin_companies_path, notice: "Empresa removida com sucesso.", status: :see_other
+    end
+
+    def switch
+      session[:company_id] = @company.id
+      redirect_to company_area_root_path
     end
 
     private

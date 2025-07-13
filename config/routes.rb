@@ -15,14 +15,19 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "home#index"
     resources :home, only: [ :index ]
-    resources :companies
+    resources :companies do
+      member do
+        get :switch
+      end
+    end
     resources :users
     resources :stores
     resources :settings
   end
 
   namespace :company_area do
-    root to: "home#index"
+    # root to: "home#index"
+    root to: "stores#index"
     resources :users, only: [ :new, :create, :index, :edit, :update ]
     resources :stores, only: [ :index, :edit, :update ]
     resources :settings

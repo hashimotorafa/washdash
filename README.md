@@ -22,6 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 ### AWS COPILOT
+
 #### Deploy
 `copilot svc deploy --app washdash --env production --name app`
 
@@ -30,4 +31,6 @@ Things you may want to cover:
 
 #### Logs
 `copilot svc logs --name app --env production --follow`
-* ...
+
+#### Delete
+`copilot svc delete --name app --env production`
