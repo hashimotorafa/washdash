@@ -26,7 +26,7 @@
         <% end %>
       </li>
       <li class="nav-group<%= ' show' if controller_name == 'income_statements' %>">
-        <a class="nav-link nav-group-toggle #{'active' if controller_name == 'income_statements'}" 
+        <a class="nav-link nav-group-toggle<%= ' active' if controller_name == 'income_statements' %>" 
           href="#"
           role="button"
           aria-expanded="<%= controller_name == 'income_statements' ? 'true' : 'false' %>">

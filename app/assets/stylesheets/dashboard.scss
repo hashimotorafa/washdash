@@ -1,6 +1,4 @@
 // Dashboard-specific styles for CoreUI 5.4.1
-@import "coreui/coreui.min.css";
-@import "coreui-icons/all.min.css";
 
 // CSS Variables
 :root {
@@ -660,51 +658,91 @@ body.dashboard {
     }
   }
 
-  // Navigation groups
+  // Sidebar navigation groups
   .nav-group {
+    .nav-group-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      
+      &:hover {
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      .nav-icon {
+        margin-right: 0.5rem;
+        width: 20px;
+        height: 20px;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid rgba(255, 255, 255, 0.6);
+        transition: transform 0.3s ease;
+      }
+    }
+    
     .nav-group-items {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-out;
-      padding-left: 0;
-      list-style: none;
-      margin: 0;
-
+      transition: max-height 0.3s ease;
+      background-color: rgba(0, 0, 0, 0.1);
+      
       .nav-link {
-        padding-left: 2.5rem;
-        font-size: 0.875rem;
+        padding: 0.5rem 1rem 0.5rem 3rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          color: #fff;
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        &.active {
+          color: #fff;
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-icon {
+          margin-right: 0.5rem;
+          width: 16px;
+          height: 16px;
+        }
       }
     }
-
-    &.show .nav-group-items {
-      max-height: 500px;
-    }
-
-    .nav-group-toggle {
-      position: relative;
-      cursor: pointer;
-
-      &::after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        border-right: 2px solid rgba(255, 255, 255, 0.6);
-        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-        transition: transform 0.3s ease;
+    
+    &.show {
+      .nav-group-items {
+        max-height: 500px;
       }
-
-      &:hover::after {
-        border-color: rgba(255, 255, 255, 0.87);
+      
+      .nav-group-toggle::after {
+        transform: translateY(-50%) rotate(180deg);
       }
     }
+  }
 
-    &.show .nav-group-toggle::after {
-      transform: translateY(-50%) rotate(-135deg);
-    }
+  // Teste adicional - regra mais específica
+  .sidebar-nav .nav-group.show .nav-group-items {
+    max-height: 1000px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   // Table styles

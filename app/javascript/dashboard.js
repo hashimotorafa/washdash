@@ -1,4 +1,13 @@
+// Flag to prevent multiple initializations
+window.dashboardInitialized = window.dashboardInitialized || false;
+
 function initDashboard() {
+  if (window.dashboardInitialized) {
+    return;
+  }
+  
+  window.dashboardInitialized = true;
+  
   // Initialize all tooltips - CoreUI 5.x syntax
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
   tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -196,7 +205,11 @@ function initDashboard() {
 }
 
 // Initialize admin functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', initDashboard);
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initDashboard, 100);
+});
 
 // Re-initialize when navigating with Turbo
-document.addEventListener('turbo:load', initDashboard);
+document.addEventListener('turbo:load', function() {
+  setTimeout(initDashboard, 100);
+});
