@@ -1,6 +1,26 @@
 // Flag to prevent multiple initializations
 window.dashboardInitialized = window.dashboardInitialized || false;
 
+// Function to wait for CoreUI to be available
+function waitForCoreUI(callback, maxAttempts = 50) {
+  let attempts = 0;
+  
+  function checkCoreUI() {
+    attempts++;
+    
+    if (typeof coreui !== 'undefined' && coreui.Tooltip) {
+      callback();
+    } else if (attempts < maxAttempts) {
+      setTimeout(checkCoreUI, 100);
+    } else {
+      console.warn('CoreUI not loaded after maximum attempts, initializing without CoreUI components');
+      callback();
+    }
+  }
+  
+  checkCoreUI();
+}
+
 function initDashboard() {
   if (window.dashboardInitialized) {
     return;
@@ -8,17 +28,38 @@ function initDashboard() {
   
   window.dashboardInitialized = true;
   
-  // Initialize all tooltips - CoreUI 5.x syntax
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
-  tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new coreui.Tooltip(tooltipTriggerEl)
-  });
+  // Check if CoreUI is available
+  if (typeof coreui !== 'undefined') {
+    // Initialize all tooltips - CoreUI 5.x syntax
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new coreui.Tooltip(tooltipTriggerEl)
+    });
 
-  // Initialize all popovers - CoreUI 5.x syntax
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="popover"]'))
-  popoverTriggerList.map(function (popoverTriggerEl) {
-    return new coreui.Popover(popoverTriggerEl)
-  });
+    // Initialize all popovers - CoreUI 5.x syntax
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="popover"]'))
+    popoverTriggerList.map(function (popoverTriggerEl) {
+      return new coreui.Popover(popoverTriggerEl)
+    });
+
+    // Handle dropdown menus - Updated for CoreUI 5.x
+    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+    dropdownElementList.map(function (dropdownToggleEl) {
+      return new coreui.Dropdown(dropdownToggleEl);
+    });
+
+    // Initialize all modals - CoreUI 5.x
+    var modalElementList = [].slice.call(document.querySelectorAll('.modal'))
+    modalElementList.map(function (modalEl) {
+      return new coreui.Modal(modalEl);
+    });
+
+    // Initialize all alerts - CoreUI 5.x
+    var alertElementList = [].slice.call(document.querySelectorAll('.alert'))
+    alertElementList.map(function (alertEl) {
+      return new coreui.Alert(alertEl);
+    });
+  }
 
   // Sidebar functionality - Updated for CoreUI 5.x with backdrop handling
   var sidebar = document.querySelector('#sidebar');
@@ -31,8 +72,11 @@ function initDashboard() {
       document.body.appendChild(backdrop);
     }
 
-    // Initialize the sidebar with CoreUI 5.x API
-    var sidebarInstance = coreui.Sidebar.getOrCreateInstance(sidebar);
+    // Initialize the sidebar with CoreUI 5.x API if available
+    var sidebarInstance = null;
+    if (typeof coreui !== 'undefined' && coreui.Sidebar) {
+      sidebarInstance = coreui.Sidebar.getOrCreateInstance(sidebar);
+    }
 
     // Handle sidebar toggle on mobile - Updated to use data attribute
     var sidebarToggler = document.querySelector('[data-sidebar-toggle]');
@@ -41,7 +85,12 @@ function initDashboard() {
         e.preventDefault();
         
         // Toggle sidebar
-        sidebarInstance.toggle();
+        if (sidebarInstance) {
+          sidebarInstance.toggle();
+        } else {
+          // Fallback toggle without CoreUI
+          sidebar.classList.toggle('show');
+        }
         
         // Handle backdrop visibility
         if (window.innerWidth <= 991.98) {
@@ -58,7 +107,11 @@ function initDashboard() {
     if (backdrop) {
       backdrop.addEventListener('click', function () {
         if (sidebar.classList.contains('show')) {
-          sidebarInstance.hide();
+          if (sidebarInstance) {
+            sidebarInstance.hide();
+          } else {
+            sidebar.classList.remove('show');
+          }
           backdrop.classList.remove('show');
         }
       });
@@ -71,35 +124,19 @@ function initDashboard() {
       }
     });
 
-    // Listen for sidebar events
-    sidebar.addEventListener('show.coreui.sidebar', function () {
-      if (window.innerWidth <= 991.98) {
-        backdrop.classList.add('show');
-      }
-    });
+    // Listen for sidebar events if CoreUI is available
+    if (typeof coreui !== 'undefined') {
+      sidebar.addEventListener('show.coreui.sidebar', function () {
+        if (window.innerWidth <= 991.98) {
+          backdrop.classList.add('show');
+        }
+      });
 
-    sidebar.addEventListener('hide.coreui.sidebar', function () {
-      backdrop.classList.remove('show');
-    });
+      sidebar.addEventListener('hide.coreui.sidebar', function () {
+        backdrop.classList.remove('show');
+      });
+    }
   }
-
-  // Handle dropdown menus - Updated for CoreUI 5.x
-  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-  dropdownElementList.map(function (dropdownToggleEl) {
-    return new coreui.Dropdown(dropdownToggleEl);
-  });
-
-  // Initialize all modals - CoreUI 5.x
-  var modalElementList = [].slice.call(document.querySelectorAll('.modal'))
-  modalElementList.map(function (modalEl) {
-    return new coreui.Modal(modalEl);
-  });
-
-  // Initialize all alerts - CoreUI 5.x
-  var alertElementList = [].slice.call(document.querySelectorAll('.alert'))
-  alertElementList.map(function (alertEl) {
-    return new coreui.Alert(alertEl);
-  });
 
   // Handle nav groups in sidebar
   var navGroupToggles = document.querySelectorAll('.nav-group-toggle');
@@ -163,15 +200,17 @@ function initDashboard() {
     });
   });
 
-  // Auto-dismiss alerts after 5 seconds
-  document.querySelectorAll('.alert:not(.alert-permanent)').forEach(function (alert) {
-    setTimeout(function () {
-      var alertInstance = coreui.Alert.getInstance(alert);
-      if (alertInstance) {
-        alertInstance.close();
-      }
-    }, 5000);
-  });
+  // Auto-dismiss alerts after 5 seconds (only if CoreUI is available)
+  if (typeof coreui !== 'undefined') {
+    document.querySelectorAll('.alert:not(.alert-permanent)').forEach(function (alert) {
+      setTimeout(function () {
+        var alertInstance = coreui.Alert.getInstance(alert);
+        if (alertInstance) {
+          alertInstance.close();
+        }
+      }, 5000);
+    });
+  }
 
   // Handle search functionality
   var searchInput = document.querySelector('.search-input');
@@ -206,10 +245,10 @@ function initDashboard() {
 
 // Initialize admin functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(initDashboard, 100);
+  waitForCoreUI(initDashboard);
 });
 
 // Re-initialize when navigating with Turbo
 document.addEventListener('turbo:load', function() {
-  setTimeout(initDashboard, 100);
+  waitForCoreUI(initDashboard);
 });

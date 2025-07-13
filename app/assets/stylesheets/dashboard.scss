@@ -73,11 +73,15 @@ body.dashboard {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     
     .sidebar-brand-full {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: #fff;
       text-decoration: none;
       letter-spacing: 0.5px;
+      background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       
       @media (max-width: 991.98px) {
         display: none;
@@ -86,10 +90,14 @@ body.dashboard {
     
     .sidebar-brand-narrow {
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
       text-decoration: none;
       letter-spacing: 0.5px;
+      background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       display: none;
       
       @media (max-width: 991.98px) {

@@ -47,11 +47,6 @@
     <ul class="sidebar-nav">
       <li class="nav-title">Sistema</li>
 
-      <li class="nav-item">
-        <%= link_to company_area_settings_path, class: "nav-link #{'active' if controller_name == 'settings'}" do %>
-          <i class="nav-icon cil-settings"></i> Configurações
-        <% end %>
-      </li>
 
       <li class="nav-item">
         <%= button_to destroy_user_session_path, method: :delete, class: "nav-link text-danger border-0 w-100 text-start bg-transparent" do %>
