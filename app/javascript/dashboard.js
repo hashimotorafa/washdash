@@ -1,4 +1,8 @@
+console.log('Dashboard module loaded!');
+
 function initDashboard() {
+  console.log('initDashboard called');
+  
   // Initialize all tooltips - CoreUI 5.x syntax
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-coreui-toggle="tooltip"]'))
   tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -93,7 +97,9 @@ function initDashboard() {
   });
 
   // Handle nav groups in sidebar
-  document.querySelectorAll('.nav-group-toggle').forEach(function (element) {
+  var navGroupToggles = document.querySelectorAll('.nav-group-toggle');
+  
+  navGroupToggles.forEach(function (element) {
     element.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -198,3 +204,6 @@ document.addEventListener('DOMContentLoaded', initDashboard);
 
 // Re-initialize when navigating with Turbo
 document.addEventListener('turbo:load', initDashboard);
+
+// Export for ES6 module compatibility
+export { initDashboard };
