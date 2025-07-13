@@ -50,7 +50,7 @@
     </div>
     <turbo-frame id="modal"></turbo-frame>
     <!-- CoreUI JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/js/coreui.bundle.min.js" integrity="sha384-4jCojw0A851W9UpCRsgB98M0sAJ/aaq8Qlb3jfsBLFdq6x6X3zG4xyBIGuvjw8" crossorigin="anonymous"></script>
+    <%= javascript_include_tag "coreui/coreui.bundle.min.js", "data-turbo-track": "reload" %>
     
     <!-- Custom Admin JS -->
     <%= javascript_include_tag "admin", "data-turbo-track": "reload", defer: true %>

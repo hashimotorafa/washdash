@@ -32,5 +32,9 @@ module Washdash
     config.hosts = [
       /.*/,
     ]
+    
+    # Add vendor assets paths for CoreUI
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'stylesheets')
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'javascripts')
   end
 end

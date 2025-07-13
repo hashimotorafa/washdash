@@ -78,11 +78,15 @@ O projeto está estruturado para permitir:
 ## Tecnologias Principais
 - Ruby on Rails
 - Hotwire (Turbo e Stimulus)
-- CoreUI
+- CoreUI 5.4.1 (CSS e JavaScript) - *Atualizado de 4.2.6, migrado de CDN para assets locais*
+- CoreUI Icons 3.0.1 - *Atualizado de 2.1.0, migrado de CDN para assets locais*
+- Bootstrap (integrado com CoreUI)
 - PostgreSQL (banco de dados)
 - Roo (processamento de Excel)
 - Chartkick (visualização de dados e gráficos)
 - Groupdate (agrupamento e análise temporal de dados)
+- Kaminari (paginação com tema CoreUI)
+- Font Awesome (ícones complementares)
 
 ## Estrutura do Banco de Dados
 
@@ -229,6 +233,54 @@ Essas métricas permitem:
 - Guiar ações promocionais e decisões de expansão
 
 # Histórico de Versões
+
+## [0.2.0] - 2025-07-13
+
+### Atualizado
+- **CoreUI**: Atualizado de 4.2.6 para 5.4.1
+- **CoreUI Icons**: Atualizado de 2.1.0 para 3.0.1
+- **Migração de Assets**: Migrado de CDN para arquivos locais minificados
+  - Arquivos CSS e JS do CoreUI agora são servidos localmente
+  - Melhor performance e controle de versão
+  - Redução de dependências externas
+- **Área Admin**: Atualizada para compatibilidade com CoreUI 5.4.1
+  - JavaScript admin.js atualizado com nova API do CoreUI 5.x
+  - Views atualizadas para usar atributos `data-coreui-*` ao invés de `data-bs-*`
+  - Estilos SCSS específicos para área admin com melhorias visuais
+  - Tooltips, dropdowns e modais funcionando com CoreUI 5.4.1
+
+### Adicionado
+- Configuração de assets locais para CoreUI em `vendor/assets/`
+- Precompilação automática dos assets do CoreUI
+- Suporte a assets locais no importmap e configuração do Rails
+- **Área Admin**: Arquivo `admin.scss` com estilos específicos para CoreUI 5.4.1
+- **Área Admin**: Melhorias visuais em sidebar, cards, tabelas e formulários
+- **Área Admin**: Suporte completo a tooltips e componentes interativos
+- **Área Admin**: Responsividade otimizada para dispositivos móveis
+
+### Modificado
+- Layouts atualizados para usar `stylesheet_link_tag` e `javascript_include_tag`
+- Configuração do Rails para incluir novos caminhos de assets
+- Remoção de links CDN do CoreUI
+- **Área Admin**: Views de usuários, empresas e lojas com atributos CoreUI 5.4.1
+- **Área Admin**: Layout principal com classe CSS específica para estilos
+- **Área Admin**: Inicialização JavaScript melhorada com `getOrCreateInstance`
+
+### Removido
+- **Área Admin**: Arquivo `admin.css` antigo substituído por `admin.scss`
+- Links CDN do CoreUI em todos os layouts
+
+### Corrigido
+- **Área Admin**: Correção da sintaxe dos ícones CoreUI para versão 5.4.1
+  - Remoção da classe `icon` desnecessária dos ícones
+  - Atualização da ordem das classes para `cil-* nav-icon` e `cil-* me-2`
+  - Correção dos caminhos das fontes CoreUI Icons para servir localmente
+  - Download e configuração das fontes TTF, WOFF e WOFF2
+  - Resolução do erro 404 para `CoreUI-Icons-Free.ttf`
+- **Assets**: Correção dos caminhos das fontes nos arquivos CSS
+  - Atualização de `../fonts/` para `/fonts/` nos arquivos CSS
+  - Suporte a múltiplos formatos de fonte (TTF, WOFF, WOFF2)
+  - Otimização do carregamento de fontes
 
 ## [0.1.0] - 2024-03-19
 

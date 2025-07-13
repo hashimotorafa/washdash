@@ -1,14 +1,20 @@
 <head>
   <title><%= title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta charset="UTF-8">
 
   <!-- CoreUI CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.6/dist/css/coreui.min.css" rel="stylesheet">
+  <%= stylesheet_link_tag "coreui/coreui.min.css", "data-turbo-track": "reload" %>
   <!-- CoreUI Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@2.1.0/css/all.min.css" rel="stylesheet">
-  <!-- Custom Styles -->
+  <%= stylesheet_link_tag "coreui-icons/all.min.css", "data-turbo-track": "reload" %>
+  <!-- Custom Admin Styles -->
+  <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+
+  <!-- CoreUI JS with defer -->
+  <%= javascript_include_tag "coreui/coreui.bundle.min.js", "data-turbo-track": "reload", defer: true %>
+  <!-- Custom Admin JS -->
+  <%= javascript_include_tag "admin", "data-turbo-track": "reload", defer: true %>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>

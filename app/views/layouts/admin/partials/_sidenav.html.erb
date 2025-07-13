@@ -6,19 +6,19 @@
 
       <li class="nav-item">
         <%= link_to admin_companies_path, class: "nav-link #{'active' if controller_name == 'companies'}" do %>
-          <i class="nav-icon cil-building"></i> Empresas
+          <i class="cil-building nav-icon"></i> Empresas
         <% end %>
       </li>
 
       <li class="nav-item">
         <%= link_to admin_stores_path, class: "nav-link #{'active' if controller_name == 'stores'}" do %>
-          <i class="nav-icon cil-home"></i> Lojas
+          <i class="cil-home nav-icon"></i> Lojas
         <% end %>
       </li>
 
       <li class="nav-item">
         <%= link_to admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
-          <i class="nav-icon cil-people"></i> Usuários
+          <i class="cil-people nav-icon"></i> Usuários
         <% end %>
       </li>
     </ul>
@@ -30,13 +30,13 @@
 
       <li class="nav-item">
         <%= link_to admin_settings_path, class: "nav-link #{'active' if controller_name == 'settings'}" do %>
-          <i class="nav-icon cil-settings"></i> Configurações
+          <i class="cil-settings nav-icon"></i> Configurações
         <% end %>
       </li>
 
       <li class="nav-item">
         <%= button_to destroy_user_session_path, method: :delete, class: "nav-link text-danger border-0 w-100 text-start bg-transparent" do %>
-          <i class="nav-icon cil-account-logout"></i> Sair
+          <i class="cil-account-logout nav-icon"></i> Sair
         <% end %>
       </li>
     </ul>

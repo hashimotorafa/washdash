@@ -1,7 +1,7 @@
 <ul class="header-nav ms-auto me-3">
   <li class="nav-item">
     <a class="nav-link" href="#">
-      <i class="icon icon-lg cil-bell"></i>
+      <i class="cil-bell icon-lg"></i>
       <span class="badge position-absolute top-0 end-0 bg-danger-gradient rounded-pill">5</span>
     </a>
   </li>
@@ -19,14 +19,14 @@
         <div class="fw-semibold"><%= current_user&.first_name || 'Admin User' %></div>
       </div>
       <%= link_to "#", class: "dropdown-item" do %>
-        <i class="icon me-2 cil-user"></i> Perfil
+        <i class="cil-user me-2"></i> Perfil
       <% end %>
       <%= link_to "#", class: "dropdown-item" do %>
-        <i class="icon me-2 cil-settings"></i> Configurações
+        <i class="cil-settings me-2"></i> Configurações
       <% end %>
       <div class="dropdown-divider"></div>
       <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" do %>
-        <i class="icon me-2 cil-account-logout"></i> Sair
+        <i class="cil-account-logout me-2"></i> Sair
       <% end %>
     </div>
   </li>
