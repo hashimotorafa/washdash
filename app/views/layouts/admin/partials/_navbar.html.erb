@@ -9,11 +9,11 @@
 
 <ul class="header-nav">
   <li class="nav-item dropdown">
-    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-      <div class="avatar avatar-md">
+    <button id="navbar-profile-dropdown" class="nav-link py-0 dropdown-toggle" data-coreui-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="avatar avatar-md">
         <img class="avatar-img" src="https://ui-avatars.com/api/?name=<%= current_user&.first_name || 'Admin User' %>&background=random" alt="user@email.com">
-      </div>
-    </a>
+      </span>
+    </button>
     <div class="dropdown-menu dropdown-menu-end pt-0">
       <div class="dropdown-header bg-light py-2">
         <div class="fw-semibold"><%= current_user&.first_name || 'Admin User' %></div>

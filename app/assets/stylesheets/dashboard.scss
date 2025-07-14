@@ -561,7 +561,6 @@ body.dashboard {
     .dropdown-item {
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
-      margin: 0.125rem 0.5rem;
       transition: all 0.2s ease-in-out;
 
       &:hover {
@@ -689,19 +688,6 @@ body.dashboard {
         height: 20px;
       }
       
-      &::after {
-        content: '';
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 4px solid rgba(255, 255, 255, 0.6);
-        transition: transform 0.3s ease;
-      }
     }
     
     .nav-group-items {
@@ -709,7 +695,7 @@ body.dashboard {
       overflow: hidden;
       transition: max-height 0.3s ease;
       background-color: rgba(0, 0, 0, 0.1);
-      
+
       .nav-link {
         padding: 0.5rem 1rem 0.5rem 3rem;
         color: rgba(255, 255, 255, 0.7);
@@ -744,6 +730,12 @@ body.dashboard {
         transform: translateY(-50%) rotate(180deg);
       }
     }
+    
+    // Força a exibição dos itens mesmo quando não tem .show para permitir transição
+    &:not(.show) .nav-group-items {
+      display: block !important;
+      max-height: 0;
+    }
   }
 
   // Teste adicional - regra mais específica
@@ -751,6 +743,7 @@ body.dashboard {
     max-height: 1000px !important;
     opacity: 1 !important;
     visibility: visible !important;
+    display: block !important;
   }
 
   // Table styles
@@ -776,4 +769,22 @@ body.dashboard {
       opacity: 0.5 !important;
     }
   }
+}
+
+// Garante que dropdowns da navbar fiquem visíveis e acima de tudo apenas quando abertos
+.header .dropdown-menu.show,
+.header-nav .dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  z-index: 2000;
+  position: absolute;
+  right: 0;
+  left: auto;
+  top: 100%;
+  min-width: 10rem;
+}
+
+.header, .header-nav {
+  overflow: visible !important;
 }

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <%= render 'layouts/partials/head', title: 'WashDash' %>
+  <% content_for :head do %>
+    <!-- Custom Dashboard Styles -->
+    <link rel="preload" href="<%= asset_path('dashboard.css') %>" as="style" onload="this.rel='stylesheet'">
+    <noscript><%= stylesheet_link_tag "dashboard" %></noscript>
+  <% end %>
   <body class="dashboard">
     <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
       <div class="sidebar-brand d-flex align-items-center">
@@ -50,8 +55,8 @@
     </div>
     <turbo-frame id="modal"></turbo-frame>
     <!-- CoreUI JS -->
-    <%= javascript_include_tag "coreui/coreui.bundle.min.js", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "coreui/coreui.bundle.min.js" %>
     <!-- Custom Dashboard JS -->
-    <%= javascript_include_tag "dashboard", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "dashboard" %>
   </body>
 </html>

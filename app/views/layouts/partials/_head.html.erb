@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
 
   <!-- CoreUI CSS -->
-  <%= stylesheet_link_tag "coreui/coreui.min.css", "data-turbo-track": "reload" %>
+  <link rel="preload" href="<%= asset_path('coreui/coreui.min.css') %>" as="style" onload="this.rel='stylesheet'">
+  <noscript><%= stylesheet_link_tag "coreui/coreui.min.css", "data-turbo-track": "reload" %></noscript>
   <!-- CoreUI Icons -->
-  <%= stylesheet_link_tag "coreui-icons/all.min.css", "data-turbo-track": "reload" %>
-  <!-- Custom Dashboard Styles -->
-  <%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
+  <link rel="preload" href="<%= asset_path('coreui-icons/all.min.css') %>" as="style" onload="this.rel='stylesheet'">
+  <noscript><%= stylesheet_link_tag "coreui-icons/all.min.css", "data-turbo-track": "reload" %></noscript>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -20,6 +20,7 @@
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.png">
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <link rel="preload" href="<%= asset_path('application.css') %>" as="style" onload="this.rel='stylesheet'">
+  <noscript><%= stylesheet_link_tag "application" %></noscript>
   <%= javascript_importmap_tags %>
 </head>
